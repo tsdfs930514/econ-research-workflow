@@ -33,6 +33,9 @@ desktop.ini
 # Reference materials (not part of core skills/instructions)
 references/
 
+# Personal preferences (machine-specific, not shared)
+personal-memory.md
+
 # Sensitive files
 .env
 *.credentials

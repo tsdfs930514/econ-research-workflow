@@ -1,3 +1,10 @@
+---
+paths:
+  - "**/REPLICATION.md"
+  - "**/master.do"
+  - "**/docs/**"
+---
+
 # Replication Standards
 
 Standards for creating reproducible research following AEA Data Editor guidelines and TOP5 journal best practices.

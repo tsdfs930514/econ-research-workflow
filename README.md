@@ -8,13 +8,16 @@ Inspired by [pedrohcgs/claude-code-my-workflow](https://github.com/pedrohcgs/cla
 
 ## Features
 
-- **18 skills** — slash-command workflows covering the full research lifecycle (data cleaning, DID/IV/RDD/Panel estimation, cross-validation, tables, paper writing, review, and more)
+- **21 skills** — slash-command workflows covering the full research lifecycle (data cleaning, DID/IV/RDD/Panel estimation, cross-validation, tables, paper writing, review, exploration sandbox, session continuity, and more)
 - **12 agents** — specialized reviewers plus 3 adversarial critic-fixer pairs (code, econometrics, tables) enforcing separation of concerns
+- **3 lifecycle hooks** — automatic session context loading, pre-compaction memory save, and post-Stata error detection
 - **Adversarial QA loop** — `/adversarial-review` runs critic → fixer → re-critic cycles (up to 5 rounds) until quality score >= 95
 - **Executable quality scorer** — `quality_scorer.py` scores projects on 6 dimensions (100 pts), including method-specific diagnostics auto-detected from .do files
+- **Exploration sandbox** — `/explore` for hypothesis testing with relaxed thresholds; `/promote` to graduate results to the main pipeline
 - **Stata + Python cross-validation** — every regression is verified across both languages via `pyfixest`
 - **Bilingual support** — Chinese (经济研究/管理世界 style) and English (AER/QJE style) output
 - **Version-controlled analysis** — `v1/`, `v2/`, ... directory structure with full replication packages
+- **Session continuity** — `/session-log` for explicit session management with MEMORY.md integration
 
 ---
 
@@ -52,6 +55,9 @@ Inspired by [pedrohcgs/claude-code-my-workflow](https://github.com/pedrohcgs/cla
 | `/compile-latex` | Compile paper | Run pdflatex/bibtex pipeline with error checking |
 | `/context-status` | Session context | Display current version, recent decisions, quality scores, git state |
 | `/run-sdid` | SDID analysis | Synthetic DID analysis with unit/time weights and inference |
+| `/explore` | Exploration sandbox | Set up `explore/` directory with relaxed quality thresholds (>= 60) |
+| `/promote` | Promote results | Graduate exploratory files to main `vN/` pipeline with quality check |
+| `/session-log` | Session continuity | Start/end sessions with MEMORY.md context loading and recording |
 
 ---
 
@@ -104,8 +110,10 @@ Inspired by [pedrohcgs/claude-code-my-workflow](https://github.com/pedrohcgs/cla
 econ-research-workflow/
 ├── .claude/
 │   ├── agents/           # 12 specialized agents
-│   ├── rules/            # Coding conventions, econometrics standards
-│   └── skills/           # 18 slash-command skills
+│   ├── hooks/            # Lifecycle hook scripts (session loader, Stata log check)
+│   ├── rules/            # Coding conventions, econometrics standards (4 path-scoped + 1 always-on)
+│   ├── settings.json     # Hook configuration (3 hooks)
+│   └── skills/           # 21 slash-command skills
 ├── scripts/
 │   └── quality_scorer.py # Executable 6-dimension quality scorer
 ├── tests/                # Test cases (DID, RDD, IV, Panel, Full Pipeline)
@@ -219,7 +227,17 @@ claude
 
 ## Roadmap
 
-See [ROADMAP.md](ROADMAP.md) for Phase 2 (hooks, path-scoped rules, exploration sandbox) and Phase 3 (Socratic tools, self-extension, governance) plans.
+See [ROADMAP.md](ROADMAP.md) for Phase 3 (Socratic tools, self-extension, governance) plans.
+
+### Hooks
+
+3 lifecycle hooks configured in `.claude/settings.json`:
+
+| Hook | Trigger | What It Does |
+|------|---------|-------------|
+| Session-start loader | `SessionStart` | Reads MEMORY.md, shows recent entries and last quality score |
+| Pre-compact save | `PreCompact` | Prompts session summary to MEMORY.md before context compaction |
+| Post-Stata log check | `PostToolUse` (Bash) | Auto-parses `.log` files for `r(xxx)` errors after Stata runs |
 
 ---
 

@@ -1,3 +1,8 @@
+---
+paths:
+  - "**/*.do"
+---
+
 # Stata Code Conventions
 
 These conventions apply to ALL Stata .do files in this project.

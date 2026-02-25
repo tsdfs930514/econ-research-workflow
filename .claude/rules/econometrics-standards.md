@@ -1,3 +1,9 @@
+---
+paths:
+  - "**/code/**"
+  - "**/output/**"
+---
+
 # Econometrics Standards
 
 These standards govern all empirical analysis in this project. Every regression, test, and output must comply.

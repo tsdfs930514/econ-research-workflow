@@ -14,40 +14,43 @@
 
 ---
 
-## Phase 2 — Infrastructure (Planned)
+## Phase 2 — Infrastructure (Implemented)
+
+**Status**: Implemented
 
 ### Hooks (`settings.json`)
 
-4 lifecycle hooks to automate session management:
+3 lifecycle hooks in `.claude/settings.json`:
 
 | Hook | Trigger | Action |
 |------|---------|--------|
-| Pre-compact save | Before context compaction | Save MEMORY.md session state |
-| Post-compact restore | After context compaction | Reload MEMORY.md and _VERSION_INFO.md |
-| Post-Stata log check | After Bash runs Stata | Auto-parse .log for `r(xxx)` errors |
-| Session-start loader | Session begins | Load MEMORY.md, display last quality score, show pending issues |
+| Session-start loader | `SessionStart` | Read MEMORY.md, display recent entries, last session, last quality score |
+| Pre-compact save | `PreCompact` | Prompt Claude to append session summary to MEMORY.md before compaction |
+| Post-Stata log check | `PostToolUse` (Bash) | Auto-parse .log for `r(xxx)` errors after Stata execution |
+
+Hook scripts: `.claude/hooks/session-loader.py`, `.claude/hooks/stata-log-check.py`
 
 ### Path-Scoped Rules
 
-Add `globs:` frontmatter to scope rules to relevant files:
+4 rules scoped via `paths:` frontmatter; 1 always-on:
 
-| Rule | Glob Pattern |
-|------|-------------|
+| Rule | `paths:` Pattern |
+|------|-----------------|
 | `stata-conventions.md` | `**/*.do` |
 | `python-conventions.md` | `**/*.py` |
 | `econometrics-standards.md` | `**/code/**`, `**/output/**` |
-| `replication-standards.md` | `**/REPLICATION.md`, `**/master.do` |
+| `replication-standards.md` | `**/REPLICATION.md`, `**/master.do`, `**/docs/**` |
+| `orchestrator-protocol.md` | *(always-on, no paths)* |
 
 ### Exploration Sandbox
 
-- `/explore` skill — experimental analysis workspace with relaxed quality thresholds
-- Sandbox rules: results marked as "exploratory", not subject to full review pipeline
-- Graduation path: promote exploratory results to main analysis via `/promote`
+- `/explore` skill — creates `explore/` workspace with relaxed quality thresholds (>= 60 vs 80)
+- `/promote` skill — graduates files from `explore/` to `vN/`, renumbers, runs `/score` to verify
 
 ### Session Continuity
 
-- `/session-log` skill — explicit session start/end with MEMORY.md updates
-- Two-tier memory: `personal-memory.md` (gitignored) for machine-specific preferences (Stata path, editor, etc.)
+- `/session-log` skill — explicit session start/end with MEMORY.md context loading and recording
+- `personal-memory.md` (gitignored) — machine-specific preferences (Stata path, editor, directories)
 
 ---
 
@@ -87,5 +90,5 @@ Add `globs:` frontmatter to scope rules to relevant files:
 | Phase | Target | Depends On |
 |-------|--------|------------|
 | Phase 1 | Done | — |
-| Phase 2 | Next round | Phase 1 stable, user feedback collected |
+| Phase 2 | Done | Phase 1 stable |
 | Phase 3 | Following round | Phase 2 hooks working reliably |

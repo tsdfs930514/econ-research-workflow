@@ -1,3 +1,8 @@
+---
+paths:
+  - "**/*.py"
+---
+
 # Python Code Conventions
 
 These conventions apply to ALL Python scripts in this project.

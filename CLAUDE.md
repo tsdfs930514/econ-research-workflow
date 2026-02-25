@@ -147,6 +147,31 @@ All scripts use a numbered prefix to indicate execution order.
 | `/commit` | Smart git commit with type prefix and data safety warnings |
 | `/compile-latex` | Compile LaTeX paper with pdflatex/bibtex and error checking |
 | `/context-status` | Display current version, recent decisions, quality scores, git state |
+| `/explore` | Set up exploration sandbox with relaxed quality thresholds (>= 60) |
+| `/promote` | Graduate exploratory files to main pipeline with renumbering and quality check |
+| `/session-log` | Session start/end manager — load context, record decisions and learnings |
+
+---
+
+## Hooks
+
+3 lifecycle hooks are configured in `.claude/settings.json`:
+
+| Hook | Event | Action |
+|------|-------|--------|
+| Session-start loader | `SessionStart` | Reads MEMORY.md, displays recent entries, last session, and last quality score |
+| Pre-compact save | `PreCompact` | Prompts Claude to append a session summary to MEMORY.md before context compaction |
+| Post-Stata log check | `PostToolUse` (Bash) | Parses `.log` files for `r(xxx)` errors after Stata execution |
+
+Hook scripts are located in `.claude/hooks/`:
+- `session-loader.py` — session start context loader
+- `stata-log-check.py` — automatic Stata error detection
+
+---
+
+## Personal Preferences
+
+Machine-specific preferences (Stata path, editor, directories) are stored in `personal-memory.md` at the project root. This file is **gitignored** and not shared via version control. Copy the template and fill in your local settings.
 
 ---
 

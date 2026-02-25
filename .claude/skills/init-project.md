@@ -16,7 +16,8 @@ Ask the user for the following (all required unless noted):
 3. **Researcher name** - Primary researcher's name
 4. **Brief description** - 1-2 sentence description of the research project
 5. **Working language** - Chinese (CN), English (EN), or both (default: both)
-6. **Primary method** (optional) - DID, IV, RDD, Panel, or General
+6. **Paper format** (optional) - `journal` (default: AER/经济研究), `NBER`, `SSRN`, or `all`
+7. **Primary method** (optional) - DID, IV, RDD, Panel, or General
 
 ## Step 2: Create Directory Structure
 
@@ -440,6 +441,142 @@ Create `<project-name>/v1/paper/main_en.tex` (if EN or both):
 \end{document}
 ```
 
+Create `<project-name>/v1/paper/main_nber.tex` (if format is `NBER` or `all`):
+
+```latex
+\documentclass[12pt,a4paper]{article}
+\usepackage{booktabs,multirow,threeparttable}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}\onehalfspacing
+\usepackage[round]{natbib}
+\usepackage{hyperref}
+\usepackage{caption}
+
+% --- NBER Working Paper Formatting ---
+\title{<Project Title>\thanks{We thank [acknowledgments: seminar participants, discussants, funding agencies]. Author1: [affiliation], [email]. Author2: [affiliation], [email].}}
+\author{<Author 1>\\ \textit{<Institution 1>} \and <Author 2>\\ \textit{<Institution 2>}}
+\date{This draft: \today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+% Abstract: 100-200 words. Summarize research question, method, and key findings.
+\end{abstract}
+
+\medskip
+
+\noindent\textbf{JEL Classification:} <J31, C21, H53>
+
+\noindent\textbf{Keywords:} <keyword1, keyword2, keyword3>
+
+\bigskip
+\noindent\rule{\textwidth}{0.4pt}
+
+\newpage
+
+% \input{sections/01_introduction}
+% \input{sections/02_literature}
+% \input{sections/03_background}
+% \input{sections/04_data}
+% \input{sections/05_strategy}
+% \input{sections/06_results}
+% \input{sections/07_robustness}
+% \input{sections/08_conclusion}
+
+\newpage
+\bibliographystyle{aer}
+\bibliography{bib/references}
+
+% \newpage
+% \appendix
+% \input{sections/appendix_a_data}
+% \input{sections/appendix_b_robustness}
+
+\end{document}
+```
+
+Create `<project-name>/v1/paper/main_ssrn.tex` (if format is `SSRN` or `all`):
+
+```latex
+\documentclass[12pt,a4paper]{article}
+\usepackage{booktabs,multirow,threeparttable}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}\singlespacing
+\usepackage[round]{natbib}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{fancyhdr}
+
+% --- SSRN Preprint Formatting ---
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\thepage}
+\lfoot{\footnotesize Draft --- comments welcome}
+\rfoot{\footnotesize Available at SSRN: \url{https://ssrn.com/abstract=XXXXXXX}}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\title{<Project Title>}
+\author{
+  <Author 1>\\
+  \textit{<Institution 1>}\\
+  \href{mailto:author1@example.com}{author1@example.com}
+  \and
+  <Author 2>\\
+  \textit{<Institution 2>}\\
+  \href{mailto:author2@example.com}{author2@example.com}
+}
+\date{
+  This version: \today\\
+  First version: <Month Year>
+}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+\begin{abstract}
+\noindent
+% Abstract: 150-250 words. Make it self-contained — many SSRN readers only see the abstract.
+% Clearly state: (1) research question, (2) method, (3) data, (4) key finding, (5) contribution.
+\end{abstract}
+
+\medskip
+
+\noindent\textbf{Keywords:} <keyword1, keyword2, keyword3, keyword4>
+
+\noindent\textbf{JEL Classification:} <J31, C21, H53>
+
+\newpage
+\setcounter{page}{1}
+
+% \input{sections/01_introduction}
+% \input{sections/02_literature}
+% \input{sections/03_background}
+% \input{sections/04_data}
+% \input{sections/05_strategy}
+% \input{sections/06_results}
+% \input{sections/07_robustness}
+% \input{sections/08_conclusion}
+
+\newpage
+\bibliographystyle{aer}
+\bibliography{bib/references}
+
+% \newpage
+% \appendix
+% \input{sections/appendix_a_data}
+% \input{sections/appendix_b_robustness}
+
+\end{document}
+```
+
 Also create empty placeholder files:
 - `<project-name>/v1/paper/bib/references.bib`
 - `<project-name>/v1/data/raw/.gitkeep`
@@ -467,8 +604,10 @@ Files created:
   - v1/REPLICATION.md (AEA Data Editor format)
   - v1/code/stata/master.do
   - v1/docs/CHANGELOG.md
-  - v1/paper/main_cn.tex (if applicable)
-  - v1/paper/main_en.tex (if applicable)
+  - v1/paper/main_cn.tex (if CN or both)
+  - v1/paper/main_en.tex (if EN or both)
+  - v1/paper/main_nber.tex (if NBER or all)
+  - v1/paper/main_ssrn.tex (if SSRN or all)
   - v1/paper/bib/references.bib
   - .gitignore
 

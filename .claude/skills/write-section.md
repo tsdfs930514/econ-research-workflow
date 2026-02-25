@@ -21,7 +21,7 @@ Ask the user for:
    - `robustness` / 稳健性检验
    - `conclusion` / 结论
 2. **Language** (required) - `CN` (Chinese) or `EN` (English)
-3. **Target journal** (optional) - e.g., "经济研究", "管理世界", "AER", "QJE", "JPE"
+3. **Target journal/format** (optional) - e.g., "经济研究", "管理世界", "AER", "QJE", "JPE", "NBER", "SSRN"
 4. **Key points to cover** (required) - Bullet points of the main content the user wants included
 5. **Related files** (optional) - Any existing tables, results, or notes to reference
 
@@ -279,6 +279,48 @@ Y_i = \alpha + \beta \cdot \mathbf{1}(X_i \geq c) + f(X_i - c) + \varepsilon_i
   - "Section 3" not "section 3"
 - Avoid hedging language: be direct about findings
 - Citations: Author (Year) or (Author, Year)
+
+### NBER Working Paper Style
+- **Tone**: More detailed and exploratory than journal submissions; working papers allow longer exposition, extended appendices, and preliminary findings
+- **Length**: Typically 30-60 pages including appendices; no strict page limit
+- **Title page**: NBER Working Paper No. XXXXX, JEL codes, keywords, acknowledgments as first-page footnote
+- **Abstract**: 100-200 words, placed on title page
+- **JEL Classification**: Required, list 2-4 codes (e.g., J31, C21, H53)
+- **Keywords**: 3-5 keywords below abstract
+- **Acknowledgments**: First-page footnote thanking seminar participants, discussants, funding sources
+- **Spacing**: 1.5-spaced body text
+- **Sections**: Standard numbering (1, 2, 3...) without "Section" prefix
+- **Appendix**: Detailed data appendix, additional robustness, and derivations encouraged
+- **Writing conventions**:
+  - More room for methodological detail than in journal format
+  - Can include "work in progress" caveats
+  - Discuss data construction in more detail
+  - More extensive literature positioning is acceptable
+  - "In this paper, we..." is fine (first person plural)
+- **Citations**: Author (Year) format, natbib compatible
+- **Figures/tables**: Can be embedded in text or collected at end; embedded preferred for working papers
+
+### SSRN Preprint Style
+- **Tone**: Professional but can be more informal than journal submissions; suitable for rapid dissemination
+- **Length**: Flexible, typically 20-50 pages
+- **Title page**: Title, author(s) with affiliations and email, date, abstract, keywords, JEL codes
+- **Abstract**: 150-250 words; should be self-contained (readers often only see the abstract on SSRN)
+- **Keywords**: 4-6 keywords (SSRN uses these for search indexing — choose strategically)
+- **Date**: "This version: Month Year" and optionally "First version: Month Year"
+- **Footer**: "Available at SSRN: https://ssrn.com/abstract=XXXXXXX" (placeholder until assigned)
+- **Spacing**: Single or 1.5-spaced; single-spaced is common for working papers
+- **Writing conventions**:
+  - Can discuss motivation and policy relevance more extensively
+  - Preliminary results and caveats are acceptable
+  - "Draft — comments welcome" is a common subtitle
+  - More conversational tone than journal submissions is acceptable
+  - Extensive footnotes are common
+- **Citations**: Author (Year) format
+- **Practical notes**:
+  - SSRN readers scan abstracts heavily — make it compelling and self-contained
+  - Include all results (even negative) since this is a working paper
+  - Clearly state contribution in the abstract itself
+  - Consider adding a "Summary of Results" subsection in the introduction
 
 ## Step 4: Generate Output
 

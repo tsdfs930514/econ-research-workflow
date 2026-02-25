@@ -221,6 +221,19 @@ Run via: `python scripts/quality_scorer.py v1/` or use the `/score` skill.
 
 ---
 
+## Paper Formats
+
+4 output styles supported via `/write-section` and `/init-project`:
+
+| Format | Template | Use Case |
+|--------|----------|----------|
+| Chinese journals | `main_cn.tex` | 经济研究, 管理世界, 经济学季刊 submissions |
+| English TOP5 | `main_en.tex` | AER, QJE, JPE, Econometrica, REStud submissions |
+| NBER Working Paper | `main_nber.tex` | NBER WP series with JEL codes, acknowledgments, extended appendices |
+| SSRN Preprint | `main_ssrn.tex` | Rapid dissemination, "draft — comments welcome" format |
+
+---
+
 ## Output Standards
 
 ### Numerical Formatting

@@ -15,7 +15,7 @@ Inspired by [pedrohcgs/claude-code-my-workflow](https://github.com/pedrohcgs/cla
 - **Executable quality scorer** — `quality_scorer.py` scores projects on 6 dimensions (100 pts), including method-specific diagnostics auto-detected from .do files
 - **Exploration sandbox** — `/explore` for hypothesis testing with relaxed thresholds; `/promote` to graduate results to the main pipeline
 - **Stata + Python cross-validation** — every regression is verified across both languages via `pyfixest`
-- **Bilingual support** — Chinese (经济研究/管理世界 style) and English (AER/QJE style) output
+- **Multi-format output** — Chinese journals (经济研究/管理世界), English TOP5 (AER/QJE), NBER Working Paper, and SSRN preprint styles
 - **Version-controlled analysis** — `v1/`, `v2/`, ... directory structure with full replication packages
 - **Session continuity** — `/session-log` for explicit session management with MEMORY.md integration
 

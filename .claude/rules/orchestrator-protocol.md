@@ -1,6 +1,6 @@
 # Orchestrator Protocol: Contractor Mode
 
-All non-trivial tasks follow the **Plan - Implement - Verify - Review - Fix - Score** cycle, with a maximum of 5 rounds.
+All non-trivial tasks follow the **Spec - Plan - Implement - Verify - Review - Fix - Score** cycle, with a maximum of 5 rounds through the Plan–Score loop.
 
 ## "Just Do It" Mode
 
@@ -11,6 +11,35 @@ Criteria for "Just Do It" mode:
 - No identification strategy or data safety implications
 - First-round score >= 80 with zero Critical findings
 - User has not explicitly requested full review
+
+---
+
+## Phase 0: Spec
+
+Triggered for non-trivial tasks meeting **any** of these criteria:
+- Affects >= 3 files
+- Involves identification strategy changes
+- Creates new skills, rules, or agents
+- Modifies the orchestrator protocol itself
+
+### Format
+
+Produce a requirements spec with:
+
+1. **MUST** requirements — non-negotiable deliverables and constraints
+2. **SHOULD** requirements — expected but negotiable with justification
+3. **MAY** requirements — optional enhancements if time/complexity permits
+4. **Acceptance criteria** — concrete, verifiable conditions for completion
+5. **Out of scope** — explicitly excluded items to prevent scope creep
+
+### Rules
+
+- The spec is written **once** per task. If the review loop (Phases 1–6) cycles back, it restarts at Phase 1, not Phase 0.
+- Skipped if the task qualifies for "Just Do It" mode.
+- The spec must not contradict `constitution.md`.
+- Present the spec for user approval before proceeding to Phase 1.
+
+**Exit criterion**: Spec approved by user or team lead.
 
 ---
 
@@ -125,11 +154,11 @@ Calculate the final quality score as the average of all reviewer scores.
 ## Workflow Diagram
 
 ```
-Plan --> Implement --> Verify --> Review --> Fix --> Score
-  ^                                                   |
-  |                                                   |
-  +---------------------------------------------------+
-                    (if score < 95, loop)
+Spec --> Plan --> Implement --> Verify --> Review --> Fix --> Score
+           ^                                                   |
+           |                                                   |
+           +---------------------------------------------------+
+                         (if score < 95, loop)
 ```
 
-After 5 iterations or upon reaching score >= 95, the task is complete.
+Spec is executed once per task. The loop restarts at Plan (not Spec). After 5 iterations or upon reaching score >= 95, the task is complete.

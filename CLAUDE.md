@@ -150,6 +150,9 @@ All scripts use a numbered prefix to indicate execution order.
 | `/explore` | Set up exploration sandbox with relaxed quality thresholds (>= 60) |
 | `/promote` | Graduate exploratory files to main pipeline with renumbering and quality check |
 | `/session-log` | Session start/end manager — load context, record decisions and learnings |
+| `/interview-me` | Bilingual Socratic research interview — formalizes ideas into structured proposals |
+| `/devils-advocate` | Pre-analysis identification strategy challenger — threat assessment, not code fixes |
+| `/learn` | Create new rules or skills from within a session (constitution-guarded) |
 
 ---
 

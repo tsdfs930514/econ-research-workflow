@@ -1,6 +1,6 @@
 # Roadmap
 
-## Phase 1 — Core Quality Infrastructure (Current)
+## Phase 1 — Core Quality Infrastructure
 
 **Status**: Implemented
 
@@ -54,34 +54,45 @@ Hook scripts: `.claude/hooks/session-loader.py`, `.claude/hooks/stata-log-check.
 
 ---
 
-## Phase 3 — Polish (Planned)
+## Phase 3 — Polish (Implemented)
+
+**Status**: Implemented
 
 ### Socratic Research Tools
 
-- `/interview-me` — Socratic questioning to formalize research ideas (bilingual: EN/CN)
+- `/interview-me` — bilingual (EN/CN) Socratic questioning to formalize research ideas
   - Walks through: research question → hypothesis → identification strategy → data requirements → expected results
-  - Outputs structured research proposal
+  - Asks one question at a time; sections are skippable
+  - Outputs structured research proposal to `vN/docs/research_proposal.md`
 
-- `/devils-advocate` — systematic challenges to identification strategy
-  - Enumerates threats to internal validity
-  - Suggests falsification tests
-  - Proposes alternative explanations
+- `/devils-advocate` — systematic pre-analysis challenges to identification strategy
+  - Universal threats (OVB, reverse causality, measurement error, selection, SUTVA)
+  - Method-specific threats (DID/IV/RDD/Panel/SDID)
+  - 3 alternative explanations per key result
+  - Falsification test recommendations
+  - Threat matrix with severity levels (Critical/High/Medium/Low, matching `econometrics-critic`)
 
 ### Self-Extension Infrastructure
 
 - `/learn` — create new rules or skills from within sessions
-  - Example: after discovering a new Stata convention, run `/learn` to codify it as a rule
+  - Guided creation: type → content → validate → preview → write
   - Auto-generates properly formatted .md files in `.claude/rules/` or `.claude/skills/`
+  - Constitution guard: cannot create rules/skills violating `constitution.md`
+  - Logs `[LEARN]` entries to MEMORY.md
 
 ### Governance
 
-- **Spec-then-plan protocol** — before any implementation, produce a requirements spec with MUST/SHOULD/MAY classifications, then a plan, then implement
-- `CONSTITUTION.md` — immutable principles for the template:
-  - Raw data is never modified
-  - Every result must be reproducible from code + raw data
-  - Cross-validation is mandatory for all regressions
-  - Version directories are never deleted, only superseded
-  - Quality scores are recorded, never fabricated
+- **`constitution.md`** — 5 immutable principles (always-on rule, no `paths:` frontmatter):
+  1. Raw data integrity (`data/raw/` never modified)
+  2. Full reproducibility (every result traceable from code + raw data)
+  3. Mandatory cross-validation (Stata ↔ Python, < 0.1%; relaxed in `explore/`)
+  4. Version preservation (`vN/` never deleted)
+  5. Score integrity (scores recorded faithfully)
+
+- **Spec-then-plan protocol** — Phase 0 added to orchestrator protocol:
+  - Triggered when task affects >= 3 files, changes identification strategy, creates skills/rules/agents, or modifies the protocol itself
+  - Format: MUST / SHOULD / MAY requirements + acceptance criteria + out of scope
+  - Written once per task; review loop restarts at Phase 1
 
 ---
 
@@ -91,4 +102,4 @@ Hook scripts: `.claude/hooks/session-loader.py`, `.claude/hooks/stata-log-check.
 |-------|--------|------------|
 | Phase 1 | Done | — |
 | Phase 2 | Done | Phase 1 stable |
-| Phase 3 | Following round | Phase 2 hooks working reliably |
+| Phase 3 | Done | Phase 2 hooks working reliably |

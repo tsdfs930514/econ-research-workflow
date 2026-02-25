@@ -8,7 +8,7 @@ Inspired by [pedrohcgs/claude-code-my-workflow](https://github.com/pedrohcgs/cla
 
 ## Features
 
-- **21 skills** — slash-command workflows covering the full research lifecycle (data cleaning, DID/IV/RDD/Panel estimation, cross-validation, tables, paper writing, review, exploration sandbox, session continuity, and more)
+- **24 skills** — slash-command workflows covering the full research lifecycle (data cleaning, DID/IV/RDD/Panel estimation, cross-validation, tables, paper writing, review, exploration sandbox, session continuity, Socratic research tools, and self-extension)
 - **12 agents** — specialized reviewers plus 3 adversarial critic-fixer pairs (code, econometrics, tables) enforcing separation of concerns
 - **3 lifecycle hooks** — automatic session context loading, pre-compaction memory save, and post-Stata error detection
 - **Adversarial QA loop** — `/adversarial-review` runs critic → fixer → re-critic cycles (up to 5 rounds) until quality score >= 95
@@ -58,6 +58,9 @@ Inspired by [pedrohcgs/claude-code-my-workflow](https://github.com/pedrohcgs/cla
 | `/explore` | Exploration sandbox | Set up `explore/` directory with relaxed quality thresholds (>= 60) |
 | `/promote` | Promote results | Graduate exploratory files to main `vN/` pipeline with quality check |
 | `/session-log` | Session continuity | Start/end sessions with MEMORY.md context loading and recording |
+| `/interview-me` | Research ideation | Bilingual Socratic interview to formalize research ideas into structured proposals |
+| `/devils-advocate` | Strategy challenge | Pre-analysis threat assessment for identification strategy (threats, alternatives, falsification) |
+| `/learn` | Self-extension | Create new rules or skills from within a session, with constitution guard |
 
 ---
 
@@ -96,6 +99,12 @@ Inspired by [pedrohcgs/claude-code-my-workflow](https://github.com/pedrohcgs/cla
 /run-did → /cross-check → /score
 ```
 
+### Research Ideation
+
+```
+/interview-me → /devils-advocate → /data-describe → /run-{method}
+```
+
 ### Revision Response
 
 ```
@@ -111,9 +120,9 @@ econ-research-workflow/
 ├── .claude/
 │   ├── agents/           # 12 specialized agents
 │   ├── hooks/            # Lifecycle hook scripts (session loader, Stata log check)
-│   ├── rules/            # Coding conventions, econometrics standards (4 path-scoped + 1 always-on)
+│   ├── rules/            # Coding conventions, econometrics standards (4 path-scoped + 2 always-on incl. constitution)
 │   ├── settings.json     # Hook configuration (3 hooks)
-│   └── skills/           # 21 slash-command skills
+│   └── skills/           # 24 slash-command skills
 ├── scripts/
 │   └── quality_scorer.py # Executable 6-dimension quality scorer
 ├── tests/                # Test cases (DID, RDD, IV, Panel, Full Pipeline)
@@ -225,9 +234,15 @@ claude
 
 ---
 
+## Governance
+
+The workflow operates under a **constitution** (`.claude/rules/constitution.md`) defining 5 immutable principles: raw data integrity, full reproducibility, mandatory cross-validation, version preservation, and score integrity. All skills, agents, and rules operate within this envelope. The `/learn` skill cannot create rules that violate it.
+
+Non-trivial tasks follow a **spec-then-plan** protocol (Phase 0 in the orchestrator) requiring MUST/SHOULD/MAY requirements before implementation begins.
+
 ## Roadmap
 
-See [ROADMAP.md](ROADMAP.md) for Phase 3 (Socratic tools, self-extension, governance) plans.
+See [ROADMAP.md](ROADMAP.md) for the full Phase 1-3 implementation history.
 
 ### Hooks
 

@@ -135,12 +135,18 @@ All scripts use a numbered prefix to indicate execution order.
 | `/run-iv` | Run complete IV/2SLS analysis pipeline with diagnostics |
 | `/run-rdd` | Run complete RDD analysis pipeline with all diagnostics |
 | `/run-panel` | Run complete Panel FE/RE/GMM analysis pipeline |
+| `/run-sdid` | Run Synthetic DID analysis with unit/time weights and inference |
 | `/cross-check` | Cross-validate regression results between Stata and Python pyfixest |
 | `/robustness` | Run a comprehensive robustness test suite for regression results |
 | `/make-table` | Generate publication-quality LaTeX regression tables |
 | `/write-section` | Write a specific paper section in Chinese or English |
 | `/review-paper` | Simulate peer review with three reviewers giving structured feedback |
 | `/lit-review` | Generate structured literature review with BibTeX entries |
+| `/adversarial-review` | Run adversarial critic-fixer QA loop (code, econometrics, tables) |
+| `/score` | Run executable quality scorer (6 dimensions, 100 pts) on current version |
+| `/commit` | Smart git commit with type prefix and data safety warnings |
+| `/compile-latex` | Compile LaTeX paper with pdflatex/bibtex and error checking |
+| `/context-status` | Display current version, recent decisions, quality scores, git state |
 
 ---
 
@@ -157,6 +163,26 @@ All deliverables are scored on a 0-100 scale:
 
 Scoring criteria include: methodological rigor, code correctness, output
 formatting, robustness of results, and clarity of exposition.
+
+Use `/adversarial-review` for automated multi-round quality assurance with
+critic-fixer separation. Use `/score` for quantitative scoring.
+
+---
+
+## Quality Scoring
+
+The executable quality scorer (`scripts/quality_scorer.py`) evaluates projects on 6 dimensions:
+
+| Dimension | Points | Key Checks |
+|-----------|--------|------------|
+| Code Conventions | 15 | .do headers, `set seed`, numbered naming, log pattern, `vce(cluster)` |
+| Log Cleanliness | 15 | No `r(xxx)` errors, no `variable not found`, no `command not found` |
+| Output Completeness | 15 | Tables (.tex), figures (.pdf/.png), and logs exist and are non-empty |
+| Cross-Validation | 15 | Python script exists, coefficient comparison, pass/fail threshold |
+| Documentation | 15 | REPLICATION.md with content, _VERSION_INFO.md, data sources documented |
+| Method Diagnostics | 25 | Auto-detected: DID pre-trends, IV first-stage F, RDD density test, Panel Hausman |
+
+Run via: `python scripts/quality_scorer.py v1/` or use the `/score` skill.
 
 ---
 

@@ -2,6 +2,16 @@
 
 All non-trivial tasks follow the **Plan - Implement - Verify - Review - Fix - Score** cycle, with a maximum of 5 rounds.
 
+## "Just Do It" Mode
+
+For trivial tasks (simple fixes, single-file changes, formatting corrections): if the initial score >= 80 and there are no Critical findings, skip the multi-round review loop. Apply fixes directly and verify once.
+
+Criteria for "Just Do It" mode:
+- Task affects <= 2 files
+- No identification strategy or data safety implications
+- First-round score >= 80 with zero Critical findings
+- User has not explicitly requested full review
+
 ---
 
 ## Phase 1: Plan
@@ -49,7 +59,15 @@ All non-trivial tasks follow the **Plan - Implement - Verify - Review - Fix - Sc
 
 ## Phase 4: Review
 
-Invoke the relevant reviewer agent(s) based on the task:
+For non-trivial tasks, invoke `/adversarial-review` which enforces critic/fixer separation across up to 5 rounds. This launches domain-specific critic agents that cannot edit files, ensuring independent evaluation.
+
+| Critic Agent             | Scope                                      |
+|--------------------------|--------------------------------------------|
+| code-critic              | Code conventions, safety, reproducibility  |
+| econometrics-critic      | Identification, diagnostics, robustness    |
+| tables-critic            | Table formatting, reporting, compliance    |
+
+Legacy reviewer agents remain available for lighter-weight reviews:
 
 | Reviewer               | Scope                                      |
 |------------------------|--------------------------------------------|
@@ -58,7 +76,7 @@ Invoke the relevant reviewer agent(s) based on the task:
 | tables-reviewer        | Table formatting, labeling, completeness   |
 | robustness-checker     | Missing robustness checks, sensitivity     |
 
-Each reviewer assigns a score from 0 to 100 and provides specific findings.
+Each critic/reviewer assigns a score from 0 to 100 and provides specific findings.
 
 **Exit criterion**: All relevant reviews completed; scores and findings collected.
 
@@ -66,10 +84,15 @@ Each reviewer assigns a score from 0 to 100 and provides specific findings.
 
 ## Phase 5: Fix
 
-1. Address each review finding.
-2. Re-run affected analyses.
-3. Update output files (tables, figures, logs).
-4. Document what was changed and why.
+For non-trivial tasks, `/adversarial-review` automatically launches the corresponding fixer agents (code-fixer, econometrics-fixer, tables-fixer) which:
+
+1. Receive the critic's findings list.
+2. Apply fixes in priority order (Critical → High → Medium → Low).
+3. Re-run affected analyses.
+4. Update output files (tables, figures, logs).
+5. Document every change with rationale.
+
+Fixers CANNOT score their own work — the critic re-evaluates after fixes.
 
 **Exit criterion**: All findings addressed; outputs regenerated.
 
@@ -93,8 +116,9 @@ Calculate the final quality score as the average of all reviewer scores.
 ## Loop Control
 
 - **Maximum iterations**: 5 rounds through the cycle.
-- **Stagnation check**: If the score improves by less than 5 points between rounds, flag for human review.
+- **Stagnation check**: If the score improves by less than 5 points between rounds, stop the loop and escalate to user with a summary of remaining issues and suggested manual interventions.
 - **Version preservation**: Always preserve ALL intermediate versions of code and output. Never overwrite without saving the prior version.
+- **Executable scoring**: After the final round, run `python scripts/quality_scorer.py <version_dir>` for an independent, automated quality score across 6 dimensions (100 pts total).
 
 ---
 

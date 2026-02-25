@@ -1,6 +1,15 @@
 # MEMORY.md - Cross-Session Learning
-# This file persists knowledge across Claude Code sessions.
-# Update it as the project evolves to maintain continuity.
+
+> **Instructions for Claude**: During every session, append new entries to the appropriate section below using the tagged format. Never delete existing entries — only add. Use the following tags:
+>
+> - `[LEARN]` — New knowledge about the project, tools, or environment
+> - `[DECISION]` — Methodological or structural decisions made
+> - `[ISSUE]` — Problems encountered and their resolutions
+> - `[PREFERENCE]` — User preferences for formatting, style, or workflow
+>
+> **Format**: `[TAG] YYYY-MM-DD: description`
+>
+> At the end of each session, add a brief summary to the Session Log section.
 
 ---
 
@@ -96,3 +105,31 @@ Record learned formatting preferences for consistency.
 | Number format | Comma separator for thousands | US convention |
 | Table notes | Minipage below table | Preferred by co-author |
 -->
+
+---
+
+## Learnings from Test Suite
+
+Issues discovered during the 5-test validation suite (2026-02-25). These inform defensive coding practices across all skills.
+
+- [ISSUE] 2026-02-25: `boottest` does not work after `reghdfe` with multiple absorbed FE — wrap with `cap noisily` in /run-did
+- [ISSUE] 2026-02-25: `csdid` and `bacondecomp` are version-sensitive and may fail on dependency issues — always wrap with `cap noisily`
+- [ISSUE] 2026-02-25: `rddensity` p-value may be missing (stored in different scalars across versions) — try `e(p)`, `r(p)`, and scalar fallbacks in /run-rdd
+- [ISSUE] 2026-02-25: Synthetic IV data with only random noise for instrument has near-zero partial F after absorbing FE — DGP must include county-specific slopes for within-FE variation
+- [ISSUE] 2026-02-25: `tab treatment, missing` fails on continuous variables (too many unique values) — use `summarize treatment, detail` for continuous treatments in /run-iv
+- [ISSUE] 2026-02-25: `xtserial` removed from SSC — use `cap ssc install` and `cap noisily` wrapper; package may be built into Stata 18
+- [ISSUE] 2026-02-25: `xtcsd` and `xttest3` installation fails when `xtserial` install error interrupts batch — each `ssc install` should be independent with `cap` prefix
+- [ISSUE] 2026-02-25: Hausman test produces negative chi2 (= -808, p=1) when FE strongly dominates RE — this is known Stata behavior, FE is still the correct choice
+- [ISSUE] 2026-02-25: `assert treated == post` fails when missing values present — add `if !missing(treated)` condition
+- [LEARN] 2026-02-25: In Git Bash, Stata flags must use dash prefix (`-e`) not slash prefix (`/e`, `/b`) — slash is interpreted as Unix path
+
+---
+
+## Session Log
+
+<!-- Add a brief summary at the end of each Claude Code session -->
+
+| Date | Session Summary |
+|---|---|
+| 2026-02-25 | Initial test suite run (5 tests). Identified 10 issues across DID, RDD, IV, Panel tests. All tests passing after fixes. Created ISSUES_LOG.md. |
+| 2026-02-25 | Phase 1 implementation: added 6 adversarial agents, 5 new skills, quality scorer, README, ROADMAP. Activated MEMORY.md. |

@@ -9,19 +9,7 @@ When the user invokes `/run-sdid`, execute a Synthetic DID analysis following Ar
 
 ## Stata Execution Command
 
-在 Git Bash 中执行 Stata .do 文件：
-
-```bash
-cd /path/to/project
-"D:\Stata18\StataMP-64.exe" -e do "code/stata/script.do"
-```
-
-**重要 Flag 规则**:
-- **必须使用 `-e`**: 运行完毕后自动退出，无需手动确认
-- **禁止使用 `-b`**: 需要手动点击 OK 才能退出（会卡住自动化流程）
-- **禁止使用 `/e` 或 `/b`**: Git Bash 会将 `/` 开头的 flag 解释为 Unix 路径
-
-日志文件自动生成在当前工作目录，与 .do 文件同名。
+Run .do files via `"D:\Stata18\StataMP-64.exe" -e do "code/stata/script.do"` from the project directory in Git Bash. See `CLAUDE.md` for flag rules (`-e` required, `-b` and `/e` forbidden) and log file conventions.
 
 ## When to Use SDID vs Other DID Methods
 

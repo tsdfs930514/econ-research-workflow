@@ -198,3 +198,25 @@ Python outputs:
 
 Cross-check: <PASS/FAIL with details>
 ```
+
+## Additional Data Format Support
+
+### SAS Datasets (.sas7bdat)
+
+Some replication packages (especially in accounting/finance) provide data in SAS format. Load in Python via:
+```python
+df = pd.read_sas("data/raw/filename.sas7bdat", format="sas7bdat", encoding="latin-1")
+```
+Note: `pd.read_sas()` may be slow for large files. Consider converting to .dta or .parquet first.
+
+### Large Dataset Guidance (N > 1M observations)
+
+For datasets exceeding 1 million observations:
+- **Subsample for histograms**: Use `if mod(_n, 100) == 0` in Stata or `df.sample(frac=0.01)` in Python
+- **Use `summarize` instead of `estpost summarize`** for basic stats (faster, lower memory)
+- **Skip correlation matrix** if > 50 key variables (produces very large table)
+- **Consider `polars`** instead of `pandas` for faster data loading:
+  ```python
+  import polars as pl
+  df = pl.read_ipc("data/raw/large_file.arrow")  # or scan_csv for lazy evaluation
+  ```

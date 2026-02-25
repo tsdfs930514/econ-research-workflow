@@ -153,6 +153,10 @@ All scripts use a numbered prefix to indicate execution order.
 | `/interview-me` | Bilingual Socratic research interview — formalizes ideas into structured proposals |
 | `/devils-advocate` | Pre-analysis identification strategy challenger — threat assessment, not code fixes |
 | `/learn` | Create new rules or skills from within a session (constitution-guarded) |
+| `/run-bootstrap` | Run bootstrap & resampling inference pipeline (pairs, wild cluster, residual, teffects) |
+| `/run-placebo` | Run placebo tests & randomization inference pipeline (timing, outcome, instrument, permutation) |
+| `/run-logit-probit` | Run logit/probit, propensity score, treatment effects (RA/IPW/AIPW), and conditional logit pipeline |
+| `/run-lasso` | Run LASSO, post-double-selection, and regularized regression pipeline for variable selection and causal inference |
 
 ---
 

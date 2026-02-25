@@ -9,19 +9,7 @@ When the user invokes `/run-panel`, execute a complete panel data analysis pipel
 
 ## Stata Execution Command
 
-在 Git Bash 中执行 Stata .do 文件：
-
-```bash
-cd /path/to/project
-"D:\Stata18\StataMP-64.exe" -e do "code/stata/script.do"
-```
-
-**重要 Flag 规则**:
-- **必须使用 `-e`**: 运行完毕后自动退出，无需手动确认
-- **禁止使用 `-b`**: 需要手动点击 OK 才能退出（会卡住自动化流程）
-- **禁止使用 `/e` 或 `/b`**: Git Bash 会将 `/` 开头的 flag 解释为 Unix 路径
-
-日志文件自动生成在当前工作目录，与 .do 文件同名。
+Run .do files via `"D:\Stata18\StataMP-64.exe" -e do "code/stata/script.do"` from the project directory in Git Bash. See `CLAUDE.md` for flag rules (`-e` required, `-b` and `/e` forbidden) and log file conventions.
 
 ## Required Stata Packages
 
@@ -211,6 +199,25 @@ xtset UNIT_VAR TIME_VAR
 * --- System GMM (Blundell-Bond) via xtabond2 ---
 * Requires: ssc install xtabond2
 * NOTE: Use cap noisily as xtabond2 can fail with certain panel structures
+*
+* DYNAMIC LAG SYNTAX: Published papers often use L(1/N).var for N lags:
+*   L(1/4).y  = l.y l2.y l3.y l4.y   (4 lags of dependent variable)
+*   L(1/8).y  = l.y ... l8.y          (8 lags)
+* When N > 4 lags, test whether higher-order lags are jointly significant:
+*   test l5.y l6.y l7.y l8.y
+*
+* HELMERT / FORWARD ORTHOGONAL DEVIATIONS:
+* Some papers (e.g., Acemoglu et al. 2019 JPE) use Helmert-transformed data
+* instead of first-differencing. xtabond2 supports this natively:
+*   xtabond2 ... , orthogonal ...
+* Alternatively, authors define custom programs for Helmert transformation
+* (see "program define helm" pattern in published replication code).
+*
+* DIFFERENCE-ONLY GMM (noleveleq):
+* Some papers estimate difference GMM only (not system GMM) by adding:
+*   xtabond2 ... , noleveleq ...
+* This drops the level equation, estimating only from first differences.
+*
 cap noisily xtabond2 OUTCOME_VAR L.OUTCOME_VAR REGRESSORS CONTROLS, ///
     gmm(L.OUTCOME_VAR, lag(2 4)) ///
     iv(REGRESSORS CONTROLS) ///
@@ -358,3 +365,7 @@ After all steps, provide a written summary:
 - Create `output/tables/` and `output/figures/` directories if they don't exist
 - Generate both Stata and Python code for every pipeline
 - For the Hausman test, models must be estimated without robust/clustered SEs first, then re-estimate with clustered SEs for reporting
+
+## Advanced Patterns Reference
+
+For advanced patterns from published papers (impulse responses via `nlcom` chain, Helmert/forward orthogonal deviations, HHK minimum distance estimator, k-class estimation, bootstrap with `cluster()`/`idcluster()`, multi-way clustering, interaction heterogeneity, matrix operations), see `advanced-stata-patterns.md`.

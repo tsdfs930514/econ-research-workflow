@@ -95,6 +95,35 @@ Key R-to-Stata mapping for `fixest`:
 | `sunab(first_treat, time)` | `eventstudyinteract` / `csdid` | `pf.feols("y ~ sunab(g, t) \| ...")` |
 | `etable()` | `esttab` | `pf.etable()` |
 
+Key R-to-Stata mapping for `lfe::felm()` (common in finance/accounting papers):
+| R lfe::felm | Stata reghdfe | Python pyfixest |
+|-------------|---------------|-----------------|
+| `felm(y ~ x \| fe1 + fe2 \| 0 \| cl1 + cl2)` | `reghdfe y x, absorb(fe1 fe2) vce(cluster cl1 cl2)` | `pf.feols("y ~ x \| fe1 + fe2", vcov={"CRV1": "cl1"})` (note: pyfixest only supports single cluster) |
+| `felm(y ~ x \| fe1 + fe2 \| endog ~ inst \| cl)` | `ivreghdfe y (endog = inst), absorb(fe1 fe2) cluster(cl)` | Same as fixest IV syntax |
+
+**felm() 4-part formula**: `y ~ X | FEs | IVs | Clusters`
+- Part 1: `y ~ X` — dependent variable and exogenous regressors
+- Part 2: `| fe1 + fe2 + fe3` — fixed effects to absorb (additive, not interaction)
+- Part 3: `| endog ~ inst` or `| 0` — instrumental variables (0 = none)
+- Part 4: `| cluster1 + cluster2` — clustering variables for SEs
+
+**Multi-way clustering with lfe/multiwayvcov**:
+```r
+library(lfe)
+# Two-way clustering directly in felm:
+model <- felm(y ~ x | fe1 + fe2 | 0 | cusip + date, data=df)
+
+# Alternative with lm + multiwayvcov:
+library(multiwayvcov)
+lm_model <- lm(y ~ x + factor(fe1), data=df)
+vcov_2way <- cluster.vcov(lm_model, cbind(df$cusip, df$date))
+```
+
+**Loading .sas7bdat data in Python** (for packages with SAS data):
+```python
+df = pd.read_sas("data/raw/file.sas7bdat", format="sas7bdat", encoding="latin-1")
+```
+
 ## Step 5: Compare Results
 
 Create a comparison table with the following structure:

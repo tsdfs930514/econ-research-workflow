@@ -1,0 +1,192 @@
+# CLAUDE.md - Project Configuration
+# This file is loaded at the start of every Claude Code session.
+# Fill in template fields marked with [PLACEHOLDER] for your project.
+
+---
+
+## Project Identity
+
+- **Project Name**: [PROJECT_NAME]
+- **Institution**: [INSTITUTION_NAME]
+- **Researcher(s)**: [RESEARCHER_NAMES]
+- **Current Version**: v1
+- **Created**: [DATE]
+- **Last Updated**: [DATE]
+
+---
+
+## Active Version
+
+The current working version is **v1/**. All new code, output, and analysis
+should be placed under this version directory unless migrating to a new version.
+
+When creating a new version (e.g., v2/), copy the directory structure from the
+previous version and update this field.
+
+---
+
+## Directory Convention
+
+Each version follows the structure:
+
+```
+vN/
+  _VERSION_INFO.md        # Version metadata
+  code/
+    stata/                # .do files
+    python/               # .py files
+    sas/                  # .sas files (if needed)
+  data/
+    raw/                  # Original, unmodified data (READ-ONLY)
+    clean/                # Cleaned and constructed datasets
+    temp/                 # Intermediate/temporary data
+  output/
+    tables/               # LaTeX tables (.tex)
+    figures/              # Figures (.pdf/.png)
+    logs/                 # Stata .log / Python output
+  paper/
+    main_cn.tex           # Chinese paper
+    main_en.tex           # English paper
+    sections/             # Section .tex files
+    bib/                  # BibTeX files
+```
+
+---
+
+## Stata Configuration
+
+- **Executable Path**: `D:\Stata18\StataMP-64.exe`
+- **Execution Command** (Git Bash):
+  ```bash
+  cd "/path/to/working/directory"
+  "D:\Stata18\StataMP-64.exe" -e do "code/stata/script.do"
+  ```
+- **Flag 说明**:
+  - **必须使用 `-e`**（dash-e）: 运行完毕后自动退出，无需手动确认
+  - **禁止使用 `-b`**: 运行完毕后需要手动点击 OK 才能退出
+  - **禁止使用 `/e` 或 `/b`**: Git Bash 会将 `/e` 解释为 Unix 路径，导致 Stata 收到错误命令
+- **日志输出**: Stata 在当前工作目录生成与 .do 文件同名的 `.log` 文件
+- **执行后检查**: 每次运行 .do 文件后，必须读取 `.log` 文件检查是否有 `r(xxx)` 错误
+- **典型用法**:
+  ```bash
+  # 先 cd 到项目目录，再运行（Stata 以 CWD 为工作目录）
+  cd "F:/Learning/econ-research-workflow/tests/test1-did"
+  "D:\Stata18\StataMP-64.exe" -e do "code/stata/01_did_analysis.do"
+  # 检查日志
+  tail -20 01_did_analysis.log
+  ```
+
+---
+
+## Python Configuration
+
+- **Core Packages**:
+  - `pyfixest` -- Fixed-effects regression and inference
+  - `pandas` -- Data manipulation and analysis
+  - `polars` -- High-performance DataFrame library
+  - `matplotlib` -- Plotting and visualization
+  - `stargazer` -- Regression table formatting
+
+- **Regression Cross-Validation**:
+  Use `feols()` from `pyfixest` to cross-validate Stata regression results:
+  ```python
+  import pyfixest as pf
+  result = pf.feols("y ~ x1 + x2 | fe1 + fe2", data=df)
+  result.summary()
+  ```
+
+---
+
+## Code Naming Conventions
+
+All scripts use a numbered prefix to indicate execution order.
+
+**Stata (.do files)**:
+```
+01_clean_data.do
+02_desc_stats.do
+03_reg_main.do
+04_reg_robust.do
+05_tables_export.do
+06_figures.do
+```
+
+**Python (.py files)**:
+```
+01_clean_data.py
+02_desc_stats.py
+03_reg_crossval.py
+04_figures.py
+```
+
+- Prefix numbers define the execution order within a version.
+- Use descriptive names after the number prefix.
+- Keep Stata and Python scripts in the same `code/` directory.
+
+---
+
+## Skills Quick Reference
+
+| Skill | Description |
+|---|---|
+| `/init-project` | Initialize a new research project with standardized directory structure |
+| `/data-describe` | Generate descriptive statistics and variable distributions (Stata + Python) |
+| `/run-did` | Run complete DID/TWFE/Callaway-Sant'Anna analysis pipeline |
+| `/run-iv` | Run complete IV/2SLS analysis pipeline with diagnostics |
+| `/run-rdd` | Run complete RDD analysis pipeline with all diagnostics |
+| `/run-panel` | Run complete Panel FE/RE/GMM analysis pipeline |
+| `/cross-check` | Cross-validate regression results between Stata and Python pyfixest |
+| `/robustness` | Run a comprehensive robustness test suite for regression results |
+| `/make-table` | Generate publication-quality LaTeX regression tables |
+| `/write-section` | Write a specific paper section in Chinese or English |
+| `/review-paper` | Simulate peer review with three reviewers giving structured feedback |
+| `/lit-review` | Generate structured literature review with BibTeX entries |
+
+---
+
+## Quality Thresholds (Sant'Anna Scoring System)
+
+All deliverables are scored on a 0-100 scale:
+
+| Score | Rating | Action |
+|---|---|---|
+| >= 95 | Publication Ready | No further changes needed |
+| >= 90 | Minor Revisions | Address small issues before submission |
+| >= 80 | Major Revisions | Significant rework required |
+| < 80 | Redo | Fundamental problems; start section over |
+
+Scoring criteria include: methodological rigor, code correctness, output
+formatting, robustness of results, and clarity of exposition.
+
+---
+
+## Data Safety Rules
+
+1. **`data/raw/` is READ-ONLY.** Never modify, overwrite, or delete raw data files.
+2. All data transformations must read from `data/raw/` and write to `data/clean/` or `data/temp/`.
+3. Cleaning scripts must document every transformation applied.
+4. Keep a record of the original data source and download date in `docs/`.
+5. Before any destructive operation, confirm the target is NOT in `data/raw/`.
+
+---
+
+## Output Standards
+
+### Numerical Formatting
+- **Coefficients**: 3 decimal places (e.g., `0.123`)
+- **Standard Errors**: 3 decimal places, in parentheses (e.g., `(0.045)`)
+- **Significance Stars**: `*** p<0.01`, `** p<0.05`, `* p<0.10`
+- **R-squared**: 3 decimal places
+- **Observations**: Comma-separated integers (e.g., `12,345`)
+
+### Table Standards
+- Include dependent variable name in column headers.
+- Report number of observations and R-squared in every table.
+- Note fixed effects and clustering in table footer.
+- Use consistent column ordering across related tables.
+
+### Figure Standards
+- Label all axes with variable names and units.
+- Include titles and source notes.
+- Use high-resolution export (300+ DPI for raster, vector preferred).
+- Consistent color scheme across all figures in a version.

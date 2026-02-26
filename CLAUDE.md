@@ -56,24 +56,22 @@ vN/
 ## Stata Configuration
 
 - **Executable Path**: `D:\Stata18\StataMP-64.exe`
-- **Execution Command** (Git Bash):
+- **Execution Command** (auto-approved wrapper):
   ```bash
-  cd "/path/to/working/directory"
-  "D:\Stata18\StataMP-64.exe" -e do "code/stata/script.do"
+  bash .claude/scripts/run-stata.sh "<project_dir>" "<do_file>"
   ```
-- **Flag 说明**:
-  - **必须使用 `-e`**（dash-e）: 运行完毕后自动退出，无需手动确认
-  - **禁止使用 `-b`**: 运行完毕后需要手动点击 OK 才能退出
-  - **禁止使用 `/e` 或 `/b`**: Git Bash 会将 `/e` 解释为 Unix 路径，导致 Stata 收到错误命令
-- **日志输出**: Stata 在当前工作目录生成与 .do 文件同名的 `.log` 文件
-- **执行后检查**: 每次运行 .do 文件后，必须读取 `.log` 文件检查是否有 `r(xxx)` 错误
-- **典型用法**:
+- **Example**:
   ```bash
-  # 先 cd 到项目目录，再运行（Stata 以 CWD 为工作目录）
-  cd "F:/Learning/econ-research-workflow/tests/test1-did"
-  "D:\Stata18\StataMP-64.exe" -e do "code/stata/01_did_analysis.do"
-  # 检查日志
-  tail -20 01_did_analysis.log
+  bash .claude/scripts/run-stata.sh "F:/Learning/econ-research-workflow/tests/test1-did/v1" "code/stata/01_did_analysis.do"
+  ```
+- **Flag notes**:
+  - The wrapper uses `-e` (auto-exit) internally
+  - `-b` and `/e` are forbidden (see original rationale)
+  - Log checking is built into the wrapper — no manual `tail` needed
+- **Fallback** (if wrapper unavailable):
+  ```bash
+  cd "<project_dir>"
+  "D:\Stata18\StataMP-64.exe" -e do "<do_file>"
   ```
 
 ---

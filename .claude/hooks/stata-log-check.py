@@ -29,7 +29,7 @@ def main():
             command = tool_input
 
     # Only activate for Stata commands
-    if "StataMP" not in command and ".do" not in command:
+    if "StataMP" not in command and ".do" not in command and "run-stata" not in command:
         return
 
     # Find the most recent .log file in the current working directory

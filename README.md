@@ -126,8 +126,9 @@ econ-research-workflow/
 ├── .claude/
 │   ├── agents/           # 12 specialized agents
 │   ├── hooks/            # Lifecycle hook scripts (session loader, Stata log check)
+│   ├── scripts/          # Auto-approved wrapper scripts (run-stata.sh)
 │   ├── rules/            # Coding conventions, econometrics standards (4 path-scoped + 2 always-on incl. constitution)
-│   ├── settings.json     # Hook configuration (3 hooks)
+│   ├── settings.json     # Hook + permission configuration
 │   └── skills/           # 28 slash-command skills + 1 reference guide
 ├── scripts/
 │   └── quality_scorer.py # Executable 6-dimension quality scorer
@@ -263,6 +264,12 @@ See [ROADMAP.md](ROADMAP.md) for the full Phase 1-4 implementation history.
 | Session-start loader | `SessionStart` | Reads MEMORY.md, shows recent entries and last quality score |
 | Pre-compact save | `PreCompact` | Prompts session summary to MEMORY.md before context compaction |
 | Post-Stata log check | `PostToolUse` (Bash) | Auto-parses `.log` files for `r(xxx)` errors after Stata runs |
+
+### Auto-Approval
+
+Stata execution is wrapped in `.claude/scripts/run-stata.sh` and auto-approved via
+`permissions.allow` pattern `Bash(bash *run-stata.sh *)`. This eliminates manual
+approval prompts for every Stata run.
 
 ---
 

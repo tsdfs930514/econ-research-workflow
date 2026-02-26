@@ -1,4 +1,9 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(bash *run-stata.sh *)"
+    ]
+  },
   "hooks": {
     "SessionStart": [
       {

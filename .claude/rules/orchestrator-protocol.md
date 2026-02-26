@@ -60,7 +60,7 @@ Produce a requirements spec with:
 1. Generate code files (`.do` for Stata, `.py` for Python).
 2. Execute Stata via CLI (Git Bash):
    ```
-   "D:\Stata18\StataMP-64.exe" -e do "script.do"
+   bash .claude/scripts/run-stata.sh "<project_dir>" "code/stata/script.do"
    ```
    Flag: 必须用 `-e`（自动退出），禁止用 `-b`（需手动确认）或 `/e`（Git Bash 路径冲突）
 3. Parse the resulting `.log` file for errors and warnings.

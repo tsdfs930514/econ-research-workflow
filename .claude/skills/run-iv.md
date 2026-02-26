@@ -9,7 +9,7 @@ When the user invokes `/run-iv`, execute a complete IV analysis pipeline coverin
 
 ## Stata Execution Command
 
-Run .do files via `"D:\Stata18\StataMP-64.exe" -e do "code/stata/script.do"` from the project directory in Git Bash. See `CLAUDE.md` for flag rules (`-e` required, `-b` and `/e` forbidden) and log file conventions.
+Run .do files via the auto-approved wrapper: `bash .claude/scripts/run-stata.sh "<project_dir>" "code/stata/script.do"`. The wrapper handles `cd`, Stata execution (`-e` flag), and automatic log error checking. See `CLAUDE.md` for details.
 
 ## Required Stata Packages (install in this order)
 

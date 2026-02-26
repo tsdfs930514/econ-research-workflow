@@ -1,4 +1,5 @@
 ---
+description: "Create new rules or skills from within a session (constitution-guarded)"
 user_invocable: true
 ---
 

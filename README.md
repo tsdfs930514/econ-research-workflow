@@ -10,11 +10,12 @@ Inspired by [pedrohcgs/claude-code-my-workflow](https://github.com/pedrohcgs/cla
 
 - **28 skills** — slash-command workflows covering the full research lifecycle (data cleaning, DID/IV/RDD/Panel/SDID/Bootstrap/Placebo/Logit-Probit/LASSO estimation, cross-validation, tables, paper writing, review, exploration sandbox, session continuity, Socratic research tools, and self-extension)
 - **12 agents** — specialized reviewers plus 3 adversarial critic-fixer pairs (code, econometrics, tables) enforcing separation of concerns
+- **7 rules** — 4 path-scoped coding/econometrics conventions + 3 always-on (constitution, orchestrator protocol, Stata error verification)
 - **3 lifecycle hooks** — automatic session context loading, pre-compaction memory save, and post-Stata error detection
 - **Adversarial QA loop** — `/adversarial-review` runs critic → fixer → re-critic cycles (up to 5 rounds) until quality score >= 95
 - **Executable quality scorer** — `quality_scorer.py` scores projects on 6 dimensions (100 pts), including method-specific diagnostics auto-detected from .do files
 - **Exploration sandbox** — `/explore` for hypothesis testing with relaxed thresholds; `/promote` to graduate results to the main pipeline
-- **Stata + Python cross-validation** — every regression is verified across both languages via `pyfixest`
+- **Stata + Python/R cross-validation** — every regression is verified across languages via `pyfixest` and R `fixest`
 - **Multi-format output** — Chinese journals (经济研究/管理世界), English TOP5 (AER/QJE), NBER Working Paper, and SSRN preprint styles
 - **Version-controlled analysis** — `v1/`, `v2/`, ... directory structure with full replication packages
 - **Session continuity** — `/session-log` for explicit session management with MEMORY.md integration
@@ -39,15 +40,15 @@ Inspired by [pedrohcgs/claude-code-my-workflow](https://github.com/pedrohcgs/cla
 |-------|---------|-------------|
 | `/init-project` | Start a new project | Initialize standardized directory structure with master.do, REPLICATION.md, templates |
 | `/data-describe` | Explore data | Generate descriptive statistics and variable distributions (Stata + Python) |
-| `/run-did` | DID analysis | Full DID/TWFE/Callaway-Sant'Anna/SDID pipeline with diagnostics |
+| `/run-did` | DID analysis | Full DID/TWFE/Callaway-Sant'Anna pipeline with diagnostics |
 | `/run-iv` | IV analysis | Complete IV/2SLS pipeline with first-stage, weak-instrument tests, LIML comparison |
 | `/run-rdd` | RDD analysis | Complete RDD pipeline with bandwidth sensitivity, density test, placebo cutoffs |
 | `/run-panel` | Panel analysis | Panel FE/RE/GMM pipeline with Hausman, serial correlation, CD tests |
-| `/cross-check` | Validate results | Cross-validate Stata vs Python regression results (target: < 0.1% coefficient diff) |
+| `/cross-check` | Validate results | Cross-validate Stata vs Python/R regression results (target: < 0.1% coefficient diff) |
 | `/robustness` | Robustness tests | Comprehensive robustness test suite for regression results |
 | `/make-table` | Format tables | Generate publication-quality LaTeX regression tables (AER or 三线表 style) |
 | `/write-section` | Draft paper | Write a paper section in Chinese or English following journal conventions |
-| `/review-paper` | Simulate review | Three simulated peer reviewers giving structured feedback |
+| `/review-paper` | Simulate review | Three simulated peer reviewers with structured feedback; optional APE-style multi-round deep review |
 | `/lit-review` | Literature review | Structured literature review with BibTeX entries |
 | `/adversarial-review` | Quality assurance | Adversarial critic-fixer loop across code, econometrics, and tables domains |
 | `/score` | Quality scoring | Run executable quality scorer (6 dimensions, 100 pts) on current version |
@@ -127,7 +128,7 @@ econ-research-workflow/
 │   ├── agents/           # 12 specialized agents
 │   ├── hooks/            # Lifecycle hook scripts (session loader, Stata log check)
 │   ├── scripts/          # Auto-approved wrapper scripts (run-stata.sh)
-│   ├── rules/            # Coding conventions, econometrics standards (4 path-scoped + 2 always-on incl. constitution)
+│   ├── rules/            # Coding conventions, econometrics standards (4 path-scoped + 3 always-on incl. constitution)
 │   ├── settings.json     # Hook + permission configuration
 │   └── skills/           # 28 slash-command skills + 1 reference guide
 ├── scripts/
@@ -135,7 +136,7 @@ econ-research-workflow/
 ├── tests/                # Test cases (DID, RDD, IV, Panel, Full Pipeline)
 ├── CLAUDE.md             # Project configuration (fill in placeholders)
 ├── MEMORY.md             # Cross-session learning and decision log
-├── ROADMAP.md            # Phase 1-4 implementation history
+├── ROADMAP.md            # Phase 1-5 implementation history
 └── README.md             # This file
 ```
 
@@ -253,7 +254,7 @@ Non-trivial tasks follow a **spec-then-plan** protocol (Phase 0 in the orchestra
 
 ## Roadmap
 
-See [ROADMAP.md](ROADMAP.md) for the full Phase 1-4 implementation history.
+See [ROADMAP.md](ROADMAP.md) for the full Phase 1-5 implementation history.
 
 ### Hooks
 
@@ -264,6 +265,16 @@ See [ROADMAP.md](ROADMAP.md) for the full Phase 1-4 implementation history.
 | Session-start loader | `SessionStart` | Reads MEMORY.md, shows recent entries and last quality score |
 | Pre-compact save | `PreCompact` | Prompts session summary to MEMORY.md before context compaction |
 | Post-Stata log check | `PostToolUse` (Bash) | Auto-parses `.log` files for `r(xxx)` errors after Stata runs |
+
+### Always-On Rules
+
+3 always-on rules (no path scope, loaded in every session):
+
+| Rule | Purpose |
+|------|---------|
+| `constitution.md` | 5 immutable principles (raw data integrity, reproducibility, cross-validation, version preservation, score integrity) |
+| `orchestrator-protocol.md` | Spec-Plan-Implement-Verify-Review-Fix-Score cycle with "Just Do It" mode |
+| `stata-error-verification.md` | Enforces reading hook output before re-running Stata; prevents log-overwrite false positives |
 
 ### Auto-Approval
 
@@ -286,6 +297,7 @@ approval prompts for every Stata run.
 | 2026-02-26 | v0.7 | Phase 5 — real-data replication testing across 11 package × skill combinations, 15 issues found and fixed, all 9 `/run-*` skills hardened with defensive programming |
 | 2026-02-26 | v0.8 | Stata auto-approve wrapper (`run-stata.sh` + `permissions.allow`), orchestrator protocol update |
 | 2026-02-26 | v0.9 | Stata error verification rule — enforces reading hook output before re-running, prevents log-overwrite false positives (Issue #26) |
+| 2026-02-26 | v0.10 | Consistency audit — fixed 31 issues across docs, regex, YAML frontmatter, cross-references, and feature descriptions |
 
 ---
 

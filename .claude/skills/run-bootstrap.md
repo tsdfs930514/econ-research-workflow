@@ -363,7 +363,7 @@ log close
 
 ```python
 """
-Bootstrap Cross-Validation: Stata vs Python (scipy, statsmodels)
+Bootstrap Cross-Validation: Stata vs Python (scipy, pyfixest)
 """
 import pandas as pd
 import numpy as np

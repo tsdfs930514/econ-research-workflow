@@ -1,4 +1,5 @@
 ---
+description: "Bilingual Socratic research interview to formalize ideas into structured proposals"
 user_invocable: true
 ---
 

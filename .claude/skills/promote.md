@@ -1,4 +1,5 @@
 ---
+description: "Graduate exploratory files to main pipeline with quality check"
 user_invocable: true
 ---
 

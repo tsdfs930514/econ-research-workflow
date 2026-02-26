@@ -1,4 +1,5 @@
 ---
+description: "Session start/end manager with MEMORY.md context loading and recording"
 user_invocable: true
 ---
 

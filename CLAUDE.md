@@ -129,16 +129,16 @@ All scripts use a numbered prefix to indicate execution order.
 |---|---|
 | `/init-project` | Initialize a new research project with standardized directory structure |
 | `/data-describe` | Generate descriptive statistics and variable distributions (Stata + Python) |
-| `/run-did` | Run complete DID/TWFE/Callaway-Sant'Anna analysis pipeline |
+| `/run-did` | Run complete DID/TWFE/Callaway-Sant'Anna analysis pipeline (see `/run-sdid` for Synthetic DID) |
 | `/run-iv` | Run complete IV/2SLS analysis pipeline with diagnostics |
 | `/run-rdd` | Run complete RDD analysis pipeline with all diagnostics |
 | `/run-panel` | Run complete Panel FE/RE/GMM analysis pipeline |
 | `/run-sdid` | Run Synthetic DID analysis with unit/time weights and inference |
-| `/cross-check` | Cross-validate regression results between Stata and Python pyfixest |
+| `/cross-check` | Cross-validate regression results between Stata, Python pyfixest, and R fixest |
 | `/robustness` | Run a comprehensive robustness test suite for regression results |
 | `/make-table` | Generate publication-quality LaTeX regression tables |
 | `/write-section` | Write a specific paper section in Chinese or English |
-| `/review-paper` | Simulate peer review with three reviewers giving structured feedback |
+| `/review-paper` | Simulate peer review with three reviewers giving structured feedback; optional APE-style multi-round deep review |
 | `/lit-review` | Generate structured literature review with BibTeX entries |
 | `/adversarial-review` | Run adversarial critic-fixer QA loop (code, econometrics, tables) |
 | `/score` | Run executable quality scorer (6 dimensions, 100 pts) on current version |
@@ -171,6 +171,16 @@ All scripts use a numbered prefix to indicate execution order.
 Hook scripts are located in `.claude/hooks/`:
 - `session-loader.py` — session start context loader
 - `stata-log-check.py` — automatic Stata error detection
+
+### Always-On Rules
+
+3 always-on rules (loaded in every session, no path scope):
+
+| Rule | Purpose |
+|------|---------|
+| `constitution.md` | 5 immutable principles governing all workflow components |
+| `orchestrator-protocol.md` | Spec-Plan-Implement-Verify-Review-Fix-Score task cycle |
+| `stata-error-verification.md` | Mandatory hook output reading before re-running Stata scripts |
 
 ---
 
@@ -242,8 +252,8 @@ Run via: `python scripts/quality_scorer.py v1/` or use the `/score` skill.
 ## Output Standards
 
 ### Numerical Formatting
-- **Coefficients**: 3 decimal places (e.g., `0.123`)
-- **Standard Errors**: 3 decimal places, in parentheses (e.g., `(0.045)`)
+- **Coefficients**: 3 decimal places by default (e.g., `0.123`); 4 decimal places for TOP5/AER causal inference tables (see `/make-table`)
+- **Standard Errors**: 3 decimal places by default, in parentheses (e.g., `(0.045)`); 4 for TOP5/AER
 - **Significance Stars**: `*** p<0.01`, `** p<0.05`, `* p<0.10`
 - **R-squared**: 3 decimal places
 - **Observations**: Comma-separated integers (e.g., `12,345`)

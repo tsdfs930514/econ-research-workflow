@@ -1,4 +1,5 @@
 ---
+description: "Set up exploration sandbox with relaxed quality thresholds"
 user_invocable: true
 ---
 

@@ -284,6 +284,28 @@ Re-ran all 5 original tests after applying all skill fixes from the replication 
 
 ---
 
+## Consistency Audit Findings (2026-02-26)
+
+### Quality Scorer Known Limitations
+
+These are documented design limitations in `quality_scorer.py`, not bugs. They should be considered in future scorer improvements.
+
+| # | Dimension | Limitation | Impact |
+|---|-----------|-----------|--------|
+| D1 | Cross-Validation (15pts) | Only checks Python script existence + keyword matching (`pyfixest`/`cross`); does not verify script actually ran or results passed < 0.1% threshold | May award points for non-functional cross-validation scripts |
+| D2 | Method Diagnostics (25pts) | Keyword-based method detection; DID using `reghdfe` without explicit "csdid"/"parallel trend" keywords may not be recognized | Possible under-scoring for valid DID implementations |
+| D3 | Log Cleanliness (15pts) | Scans logs independently; does not integrate with hook output from `stata-log-check.py` | Redundant scanning; no cross-verification with hook |
+| D4 | Documentation (15pts) | REPLICATION.md > 200 characters = full marks; threshold not defined in constitution or replication-standards | Arbitrary threshold; minimal REPLICATION.md could score full marks |
+
+### Error Detection Regex Alignment (Fixed)
+
+Three components now use equivalent regex patterns:
+- `stata-log-check.py`: `r\((\d+)\)` (Python re) — requires 1+ digits
+- `run-stata.sh`: `r([0-9][0-9]*)` (grep basic) — requires 1+ digits (fixed from `r([0-9]*)`)
+- `quality_scorer.py`: `r\(\d+\)` (Python re) — requires 1+ digits
+
+---
+
 ## Final Summary (2026-02-26)
 
 | Metric | Count |

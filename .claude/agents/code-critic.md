@@ -111,4 +111,4 @@ You MUST NOT use: Edit, Write, Bash, or any tool that modifies files.
 
 ## Reference Standards
 
-Follow `stata-conventions` and `python-conventions` rules for all checks.
+Follow `stata-conventions`, `python-conventions`, and `stata-error-verification` rules for all checks. The error verification rule mandates reading hook output before re-running scripts — verify this protocol is followed in any review involving Stata execution.

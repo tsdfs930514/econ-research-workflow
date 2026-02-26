@@ -32,7 +32,7 @@ Hook scripts: `.claude/hooks/session-loader.py`, `.claude/hooks/stata-log-check.
 
 ### Path-Scoped Rules
 
-4 rules scoped via `paths:` frontmatter; 1 always-on:
+4 rules scoped via `paths:` frontmatter; 1 always-on (2 more always-on rules added in Phase 3 and 5):
 
 | Rule | `paths:` Pattern |
 |------|-----------------|
@@ -167,7 +167,7 @@ All 9 `/run-*` skills tested against real published replication packages. 11 pac
 | 10 | Synthetic → `/run-rdd` (rdrobust, rddensity) | PASS |
 | 11 | DDCG → `/run-sdid` (SDID/DID/SC bootstrap VCE) | PASS |
 
-### Issues Found & Fixed (15 total)
+### Issues Found & Fixed (19 total)
 
 | Issue | Category | Root Cause | Skill(s) Updated |
 |-------|----------|-----------|------------------|
@@ -186,6 +186,10 @@ All 9 `/run-*` skills tested against real published replication packages. 11 pac
 | #23 | COMPATIBILITY | Old Stata syntax (`set mem`, `clear matrix`) in packages | `/run-panel` |
 | #24 | SYNTAX | `ereturn post` + `estimates store` fails after `sdid` | `/run-sdid` |
 | #25 | EDGE-CASE | `vce(jackknife)` requires ≥2 treated units per period | `/run-sdid` |
+| #26 | PROCESS | Hook-reported errors ignored; log overwritten before verification | New rule: `stata-error-verification.md` |
+| #27 | TEMPLATE-GAP | 8-lag model needs `vareffects8` program (not implemented) | `/run-panel` |
+| #28 | SYNTAX | `/` in Stata local macro label caused parsing failure | `/run-panel` |
+| #29 | SYNTAX | `levelsof` returns numeric codes for value-labeled vars; loop used as string | `/run-panel` |
 
 ### Defensive Programming Patterns Added
 
@@ -211,12 +215,17 @@ Codified 8 defensive patterns in `stata-conventions.md`:
 
 Re-ran original test suite (test1-5) after all skill updates: **5/5 PASS with zero r(xxx) errors**. No regressions introduced.
 
+### Stata Error Verification Rule
+
+Added `stata-error-verification.md` as a new always-on rule (Issue #26). Enforces that Claude must read hook output before re-running scripts, preventing log-overwrite false positives discovered during DDCG replication.
+
 ### Files Modified
 
 - 9 skill files: `run-did.md` through `run-sdid.md` (defensive patterns + issue notes)
 - `advanced-stata-patterns.md` (SDID local macros pattern added)
 - `stata-conventions.md` (comprehensive defensive programming section added)
-- `ISSUES_LOG.md` (15 issues documented with root cause and fix)
+- `stata-error-verification.md` (new always-on rule for error verification protocol)
+- `ISSUES_LOG.md` (19 issues documented with root cause and fix)
 - `MEMORY.md` (session log and skill update entries)
 
 ---

@@ -1,4 +1,5 @@
 ---
+description: "Pre-analysis identification strategy challenger with threat assessment"
 user_invocable: true
 ---
 

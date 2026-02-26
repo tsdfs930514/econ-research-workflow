@@ -30,10 +30,10 @@ if [ ! -f "$LOG_FILE" ]; then
 fi
 
 if [ -f "$LOG_FILE" ]; then
-    ERROR_COUNT=$(grep -c 'r([0-9]*)' "$LOG_FILE" 2>/dev/null || true)
+    ERROR_COUNT=$(grep -c 'r([0-9][0-9]*)' "$LOG_FILE" 2>/dev/null || true)
     if [ "$ERROR_COUNT" -gt 0 ]; then
         echo "=== [Stata Log Check] ERRORS FOUND in $LOG_FILE ==="
-        grep 'r([0-9]*)' "$LOG_FILE"
+        grep 'r([0-9][0-9]*)' "$LOG_FILE"
         echo "=== Total: $ERROR_COUNT error(s) ==="
     else
         echo "[Stata Log Check] Clean: no r(xxx) errors in $LOG_FILE"

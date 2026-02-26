@@ -1,5 +1,5 @@
 ---
-description: "Run complete DID/TWFE/Callaway-Sant'Anna/SDID analysis pipeline"
+description: "Run complete DID/TWFE/Callaway-Sant'Anna analysis pipeline"
 user_invocable: true
 ---
 
@@ -275,6 +275,8 @@ log close
 ```
 
 ## Step 5: Python Cross-Validation
+
+> For R `fixest` cross-validation or multi-language comparison, use `/cross-check` after this step.
 
 ```python
 """

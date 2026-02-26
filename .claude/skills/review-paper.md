@@ -1,5 +1,5 @@
 ---
-description: "Simulate peer review with structured feedback, optionally using multi-model review loop"
+description: "Simulate peer review with three reviewers giving structured feedback, with optional APE-style multi-round deep review"
 user_invocable: true
 ---
 

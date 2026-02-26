@@ -35,7 +35,7 @@ After re-running, again read the hook output. Confirm it says "Clean" before dec
 
 2. **NEVER grep a log file after re-running and claim the ORIGINAL run was clean.** The log was overwritten — you're reading the re-run's log, not the original.
 
-3. **NEVER dismiss hook-reported errors.** If `run-stata.sh` says errors were found, they were found. The regex `r([0-9]*)` matches real Stata error codes.
+3. **NEVER dismiss hook-reported errors.** If `run-stata.sh` says errors were found, they were found. The regex `r([0-9][0-9]*)` matches real Stata error codes.
 
 4. **NEVER claim "clean" without showing the specific hook output line** that says "Clean: no r(xxx) errors."
 

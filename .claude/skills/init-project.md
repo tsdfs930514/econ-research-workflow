@@ -70,8 +70,8 @@ Modified:   <Date>
 version 18
 clear all
 set more off
-set maxvar 32767
-set matsize 11000
+cap set maxvar 32767    // MP/SE: max allowed; IC ignores silently
+cap set matsize 11000   // MP/SE: increase matrix size; IC uses lower max
 set seed 12345
 
 * --- Set paths ---

@@ -18,10 +18,12 @@ ssc install reghdfe, replace
 ssc install ftools, replace
 ssc install estout, replace
 ssc install xtabond2, replace      // System/Difference GMM
-ssc install xtserial, replace      // Wooldridge serial correlation test
+cap ssc install xtserial, replace  // Wooldridge test — may be removed from SSC (Issue #6)
 ssc install xtscc, replace         // Driscoll-Kraay standard errors
 ssc install coefplot, replace
 ```
+
+**Note on xtserial**: This package has been removed from SSC in some periods. Stata 18 may have built-in equivalents. Always use `cap ssc install` and wrap `xtserial` calls in `cap noisily` (Issues #6-7).
 
 ## Step 0: Gather Inputs
 
@@ -116,7 +118,15 @@ local hausman_chi2 = r(chi2)
 local hausman_p = r(p)
 di "Hausman test chi2: `hausman_chi2'"
 di "Hausman test p-value: `hausman_p'"
-if `hausman_p' < 0.05 {
+* NOTE: Hausman chi2 can be negative when FE strongly dominates RE
+* (variance matrix difference is not positive semi-definite). This is
+* known Stata behavior — FE is still the correct choice. See Issue #9.
+if `hausman_chi2' < 0 {
+    di "Result: Negative chi2 (`hausman_chi2') — FE strongly dominates RE."
+    di "  This occurs when V_FE - V_RE is not positive semi-definite."
+    di "  Interpretation: FE is the correct model."
+}
+else if `hausman_p' < 0.05 {
     di "Result: Reject RE in favor of FE (p < 0.05)"
 }
 else {
@@ -146,20 +156,31 @@ xtset UNIT_VAR TIME_VAR
 
 * --- 1. Serial Correlation: Wooldridge Test ---
 * H0: No first-order autocorrelation in panel data
-xtserial OUTCOME_VAR REGRESSORS CONTROLS
+* NOTE: xtserial may be unavailable (removed from SSC). Wrap in cap noisily.
+cap noisily xtserial OUTCOME_VAR REGRESSORS CONTROLS
+if _rc != 0 {
+    di "xtserial not available. Skipping Wooldridge serial correlation test."
+    di "Alternative: check AR(1) via xtabond2 diagnostics or estat abond."
+}
 * If rejected: use clustered SEs or Newey-West, or AR(1) correction
 
 * --- 2. Cross-Sectional Dependence: Pesaran CD Test ---
 * H0: No cross-sectional dependence
 * First run FE model
 quietly xtreg OUTCOME_VAR REGRESSORS CONTROLS, fe
-xtcsd, pesaran abs
+cap noisily xtcsd, pesaran abs
+if _rc != 0 {
+    di "xtcsd not available. Skipping Pesaran CD test."
+}
 * If rejected: consider Driscoll-Kraay standard errors
 
 * --- 3. Heteroskedasticity: Modified Wald Test ---
 * H0: Homoskedastic errors across panels
 quietly xtreg OUTCOME_VAR REGRESSORS CONTROLS, fe
-xttest3
+cap noisily xttest3
+if _rc != 0 {
+    di "xttest3 not available. Skipping Modified Wald test."
+}
 * If rejected: use robust/clustered SEs (already doing this)
 
 * --- 4. Unit Root Tests (if T is large) ---
@@ -365,6 +386,15 @@ After all steps, provide a written summary:
 - Create `output/tables/` and `output/figures/` directories if they don't exist
 - Generate both Stata and Python code for every pipeline
 - For the Hausman test, models must be estimated without robust/clustered SEs first, then re-estimate with clustered SEs for reporting
+
+## Handling Old Stata Syntax in Replication Code
+
+Published replication packages may contain deprecated Stata commands (Issue #23):
+- `set mem 250m` / `set memory` — not needed in Stata 18 (memory is dynamic)
+- `clear matrix` — replaced by `clear all` or `matrix drop _all`
+- `set matsize 800` — Stata 18 default is 11000, usually sufficient
+
+When adapting old replication code, simply omit these commands. Do not include them in new .do files.
 
 ## Advanced Patterns Reference
 

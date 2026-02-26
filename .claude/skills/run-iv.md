@@ -42,6 +42,8 @@ Ask the user for the following before proceeding:
 
 Note whether the model is exactly identified (# instruments = # endogenous) or overidentified (# instruments > # endogenous).
 
+**Data exploration note**: Use `summarize` and `codebook` to inspect variables — NOT `tab` for continuous variables. `tab` on a continuous variable generates one row per unique value, producing massive output and potentially crashing for large datasets (Issue #5). Reserve `tab` for categorical/binary variables with few distinct values.
+
 ## Step 1: First Stage & Reduced Form (Stata .do file)
 
 ```stata
@@ -201,7 +203,15 @@ di "IV DIAGNOSTICS SUMMARY"
 di "============================================="
 di "KP rk Wald F:        " e(widstat)
 di "KP rk LM (underid):  " e(idstat) " (p=" e(idp) ")"
-di "DWH endogeneity:     " e(estat) " (p=" e(estatp) ")"
+* NOTE: DWH endogeneity test p-value (e(estatp)) may be missing when
+* xtivreg2 is used with partial() option. This is a known limitation.
+* In that case, run a manual Hausman-type endogeneity test (Issue #14).
+if e(estatp) != . {
+    di "DWH endogeneity:     " e(estat) " (p=" e(estatp) ")"
+}
+else {
+    di "DWH endogeneity:     unavailable (xtivreg2 + partial() limitation)"
+}
 di "Hansen J (overid):   " e(j) " (p=" e(jp) ")"
 di "============================================="
 

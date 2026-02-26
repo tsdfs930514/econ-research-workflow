@@ -1,0 +1,18 @@
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Entry and Exit Decomposition (Table 3 Replication)}
+\begin{tabular}{l*{3}{c}}
+\toprule
+                    &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}\\
+                    &\multicolumn{1}{c}{Entry}&\multicolumn{1}{c}{Exit}&\multicolumn{1}{c}{Share Entry}\\
+\midrule
+Number of large chain stores within 1km&      -0.345\sym{***}&       0.285\sym{***}&       0.474\sym{***}\\
+                    &     (0.010)         &     (0.007)         &     (0.130)         \\
+\midrule
+Observations        &       15000         &       15000         &       15000         \\
+KP Wald F           &    2453.609         &    2453.609         &    2453.609         \\
+\bottomrule
+\multicolumn{4}{l}{\footnotesize Instrument: street suitability x lagged neighbor chain concentration. Standard errors clustered at municipality level.}\\
+\multicolumn{4}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<0.05\), \sym{***} \(p<0.01\)}\\
+\end{tabular}
+\end{table}

@@ -1,0 +1,32 @@
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Democracy and GDP Growth: Panel Estimates (DDCG Table 2 Replication)}
+\begin{tabular}{l*{5}{c}}
+\toprule
+                    &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}\\
+                    &\multicolumn{1}{c}{FE(1)}&\multicolumn{1}{c}{FE(2)}&\multicolumn{1}{c}{FE(4)}&\multicolumn{1}{c}{GMM(1)}&\multicolumn{1}{c}{GMM(4)}\\
+\midrule
+Democracy measure by ANRR &       0.973\sym{***}&       0.651\sym{***}&       0.787\sym{***}&       0.959\sym{**} &       0.875\sym{**} \\
+                    &     (0.294)         &     (0.248)         &     (0.226)         &     (0.477)         &     (0.374)         \\
+\addlinespace
+L.log of GDP per capita in 2000 constant dollars (multiplied by a 100)&       0.973\sym{***}&       1.266\sym{***}&       1.238\sym{***}&       0.946\sym{***}&       1.204\sym{***}\\
+                    &     (0.006)         &     (0.038)         &     (0.038)         &     (0.009)         &     (0.041)         \\
+\addlinespace
+L2.log of GDP per capita in 2000 constant dollars (multiplied by a 100)&                     &      -0.300\sym{***}&      -0.207\sym{***}&                     &      -0.193\sym{***}\\
+                    &                     &     (0.037)         &     (0.046)         &                     &     (0.045)         \\
+\addlinespace
+L3.log of GDP per capita in 2000 constant dollars (multiplied by a 100)&                     &                     &      -0.026         &                     &      -0.028         \\
+                    &                     &                     &     (0.028)         &                     &     (0.028)         \\
+\addlinespace
+L4.log of GDP per capita in 2000 constant dollars (multiplied by a 100)&                     &                     &      -0.043\sym{**} &                     &      -0.036\sym{*}  \\
+                    &                     &                     &     (0.017)         &                     &     (0.020)         \\
+\midrule
+Observations        &        6790         &        6642         &        6336         &        6615         &        6161         \\
+Countries           &     175.000         &     175.000         &     175.000         &     175.000         &     175.000         \\
+AR(2) p-value       &                     &                     &                     &       0.010         &       0.514         \\
+Hansen J p-value    &                     &                     &                     &       1.000         &       1.000         \\
+\bottomrule
+\multicolumn{6}{l}{\footnotesize Standard errors clustered at country level. Year FE included. GMM uses difference equation with lagged levels as instruments.}\\
+\multicolumn{6}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<0.05\), \sym{***} \(p<0.01\)}\\
+\end{tabular}
+\end{table}

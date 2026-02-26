@@ -154,6 +154,132 @@ xtset panel_id year
 assert r(balanced) == "strongly balanced"
 ```
 
+### Community Package Guards (from Issues #1-#25)
+
+All SSC/community commands must be wrapped in `cap noisily` because:
+- They may be uninstalled, renamed, or have version-breaking API changes
+- Their `e()` scalars may differ across versions
+- Some are removed from SSC entirely (e.g., `xtserial` — Issue #6-7)
+
+```stata
+* CORRECT: defensive install + defensive call
+cap ssc install xtserial, replace        // cap: may fail if removed from SSC
+cap noisily xtserial y x1 x2            // cap noisily: fail gracefully
+if _rc != 0 {
+    di "xtserial unavailable. Skipping."
+}
+
+* WRONG: bare call that halts the script on error
+ssc install xtserial, replace
+xtserial y x1 x2
+```
+
+**Commands that MUST always be wrapped in `cap noisily`:**
+
+| Command | Package | Risk |
+|---------|---------|------|
+| `csdid` / `csdid_stats` | csdid | Version-sensitive syntax (Issue #20) |
+| `bacondecomp` | bacondecomp | Dependency issues (Issue #2) |
+| `did_multiplegt` | did_multiplegt | Version-sensitive |
+| `did_imputation` | did_imputation | Version-sensitive |
+| `eventstudyinteract` | eventstudyinteract | Version-sensitive |
+| `sdid` | sdid | jackknife fails on staggered treatment (Issue #25) |
+| `boottest` | boottest | Fails after non-reghdfe estimators (Issue #1, #12) |
+| `xtserial` | xtserial | Removed from SSC (Issue #6-7) |
+| `xtcsd` | xtcsd | May be unavailable (Issue #8) |
+| `xttest3` | xttest3 | May be unavailable (Issue #8) |
+| `teffects` (all) | built-in | Fails on panel data with repeated obs (Issue #15) |
+| `lasso logit` | built-in | Convergence failure with near-separation (Issue #18) |
+| `weakiv` | weakiv | May not be installed |
+| `rddensity` | rddensity | p-value scalar varies by version (Issue #3) |
+
+### String Panel ID Check
+
+Before `xtset`, always check if the panel ID variable is string. `xtset` requires numeric IDs:
+
+```stata
+* Check if unit variable is string and encode if needed (Issue #19)
+cap confirm string variable UNIT_VAR
+if _rc == 0 {
+    encode UNIT_VAR, gen(_unit_num)
+    local UNIT_VAR _unit_num
+}
+xtset `UNIT_VAR' TIME_VAR
+```
+
+### e-class Result Availability
+
+Always check if e-class scalars exist before using them. Some commands leave certain scalars missing:
+
+```stata
+* CORRECT: check before use (Issue #14 — DWH may be missing with xtivreg2)
+if e(estatp) != . {
+    di "DWH p-value: " e(estatp)
+}
+else {
+    di "DWH p-value unavailable for this estimator."
+}
+
+* WRONG: assume scalar exists
+di "DWH p-value: " e(estatp)   // crashes if missing
+```
+
+### Results Storage Pattern for Non-Standard Estimators
+
+For commands whose `e()` results are not compatible with `estimates store` (e.g., `sdid`), store results in local macros and build tables manually:
+
+```stata
+* CORRECT: local macros + file write (Issue #24)
+cap noisily sdid Y unit time treat, vce(bootstrap) method(sdid) seed(12345)
+if _rc == 0 {
+    local att = e(ATT)
+    local se  = e(se)
+}
+* Then build LaTeX table via file write using locals
+
+* WRONG: ereturn post + estimates store after sdid
+ereturn post b V       // clears e-class, fails with r(301)
+estimates store m1      // not reached
+```
+
+### Continuous vs Categorical Variable Inspection
+
+Use `summarize` for continuous variables and `tab` only for low-cardinality categoricals:
+
+```stata
+* CORRECT
+summarize wage, detail      // continuous variable
+tab industry, missing       // categorical with few levels
+
+* WRONG: tab on continuous variable (Issue #5)
+tab wage                    // generates 1 row per unique value, huge output
+```
+
+### Negative Hausman Chi-Squared
+
+The Hausman test can produce negative chi2 when FE strongly dominates RE. This is known behavior, not an error:
+
+```stata
+hausman fe_model re_model
+if r(chi2) < 0 {
+    di "Negative chi2: FE strongly dominates RE (Issue #9)."
+    di "Interpretation: V_FE - V_RE is not positive semi-definite. Choose FE."
+}
+```
+
+### Old Stata Syntax Handling
+
+Published replication packages may contain deprecated commands (Issue #23):
+
+| Old Command | Action | Modern Equivalent |
+|-------------|--------|-------------------|
+| `set mem 250m` | Omit entirely | Stata 18 memory is dynamic |
+| `set memory 500m` | Omit entirely | Stata 18 memory is dynamic |
+| `clear matrix` | Replace | `matrix drop _all` or `clear all` |
+| `set matsize 800` | Omit (default 11000) | Only set if explicitly needed |
+
+When adapting old replication code, omit deprecated commands. Do not include them in new `.do` files.
+
 ## Memory Management
 
 Use `compress` before saving large datasets:

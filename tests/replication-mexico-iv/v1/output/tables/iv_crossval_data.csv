@@ -1,0 +1,11 @@
+statistic,value
+iv_corner_coef,-1.141069186287667
+iv_corner_se,.0348161025457084
+iv_corner_N,15000
+iv_kp_f,1706.472940345469
+iv_kp_lm,80.12889044007834
+ols_corner_coef,-.7001325049812659
+iv_profits_coef,-3.505262207000575
+iv_profits_se,.0832147399819127
+iv_profits_N,15000
+iv_profits_kp_f,2453.609056636473

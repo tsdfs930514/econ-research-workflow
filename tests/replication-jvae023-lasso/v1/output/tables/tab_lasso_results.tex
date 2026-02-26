@@ -1,0 +1,23 @@
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{LASSO Variable Selection -- jvae023 RTA \& Environment}
+\begin{tabular}{l*{3}{c}}
+\toprule
+                    &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}\\
+                    &\multicolumn{1}{c}{loss}&\multicolumn{1}{c}{loss}&\multicolumn{1}{c}{loss}\\
+\midrule
+lag\_LR              &                     &    9.91e+04         &    2.01e+05\sym{***}\\
+                    &                     &                     &  (2.09e+04)         \\
+\addlinespace
+enviro\_lag\_LR       &                     &   -3.56e+04         &   -1.22e+05\sym{***}\\
+                    &                     &                     &  (2.19e+04)         \\
+\addlinespace
+Constant            &    1.46e+05         &    7.22e+04         &    2.12e+04\sym{***}\\
+                    &                     &                     & (4260.7635)         \\
+\midrule
+Observations        &        2831         &        2831         &        2831         \\
+\bottomrule
+\multicolumn{4}{l}{\footnotesize Data: country\\_panel.dta from Abman, Lundberg \& Ruta.}\\
+\multicolumn{4}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<0.05\), \sym{***} \(p<0.01\)}\\
+\end{tabular}
+\end{table}

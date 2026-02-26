@@ -8,7 +8,7 @@ Inspired by [pedrohcgs/claude-code-my-workflow](https://github.com/pedrohcgs/cla
 
 ## Features
 
-- **24 skills** — slash-command workflows covering the full research lifecycle (data cleaning, DID/IV/RDD/Panel estimation, cross-validation, tables, paper writing, review, exploration sandbox, session continuity, Socratic research tools, and self-extension)
+- **28 skills** — slash-command workflows covering the full research lifecycle (data cleaning, DID/IV/RDD/Panel/SDID/Bootstrap/Placebo/Logit-Probit/LASSO estimation, cross-validation, tables, paper writing, review, exploration sandbox, session continuity, Socratic research tools, and self-extension)
 - **12 agents** — specialized reviewers plus 3 adversarial critic-fixer pairs (code, econometrics, tables) enforcing separation of concerns
 - **3 lifecycle hooks** — automatic session context loading, pre-compaction memory save, and post-Stata error detection
 - **Adversarial QA loop** — `/adversarial-review` runs critic → fixer → re-critic cycles (up to 5 rounds) until quality score >= 95
@@ -55,6 +55,10 @@ Inspired by [pedrohcgs/claude-code-my-workflow](https://github.com/pedrohcgs/cla
 | `/compile-latex` | Compile paper | Run pdflatex/bibtex pipeline with error checking |
 | `/context-status` | Session context | Display current version, recent decisions, quality scores, git state |
 | `/run-sdid` | SDID analysis | Synthetic DID analysis with unit/time weights and inference |
+| `/run-bootstrap` | Bootstrap inference | Pairs, wild cluster, residual, and teffects bootstrap pipelines |
+| `/run-placebo` | Placebo tests | Timing, outcome, instrument, and permutation placebo test pipelines |
+| `/run-logit-probit` | Logit/Probit analysis | Logit/probit, propensity score, treatment effects (RA/IPW/AIPW), conditional logit |
+| `/run-lasso` | LASSO/regularization | LASSO, post-double-selection, rigorous LASSO, R `glmnet` matching pipeline |
 | `/explore` | Exploration sandbox | Set up `explore/` directory with relaxed quality thresholds (>= 60) |
 | `/promote` | Promote results | Graduate exploratory files to main `vN/` pipeline with quality check |
 | `/session-log` | Session continuity | Start/end sessions with MEMORY.md context loading and recording |
@@ -96,8 +100,10 @@ Inspired by [pedrohcgs/claude-code-my-workflow](https://github.com/pedrohcgs/cla
 ### Quick Check (single regression)
 
 ```
-/run-did → /cross-check → /score
+/run-{method} → /cross-check → /score
 ```
+
+Supported methods: `did`, `iv`, `rdd`, `panel`, `sdid`, `bootstrap`, `placebo`, `logit-probit`, `lasso`
 
 ### Research Ideation
 
@@ -122,13 +128,13 @@ econ-research-workflow/
 │   ├── hooks/            # Lifecycle hook scripts (session loader, Stata log check)
 │   ├── rules/            # Coding conventions, econometrics standards (4 path-scoped + 2 always-on incl. constitution)
 │   ├── settings.json     # Hook configuration (3 hooks)
-│   └── skills/           # 24 slash-command skills
+│   └── skills/           # 28 slash-command skills + 1 reference guide
 ├── scripts/
 │   └── quality_scorer.py # Executable 6-dimension quality scorer
 ├── tests/                # Test cases (DID, RDD, IV, Panel, Full Pipeline)
 ├── CLAUDE.md             # Project configuration (fill in placeholders)
 ├── MEMORY.md             # Cross-session learning and decision log
-├── ROADMAP.md            # Phase 2-3 future plans
+├── ROADMAP.md            # Phase 1-4 implementation history
 └── README.md             # This file
 ```
 
@@ -222,6 +228,10 @@ claude
 | 断点回归 (RDD) | `/run-rdd` | rdrobust, rddensity, rdplot |
 | 面板数据 | `/run-panel` | reghdfe, xtabond2 |
 | 合成 DID | `/run-sdid` | sdid |
+| Bootstrap 推断 | `/run-bootstrap` | boottest, fwildclusterboot |
+| 安慰剂检验 | `/run-placebo` | permutation inference, timing placebo |
+| Logit/Probit | `/run-logit-probit` | logit, probit, teffects, clogit |
+| LASSO 正则化 | `/run-lasso` | lasso2, pdslasso, glmnet |
 
 ### 质量评分标准
 
@@ -242,7 +252,7 @@ Non-trivial tasks follow a **spec-then-plan** protocol (Phase 0 in the orchestra
 
 ## Roadmap
 
-See [ROADMAP.md](ROADMAP.md) for the full Phase 1-3 implementation history.
+See [ROADMAP.md](ROADMAP.md) for the full Phase 1-4 implementation history.
 
 ### Hooks
 

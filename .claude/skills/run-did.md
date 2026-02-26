@@ -47,6 +47,15 @@ log using "output/logs/did_01_validation.log", replace
 use "DATASET_PATH", clear
 
 * --- Panel structure check ---
+* NOTE: If GROUP_VAR is a string variable, it must be encoded to numeric first.
+* This is common when data comes from CSV files (e.g., ISO3 country codes).
+* Issue #19 from replication tests.
+cap confirm numeric variable GROUP_VAR
+if _rc != 0 {
+    di "GROUP_VAR is string — encoding to numeric..."
+    encode GROUP_VAR, gen(_group_id)
+    local GROUP_VAR "_group_id"
+}
 xtset GROUP_VAR TIME_VAR
 xtdescribe
 
@@ -172,42 +181,52 @@ assert FIRST_TREAT_VAR == 0 if TREAT_VAR == 0
 
 * --- 1. Callaway & Sant'Anna (2021) --- [PREFERRED]
 * Doubly-robust, group-time ATT with cluster bootstrap
-csdid OUTCOME_VAR CONTROLS, ivar(GROUP_VAR) time(TIME_VAR) gvar(FIRST_TREAT_VAR) ///
+* NOTE: csdid and csdid_stats are version-sensitive. Wrap all calls in
+* cap noisily to handle version-specific syntax changes (Issue #20).
+cap noisily csdid OUTCOME_VAR CONTROLS, ivar(GROUP_VAR) time(TIME_VAR) gvar(FIRST_TREAT_VAR) ///
     method(dripw) notyet
 
-* Aggregations
-csdid_stats simple, estore(cs_simple)
-csdid_stats event, estore(cs_event)
-csdid_stats group, estore(cs_group)
-csdid_stats calendar, estore(cs_calendar)
+* Aggregations — wrap in cap noisily (syntax may vary by version, Issue #20)
+cap noisily csdid_stats simple, estore(cs_simple)
+cap noisily csdid_stats event, estore(cs_event)
+cap noisily csdid_stats group, estore(cs_group)
+cap noisily csdid_stats calendar, estore(cs_calendar)
 
 * CS Event study plot
-csdid_plot, style(rcap) title("CS-DiD Event Study") ///
-    xtitle("Periods Since Treatment") ytitle("ATT")
-graph export "output/figures/fig_event_study_cs.pdf", replace
+cap noisily {
+    csdid_plot, style(rcap) title("CS-DiD Event Study") ///
+        xtitle("Periods Since Treatment") ytitle("ATT")
+    graph export "output/figures/fig_event_study_cs.pdf", replace
+}
 
 * --- 2. de Chaisemartin & D'Haultfoeuille (2020) ---
-did_multiplegt OUTCOME_VAR GROUP_VAR TIME_VAR TREAT_VAR, ///
+* Wrap in cap noisily — version-sensitive community package (like csdid)
+cap noisily did_multiplegt OUTCOME_VAR GROUP_VAR TIME_VAR TREAT_VAR, ///
     robust_dynamic dynamic(K_LAGS) placebo(K_LEADS) ///
     breps(100) cluster(CLUSTER_VAR)
 * Note: breps=100 for speed; increase to 500-1000 for final results
 
 * --- 3. Borusyak, Jaravel, Spiess (2024) — Imputation ---
-did_imputation OUTCOME_VAR GROUP_VAR TIME_VAR FIRST_TREAT_VAR, ///
+cap noisily did_imputation OUTCOME_VAR GROUP_VAR TIME_VAR FIRST_TREAT_VAR, ///
     allhorizons pretrends(K_LEADS) minn(0)
-estimates store bjs
+if _rc == 0 {
+    estimates store bjs
+}
 
 * --- 4. Sun & Abraham (2021) — Interaction-Weighted ---
 gen event_time = TIME_VAR - FIRST_TREAT_VAR
 replace event_time = . if FIRST_TREAT_VAR == 0
-eventstudyinteract OUTCOME_VAR lead* lag* CONTROLS, ///
+cap noisily eventstudyinteract OUTCOME_VAR lead* lag* CONTROLS, ///
     absorb(GROUP_VAR TIME_VAR) cohort(FIRST_TREAT_VAR) ///
     control_cohort(FIRST_TREAT_VAR == 0) ///
     vce(cluster CLUSTER_VAR)
 
 * --- 5. Goodman-Bacon Decomposition ---
-bacondecomp OUTCOME_VAR TREAT_VAR, id(GROUP_VAR) t(TIME_VAR) ddetail
-graph export "output/figures/fig_bacon_decomp.pdf", replace
+* Wrap in cap noisily — bacondecomp has version-sensitive dependencies (Issue #2)
+cap noisily {
+    bacondecomp OUTCOME_VAR TREAT_VAR, id(GROUP_VAR) t(TIME_VAR) ddetail
+    graph export "output/figures/fig_bacon_decomp.pdf", replace
+}
 
 * --- Comparison Table ---
 esttab cs_simple twfe_main bjs using "output/tables/tab_did_comparison.tex", ///
@@ -237,8 +256,11 @@ use "DATASET_PATH", clear
 
 * --- Wild Cluster Bootstrap (Roodman et al.) ---
 * Addresses finite-sample cluster inference (important when N_clusters < 50)
+* NOTE: boottest works best after reghdfe. It may fail (r(198)) after
+* plain reg, xtreg, or estimators with non-standard VCE. Always wrap
+* in cap noisily when using non-reghdfe estimators (Issue #1, #12).
 reghdfe OUTCOME_VAR TREAT_VAR CONTROLS, absorb(GROUP_VAR TIME_VAR) vce(cluster CLUSTER_VAR)
-boottest TREAT_VAR, cluster(CLUSTER_VAR) boottype(mammen) reps(999) seed(12345)
+cap noisily boottest TREAT_VAR, cluster(CLUSTER_VAR) boottype(mammen) reps(999) seed(12345)
 * Report: WCB p-value and 95% CI
 
 * --- HonestDiD: Sensitivity to Parallel Trends Violations ---

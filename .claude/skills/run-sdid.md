@@ -29,6 +29,8 @@ Ask the user for:
 - **First treatment period** (for staggered): earliest treatment year if staggered adoption
 - **Cluster variable**: for standard error clustering (default: unit variable)
 
+**IMPORTANT**: Always use the exact variable names provided by the user. Never hardcode variable names like `lgdp`, `gdp`, etc. — verify variables exist in the dataset with `ds` or `desc` before using them (Issue #21).
+
 ## Step 1: Data Preparation (Stata .do file)
 
 ```stata
@@ -81,37 +83,46 @@ log using "output/logs/sdid_02_estimation.log", replace
 use "DATASET_PATH", clear
 
 * --- Synthetic DiD ---
-sdid OUTCOME_VAR UNIT_VAR TIME_VAR TREAT_VAR, ///
+* NOTE: jackknife VCE requires >= 2 treated units per treatment period.
+* For staggered treatment with singleton periods, it fails with r(451).
+* Use bootstrap VCE as fallback (Issue #25).
+cap noisily sdid OUTCOME_VAR UNIT_VAR TIME_VAR TREAT_VAR, ///
     vce(jackknife) method(sdid) graph ///
     g1_opt(xtitle("") ytitle("Unit Weights")) ///
     g2_opt(xtitle("Time") ytitle("Outcome"))
+if _rc != 0 {
+    di "Jackknife VCE failed. Trying bootstrap VCE..."
+    sdid OUTCOME_VAR UNIT_VAR TIME_VAR TREAT_VAR, ///
+        vce(bootstrap) method(sdid) seed(12345) reps(200)
+}
 graph export "output/figures/fig_sdid_main.pdf", replace
-estimates store sdid_main
+
+* Store results as local macros (NOT via ereturn post + estimates store,
+* which clears e-class results and fails with r(301) — Issue #24)
+local sdid_att = e(ATT)
+local sdid_se  = e(se)
 
 * --- Comparison: Traditional DiD ---
-sdid OUTCOME_VAR UNIT_VAR TIME_VAR TREAT_VAR, ///
+cap noisily sdid OUTCOME_VAR UNIT_VAR TIME_VAR TREAT_VAR, ///
     vce(jackknife) method(did)
-estimates store did_trad
+if _rc != 0 {
+    sdid OUTCOME_VAR UNIT_VAR TIME_VAR TREAT_VAR, ///
+        vce(bootstrap) method(did) seed(12345) reps(200)
+}
+local did_att = e(ATT)
+local did_se  = e(se)
 
 * --- Comparison: Synthetic Control ---
-sdid OUTCOME_VAR UNIT_VAR TIME_VAR TREAT_VAR, ///
+cap noisily sdid OUTCOME_VAR UNIT_VAR TIME_VAR TREAT_VAR, ///
     vce(jackknife) method(sc)
-estimates store sc_main
+if _rc != 0 {
+    sdid OUTCOME_VAR UNIT_VAR TIME_VAR TREAT_VAR, ///
+        vce(bootstrap) method(sc) seed(12345) reps(200)
+}
+local sc_att = e(ATT)
+local sc_se  = e(se)
 
-* --- Comparison Table ---
-eststo clear
-eststo sdid_main
-eststo did_trad
-eststo sc_main
-
-esttab sdid_main did_trad sc_main using "output/tables/tab_sdid_comparison.tex", ///
-    se(4) b(4) star(* 0.10 ** 0.05 *** 0.01) ///
-    mtitles("SDID" "DiD" "SC") ///
-    label booktabs replace ///
-    title("Treatment Effect: SDID vs DiD vs SC") ///
-    note("Jackknife standard errors. SDID = Arkhangelsky et al. (2021).")
-
-* --- Report SDID diagnostic info ---
+* --- SDID diagnostic comparison ---
 * SDID estimate should fall between SC and DiD bounds
 * If DiD and SC agree → high confidence in treatment effect
 * If they disagree → SDID provides a compromise
@@ -119,13 +130,29 @@ esttab sdid_main did_trad sc_main using "output/tables/tab_sdid_comparison.tex",
 di "============================================="
 di "SDID COMPARISON"
 di "============================================="
-estimates restore sdid_main
-di "  SDID estimate:    " _b[TREAT_VAR]
-estimates restore did_trad
-di "  DiD estimate:     " _b[TREAT_VAR]
-estimates restore sc_main
-di "  SC estimate:      " _b[TREAT_VAR]
+di "  SDID:  ATT = `sdid_att' (SE = `sdid_se')"
+di "  DiD:   ATT = `did_att' (SE = `did_se')"
+di "  SC:    ATT = `sc_att' (SE = `sc_se')"
 di "============================================="
+
+* --- Manual comparison table (since estimates store is unreliable with sdid) ---
+* Use file write for a clean LaTeX table
+file open _tab using "output/tables/tab_sdid_comparison.tex", write replace
+file write _tab "\begin{table}[htbp]" _n
+file write _tab "\centering" _n
+file write _tab "\caption{Treatment Effect: SDID vs DiD vs SC}" _n
+file write _tab "\begin{tabular}{lccc}" _n
+file write _tab "\hline\hline" _n
+file write _tab " & SDID & DiD & SC \\\\" _n
+file write _tab "\hline" _n
+file write _tab "ATT & " %9.4f (`sdid_att') " & " %9.4f (`did_att') " & " %9.4f (`sc_att') " \\\\" _n
+file write _tab "SE  & (" %9.4f (`sdid_se') ") & (" %9.4f (`did_se') ") & (" %9.4f (`sc_se') ") \\\\" _n
+file write _tab "\hline\hline" _n
+file write _tab "\multicolumn{4}{p{12cm}}{\small\textit{Note:} " _n
+file write _tab "SDID = Arkhangelsky et al. (2021). Bootstrap SEs.} \\\\" _n
+file write _tab "\end{tabular}" _n
+file write _tab "\end{table}" _n
+file close _tab
 
 log close
 ```
@@ -146,30 +173,38 @@ use "DATASET_PATH", clear
 
 * --- Alternative VCE: Bootstrap ---
 sdid OUTCOME_VAR UNIT_VAR TIME_VAR TREAT_VAR, ///
-    vce(bootstrap) reps(200) method(sdid)
-estimates store sdid_boot
+    vce(bootstrap) reps(200) method(sdid) seed(12345)
+local sdid_boot_att = e(ATT)
+local sdid_boot_se  = e(se)
 
 * --- Placebo: Randomize treatment assignment ---
 * Permutation inference: shuffle treated/control labels
-sdid OUTCOME_VAR UNIT_VAR TIME_VAR TREAT_VAR, ///
+cap noisily sdid OUTCOME_VAR UNIT_VAR TIME_VAR TREAT_VAR, ///
     vce(placebo) reps(200) method(sdid)
-estimates store sdid_placebo
+if _rc == 0 {
+    local sdid_plac_att = e(ATT)
+    local sdid_plac_se  = e(se)
+}
 
 * --- Leave-one-unit-out ---
 * Check sensitivity to individual units
+* Use bootstrap VCE for LOSO (jackknife may fail, Issue #25)
 levelsof UNIT_VAR if ever_treated == 0, local(controls)
 foreach u of local controls {
-    cap sdid OUTCOME_VAR UNIT_VAR TIME_VAR TREAT_VAR if UNIT_VAR != `u', ///
-        vce(jackknife) method(sdid)
+    cap noisily sdid OUTCOME_VAR UNIT_VAR TIME_VAR TREAT_VAR if UNIT_VAR != `u', ///
+        vce(bootstrap) method(sdid) seed(12345) reps(50)
     if _rc == 0 {
-        di "LOSO (drop unit `u'): " _b[TREAT_VAR] " (SE: " _se[TREAT_VAR] ")"
+        di "LOSO (drop unit `u'): ATT = " e(ATT) " (SE: " e(se) ")"
     }
 }
 
 * --- Alternative outcome ---
-sdid ALT_OUTCOME_VAR UNIT_VAR TIME_VAR TREAT_VAR, ///
-    vce(jackknife) method(sdid)
-estimates store sdid_alt
+cap noisily sdid ALT_OUTCOME_VAR UNIT_VAR TIME_VAR TREAT_VAR, ///
+    vce(bootstrap) method(sdid) seed(12345) reps(200)
+if _rc == 0 {
+    local sdid_alt_att = e(ATT)
+    local sdid_alt_se  = e(se)
+}
 
 log close
 ```

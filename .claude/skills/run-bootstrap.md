@@ -93,13 +93,21 @@ local b_boot = _b[COEF_VAR]
 local se_boot = _se[COEF_VAR]
 
 * --- Percentile CI ---
-estat bootstrap, percentile bc bca
-* Report: percentile, bias-corrected, and BCa intervals
+* NOTE: BCa requires explicit saving in the bootstrap prefix command.
+* Default to percentile + bc only. Add bca only if bootstrap used
+* saving(, bca) option. See Issue #11 from replication tests.
+cap noisily estat bootstrap, percentile bc
+* If BCa is needed, re-run bootstrap with: saving("file.dta", replace) bca
 
 * --- Bootstrap distribution ---
+* NOTE: `bootstrap _b` saves variables with `_b_` prefix + variable name,
+* NOT `_bs_N` numbering. E.g., for variable `x`, saved as `_b_x`.
+* Use `ds` to dynamically identify variable names (Issue #13).
 preserve
 use "data/temp/boot_pairs.dta", clear
-hist _bs_1, bin(50) normal ///
+ds
+local boot_var : word 1 of `r(varlist)'
+hist `boot_var', bin(50) normal ///
     title("Pairs Cluster Bootstrap Distribution") ///
     xtitle("Coefficient Estimate") ytitle("Density") ///
     xline(`b_analytic', lcolor(cranberry) lpattern(dash)) ///
@@ -133,7 +141,10 @@ use "DATASET_PATH", clear
 BASELINE_COMMAND
 
 * --- Wild cluster bootstrap with Rademacher weights ---
-boottest COEF_VAR, cluster(CLUSTER_VAR) boottype(rademacher) ///
+* NOTE: boottest may not work after all estimator types. It works best after
+* reghdfe. After plain reg or xtreg, it may fail with r(198). Always wrap
+* in cap noisily if using non-reghdfe estimators (Issue #12).
+cap noisily boottest COEF_VAR, cluster(CLUSTER_VAR) boottype(rademacher) ///
     reps(NREPS) seed(12345) nograph
 local wcb_p_rad = r(p)
 local wcb_ci_lo_rad = r(CI)[1,1]
@@ -331,7 +342,9 @@ parmest, saving("data/temp/boot_parmest.dta", replace) ///
     label eform stars(0.10 0.05 0.01)
 
 * --- BCa vs Percentile comparison ---
-estat bootstrap, percentile bc bca
+* NOTE: BCa requires explicit saving with bca option in the bootstrap command.
+* Default to percentile + bc only (Issue #11).
+cap noisily estat bootstrap, percentile bc
 
 di "============================================="
 di "BOOTSTRAP CI COMPARISON"

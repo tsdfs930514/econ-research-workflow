@@ -32,7 +32,7 @@ Ask the user for:
 - **Fixed effects** (optional): FE to absorb before LASSO
 - **Cluster variable**: for clustered standard errors in post-selection inference
 - **Purpose**: prediction, variable selection, or causal inference via post-double-selection
-- **Model type**: linear, logit, or poisson (Stata 16+ `lasso` supports all)
+- **Model type**: linear, logit, or poisson (Stata 16+ `lasso` supports all). **Note**: `lasso logit` may fail with r(430) convergence error when the binary outcome has near-perfect separation with some predictors. Wrap in `cap noisily` and fall back to `rlasso` if needed (Issue #18).
 
 Determine Stata version: LASSO built-ins (`lasso`, `dsregress`) require Stata 16+. For earlier versions, use community packages (`lassopack`: `cvlasso`, `rlasso`, `pdslasso`).
 
@@ -188,17 +188,25 @@ if c(stata_version) >= 16 {
 
     * Post-LASSO OLS: extract selected variables and run OLS
     * lassocoef stores selected variable names
+    * NOTE: CV LASSO may select 0 variables in small samples or when signal
+    * is weak. Check e(k_nonzero_sel) before proceeding (Issues #16-17).
     local selected_vars ""
-    matrix b = e(b_postselection)
-    local names : colnames b
-    foreach v of local names {
-        if "`v'" != "_cons" {
-            local selected_vars "`selected_vars' `v'"
+    if e(k_nonzero_sel) > 0 {
+        matrix b = e(b_postselection)
+        local names : colnames b
+        foreach v of local names {
+            if "`v'" != "_cons" {
+                local selected_vars "`selected_vars' `v'"
+            }
         }
+        eststo postlasso: reghdfe OUTCOME_VAR `selected_vars', ///
+            absorb(FIXED_EFFECTS) vce(cluster CLUSTER_VAR)
     }
-
-    eststo postlasso: reghdfe OUTCOME_VAR `selected_vars', ///
-        absorb(FIXED_EFFECTS) vce(cluster CLUSTER_VAR)
+    else {
+        di "WARNING: LASSO selected 0 variables. Skipping post-LASSO OLS."
+        di "This can happen with small samples or low signal-to-noise ratio."
+        di "Consider using rlasso (rigorous LASSO) from lassopack instead."
+    }
 }
 else {
     * lassopack: post-LASSO built into rlasso

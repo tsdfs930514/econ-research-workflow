@@ -1,0 +1,32 @@
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Kinship Score Determinants: Bootstrap Inference (Table 3 Replication)}
+\begin{tabular}{l*{5}{c}}
+\toprule
+                    &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}\\
+                    &\multicolumn{1}{c}{OLS}&\multicolumn{1}{c}{BS(malaria)}&\multicolumn{1}{c}{BS+ctrl}&\multicolumn{1}{c}{BS(mutation)}&\multicolumn{1}{c}{BS(TSI)}\\
+\midrule
+Malaria ecology [std.]&       0.123\sym{***}&       0.031\sym{**} &       0.030\sym{**} &                     &                     \\
+                    &     (0.015)         &     (0.014)         &     (0.012)         &                     &                     \\
+\addlinespace
+Dependence on hunting and gathering&                     &                     &      -0.422\sym{**} &                     &                     \\
+                    &                     &                     &     (0.193)         &                     &                     \\
+\addlinespace
+Log [\# years since observation]&                     &                     &      -0.020         &                     &                     \\
+                    &                     &                     &     (0.057)         &                     &                     \\
+\addlinespace
+Shortest distance to origins of sickle cell mutation [std.]&                     &                     &                     &      -0.058\sym{**} &                     \\
+                    &                     &                     &                     &     (0.027)         &                     \\
+\addlinespace
+TseTse suitability [std.]&                     &                     &                     &                     &       0.035\sym{***}\\
+                    &                     &                     &                     &                     &     (0.009)         \\
+\addlinespace
+Constant            &       0.694\sym{***}&       0.856\sym{***}&       1.014\sym{***}&       0.881\sym{***}&       0.883\sym{***}\\
+                    &     (0.031)         &     (0.030)         &     (0.244)         &     (0.020)         &     (0.018)         \\
+\midrule
+Observations        &        1226         &         504         &         504         &         501         &         500         \\
+\bottomrule
+\multicolumn{6}{l}{\footnotesize Bootstrap standard errors with 500 replications. Cluster-level resampling. Sample restricted to malaria\_sample==1.}\\
+\multicolumn{6}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<0.05\), \sym{***} \(p<0.01\)}\\
+\end{tabular}
+\end{table}

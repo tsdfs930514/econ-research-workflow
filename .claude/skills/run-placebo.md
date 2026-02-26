@@ -381,7 +381,7 @@ plt.close()
 
 After all steps, provide:
 
-1. **Placebo Timing**: Are all pre-period placebo treatment coefficients insignificant? Any significant result flags a pre-trend concern.
+1. **Placebo Timing**: Are all pre-period placebo treatment coefficients insignificant? Any significant result flags a pre-trend concern. **Important**: A significant timing placebo does NOT necessarily invalidate the design — it may reflect **anticipation effects** (agents respond before the formal policy change). Distinguish between anticipation (expected for policies with lead-up periods like democratization) and confounding (Issue #22).
 2. **Placebo Outcomes**: Are effects on unrelated outcomes insignificant? Significant effects suggest confounding or data issues.
 3. **Placebo Instruments** (IV only): Is the reduced form null for placebo instruments? A significant result undermines the exclusion restriction.
 4. **Permutation p-value**: Report alongside the analytical p-value. Large discrepancy suggests distributional assumptions matter.

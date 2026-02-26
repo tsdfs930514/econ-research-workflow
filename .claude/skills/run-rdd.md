@@ -79,6 +79,17 @@ rddensity RUNNING_VAR, c(CUTOFF) plot ///
     plot_range(PLOT_MIN PLOT_MAX)
 graph export "output/figures/fig_rd_density.pdf", replace
 
+* Capture density test p-value (Issue #3: use correct e-class scalar)
+* rddensity stores p-value in different scalars across versions:
+*   e(pv_q)   — quadratic (preferred)
+*   e(pv_p)   — polynomial
+* Check which is available:
+cap local density_p = e(pv_q)
+if "`density_p'" == "" | "`density_p'" == "." {
+    cap local density_p = e(pv_p)
+}
+di "Density test p-value: `density_p'"
+
 * H0: density is continuous at cutoff
 * Rejection → evidence of sorting/manipulation
 

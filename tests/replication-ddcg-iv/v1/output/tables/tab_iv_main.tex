@@ -1,0 +1,31 @@
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Democracy and GDP: IV Estimates (DDCG Table 6 Replication)}
+\begin{tabular}{l*{3}{c}}
+\toprule
+                    &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}\\
+                    &\multicolumn{1}{c}{OLS-FE}&\multicolumn{1}{c}{2SLS(1inst)}&\multicolumn{1}{c}{2SLS(4inst)}\\
+\midrule
+Democracy measure by ANRR &       0.787\sym{***}&       0.966\sym{*}  &       1.149\sym{**} \\
+                    &     (0.226)         &     (0.558)         &     (0.554)         \\
+\addlinespace
+L.log of GDP per capita in 2000 constant dollars (multiplied by a 100)&       1.238\sym{***}&       1.239\sym{***}&       1.238\sym{***}\\
+                    &     (0.038)         &     (0.038)         &     (0.038)         \\
+\addlinespace
+L2.log of GDP per capita in 2000 constant dollars (multiplied by a 100)&      -0.207\sym{***}&      -0.206\sym{***}&      -0.205\sym{***}\\
+                    &     (0.046)         &     (0.046)         &     (0.046)         \\
+\addlinespace
+L3.log of GDP per capita in 2000 constant dollars (multiplied by a 100)&      -0.026         &      -0.029         &      -0.029         \\
+                    &     (0.028)         &     (0.028)         &     (0.028)         \\
+\addlinespace
+L4.log of GDP per capita in 2000 constant dollars (multiplied by a 100)&      -0.043\sym{**} &      -0.041\sym{**} &      -0.040\sym{**} \\
+                    &     (0.017)         &     (0.018)         &     (0.018)         \\
+\midrule
+Observations        &        6336         &        6312         &        6309         \\
+KP Wald F           &                     &     119.136         &      33.212         \\
+Hansen J p-value    &                     &                     &       0.206         \\
+\bottomrule
+\multicolumn{4}{l}{\footnotesize Instrument: regional democracy waves (demreg). Standard errors clustered at country level. Year FE partialled out.}\\
+\multicolumn{4}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<0.05\), \sym{***} \(p<0.01\)}\\
+\end{tabular}
+\end{table}

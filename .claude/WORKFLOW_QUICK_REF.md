@@ -1,6 +1,6 @@
 # Econ Research Workflow - Quick Reference
 
-## Skills Reference (24 skills)
+## Skills Reference (28 skills)
 
 ### Core Analysis
 
@@ -13,6 +13,10 @@
 | `/run-rdd` | RDD pipeline with bandwidth sensitivity and density test | Causal estimation |
 | `/run-panel` | Panel FE/RE/GMM with Hausman, serial correlation tests | Causal estimation |
 | `/run-sdid` | Synthetic DID with unit/time weights and inference | Causal estimation |
+| `/run-bootstrap` | Pairs, wild cluster, residual, teffects bootstrap inference | After main results |
+| `/run-placebo` | Timing, outcome, instrument, permutation placebo tests | Robustness checks |
+| `/run-logit-probit` | Logit/probit, propensity score, RA/IPW/AIPW, conditional logit | Binary/treatment models |
+| `/run-lasso` | LASSO, post-double-selection, rigorous LASSO, glmnet matching | Variable selection |
 | `/cross-check` | Stata ↔ Python regression cross-validation (< 0.1%) | After any regression |
 | `/robustness` | Comprehensive robustness test suite | After main results |
 
@@ -50,6 +54,14 @@
 | `/interview-me` | Bilingual Socratic interview → structured research proposal | New research ideas |
 | `/devils-advocate` | Pre-analysis threat assessment for identification strategy | Before estimation |
 | `/learn` | Create new rules or skills from within a session | Codifying conventions |
+
+### Reference Resources
+
+| Resource | Description | Usage |
+|----------|-------------|-------|
+| `advanced-stata-patterns.md` | Impulse response, Helmert, HHK, k-class, bootstrap, spatial lags | Auto-consulted by run-panel/run-iv for advanced patterns |
+
+This is a non-user-invocable reference file (no slash command). It is consulted automatically by relevant skills when advanced Stata patterns are needed.
 
 ---
 

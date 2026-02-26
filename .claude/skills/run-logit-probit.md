@@ -189,10 +189,14 @@ log close
 
 Following Acemoglu et al. (2019, JPE) Table 5 pattern.
 
+**IMPORTANT: `teffects` commands (ra, ipw, ipwra, nnmatch) only work with cross-sectional data.** They will fail on panel data with repeated observations per unit (r(459) or similar). For panel data, either: (1) collapse to a cross-section first (e.g., pre/post means), (2) use manual IPW weighting with `reghdfe`, or (3) use `bootstrap` wrapping a custom program that computes ATET on a cross-sectional snapshot. All `teffects` calls below should be wrapped in `cap noisily` when data structure is uncertain (Issue #15).
+
 ```stata
 /*==============================================================================
   Logit/Probit Analysis — Step 3: Treatment Effects via teffects
   Reference: DDCG Table 5 — RA, IPW, AIPW with probit treatment model
+  NOTE: teffects requires cross-sectional data (no repeated observations).
+  For panel data, collapse to cross-section first or use manual IPW.
 ==============================================================================*/
 clear all
 set more off
@@ -207,31 +211,52 @@ eststo clear
 
 * --- 1. Regression Adjustment (RA) ---
 * Outcome model: OUTCOME ~ COVARIATES, separately for treated and control
-teffects ra (OUTCOME_VAR COVARIATES) (TREATMENT_VAR), atet
-eststo tef_ra
-local atet_ra = _b[r1vs0.TREATMENT_VAR]
-di "RA-ATET: `atet_ra'"
+* Wrap in cap noisily — fails on panel data with repeated obs (Issue #15)
+cap noisily teffects ra (OUTCOME_VAR COVARIATES) (TREATMENT_VAR), atet
+if _rc == 0 {
+    eststo tef_ra
+    local atet_ra = _b[r1vs0.TREATMENT_VAR]
+    di "RA-ATET: `atet_ra'"
+}
+else {
+    di "teffects ra failed (likely panel data with repeated obs). Skipping."
+}
 
 * --- 2. Inverse Probability Weighting (IPW) with probit ---
 * Treatment model: probit(TREATMENT ~ COVARIATES)
-teffects ipw (OUTCOME_VAR) (TREATMENT_VAR COVARIATES, probit), atet
-eststo tef_ipw
-local atet_ipw = _b[r1vs0.TREATMENT_VAR]
-di "IPW-ATET: `atet_ipw'"
+cap noisily teffects ipw (OUTCOME_VAR) (TREATMENT_VAR COVARIATES, probit), atet
+if _rc == 0 {
+    eststo tef_ipw
+    local atet_ipw = _b[r1vs0.TREATMENT_VAR]
+    di "IPW-ATET: `atet_ipw'"
+}
+else {
+    di "teffects ipw failed (likely panel data). Skipping."
+}
 
 * --- 3. Doubly Robust: AIPW (Augmented IPW) ---
 * Outcome model + treatment model — consistent if EITHER model is correct
-teffects ipwra (OUTCOME_VAR COVARIATES) (TREATMENT_VAR COVARIATES, probit), atet
-eststo tef_aipw
-local atet_aipw = _b[r1vs0.TREATMENT_VAR]
-di "AIPW-ATET: `atet_aipw'"
+cap noisily teffects ipwra (OUTCOME_VAR COVARIATES) (TREATMENT_VAR COVARIATES, probit), atet
+if _rc == 0 {
+    eststo tef_aipw
+    local atet_aipw = _b[r1vs0.TREATMENT_VAR]
+    di "AIPW-ATET: `atet_aipw'"
+}
+else {
+    di "teffects ipwra failed (likely panel data). Skipping."
+}
 
 * --- 4. Nearest Neighbor Matching ---
-teffects nnmatch (OUTCOME_VAR COVARIATES) (TREATMENT_VAR), ///
+cap noisily teffects nnmatch (OUTCOME_VAR COVARIATES) (TREATMENT_VAR), ///
     atet nneighbor(5) metric(mahalanobis)
-eststo tef_nn
-local atet_nn = _b[r1vs0.TREATMENT_VAR]
-di "NN-Match ATET: `atet_nn'"
+if _rc == 0 {
+    eststo tef_nn
+    local atet_nn = _b[r1vs0.TREATMENT_VAR]
+    di "NN-Match ATET: `atet_nn'"
+}
+else {
+    di "teffects nnmatch failed (likely panel data). Skipping."
+}
 
 * --- Comparison table ---
 esttab tef_ra tef_ipw tef_aipw tef_nn ///

@@ -1,0 +1,45 @@
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Table 4 Panel B -- SEC Comment Letters and Insider Trading}
+\begin{tabular}{l*{2}{c}}
+\toprule
+                    &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}\\
+                    &\multicolumn{1}{c}{ex\_net\_volbuyp0p5}&\multicolumn{1}{c}{ex\_net\_volbuyp0p15}\\
+\midrule
+Rank for Variable ncc\_conv&     -0.1033\sym{*}  &     -0.0523         \\
+                    &    (0.0620)         &    (0.0534)         \\
+\addlinespace
+Rank for Variable inst\_pct\_ded&     -0.0820\sym{**} &     -0.0554\sym{*}  \\
+                    &    (0.0343)         &    (0.0323)         \\
+\addlinespace
+Rank for Variable connect0&     -0.0888\sym{*}  &     -0.0563         \\
+                    &    (0.0531)         &    (0.0523)         \\
+\addlinespace
+restate1            &     -0.2141\sym{***}&     -0.1875\sym{***}\\
+                    &    (0.0750)         &    (0.0673)         \\
+\addlinespace
+i819                &     -0.2291\sym{**} &     -0.1891\sym{**} \\
+                    &    (0.1060)         &    (0.0909)         \\
+\addlinespace
+i924                &     -0.1195\sym{*}  &     -0.0653         \\
+                    &    (0.0666)         &    (0.0565)         \\
+\addlinespace
+logsize             &     -0.0099         &     -0.0057         \\
+                    &    (0.0085)         &    (0.0080)         \\
+\addlinespace
+mtb                 &     -0.0027         &     -0.0020         \\
+                    &    (0.0018)         &    (0.0015)         \\
+\addlinespace
+loganalysts         &      0.0069         &     -0.0010         \\
+                    &    (0.0139)         &    (0.0117)         \\
+\addlinespace
+inst\_perc\_all\_w     &      0.0690         &      0.0568         \\
+                    &    (0.0771)         &    (0.0734)         \\
+\midrule
+Observations        &       7,142         &       7,142         \\
+Adjusted R-squared  &      0.0074         &      0.0055         \\
+\bottomrule
+\multicolumn{3}{l}{\footnotesize Industry (FF-12) fixed effects absorbed. Standard errors clustered by firm (gvkey).}\\
+\multicolumn{3}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<0.05\), \sym{***} \(p<0.01\)}\\
+\end{tabular}
+\end{table}

@@ -1,0 +1,18 @@
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Effect of Chain Entry on Corner Store Profits per Worker}
+\begin{tabular}{l*{2}{c}}
+\toprule
+                    &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}\\
+                    &\multicolumn{1}{c}{OLS}&\multicolumn{1}{c}{2SLS}\\
+\midrule
+Number of large chain stores within 1km&      -2.344\sym{***}&      -3.505\sym{***}\\
+                    &     (0.056)         &     (0.083)         \\
+\midrule
+Observations        &       15000         &       15000         \\
+KP Wald F           &                     &    2453.609         \\
+\bottomrule
+\multicolumn{3}{l}{\footnotesize Dependent variable: profits per worker (1000s pesos). Instrument: street suitability x lagged neighbor chain concentration. Standard errors clustered at municipality level.}\\
+\multicolumn{3}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<0.05\), \sym{***} \(p<0.01\)}\\
+\end{tabular}
+\end{table}

@@ -441,3 +441,51 @@ xtreg dem l(1/4).y l.instrument yy* if samp1 == 1, fe cluster(wbcode2)
 ```
 
 This is essential when different instrument sets create different estimation samples (different lags -> different missing patterns). Always report first-stage results on the exact sample used for 2SLS. Use `gen sampN = e(sample)` after each specification when samples may differ.
+
+---
+
+## SDID Results Capture via Local Macros (Issue #24)
+
+The `sdid` command (Clarke et al. 2023) stores results in `e(ATT)` and `e(se)`, but these are NOT compatible with `ereturn post` + `estimates store`. The `ereturn post b V` pattern clears the e-class environment and fails with r(301). Instead, capture results immediately into local macros after `sdid` succeeds:
+
+```stata
+* Initialize result locals
+local sdid_att = .
+local sdid_se  = .
+local sdid_ok  = 0
+
+* Run SDID with bootstrap VCE (jackknife fails on staggered treatment, Issue #25)
+cap noisily sdid Y unit time treat, vce(bootstrap) method(sdid) seed(12345) reps(200)
+
+* Capture results IMMEDIATELY after successful run (before any ereturn/estimates command)
+if _rc == 0 {
+    local sdid_att = e(ATT)
+    local sdid_se  = e(se)
+    local sdid_N   = e(N)
+    local sdid_ok  = 1
+}
+
+* Repeat for DID and SC methods
+cap noisily sdid Y unit time treat, vce(bootstrap) method(did) seed(12345) reps(200)
+if _rc == 0 {
+    local did_att = e(ATT)
+    local did_se  = e(se)
+    local did_ok  = 1
+}
+
+* Build LaTeX table from locals (NOT from estimates store)
+file open _tab using "output/tables/tab_sdid.tex", write replace
+file write _tab "\begin{tabular}{lccc}" _n
+file write _tab " & SDID & DID & SC \\\\" _n
+if `sdid_ok' {
+    file write _tab "ATT & " %9.4f (`sdid_att') " & ... \\\\" _n
+}
+file close _tab
+```
+
+**Key rules for SDID:**
+1. Always use `cap noisily` around `sdid` calls
+2. Capture `e(ATT)` and `e(se)` into locals BEFORE any other command
+3. Never use `ereturn post` or `estimates store` after `sdid`
+4. Build tables via `file write` using local macros
+5. Use `vce(bootstrap)` as default; `vce(jackknife)` requires >= 2 treated units per period

@@ -1,0 +1,54 @@
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Difference-in-Differences: Environmental RTA Provisions and Forest Loss}
+\begin{tabular}{l*{5}{c}}
+\toprule
+                    &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}\\
+                    &\multicolumn{1}{c}{TWFE Main}&\multicolumn{1}{c}{Enviro Only}&\multicolumn{1}{c}{RTA Only}&\multicolumn{1}{c}{Event Study}&\multicolumn{1}{c}{ES Enviro}\\
+\midrule
+enviro\_rta          &   -6.06e+03         &   3092.8294         &                     &                     &                     \\
+                    & (8962.5771)         & (7135.6364)         &                     &                     &                     \\
+\addlinespace
+rta                 &    1.55e+04\sym{*}  &                     &    1.35e+04\sym{*}  &                     &                     \\
+                    & (9373.7423)         &                     & (7902.0707)         &                     &                     \\
+\addlinespace
+lead\_1              &                     &                     &                     &    1.48e+04\sym{*}  &                     \\
+                    &                     &                     &                     & (8070.0718)         &                     \\
+\addlinespace
+lag\_1               &                     &                     &                     &    1.82e+04\sym{***}&                     \\
+                    &                     &                     &                     & (6337.6726)         &                     \\
+\addlinespace
+lag\_2               &                     &                     &                     &    1.74e+04\sym{**} &                     \\
+                    &                     &                     &                     & (8278.6104)         &                     \\
+\addlinespace
+lag\_3               &                     &                     &                     &    1.09e+04         &                     \\
+                    &                     &                     &                     & (7140.9297)         &                     \\
+\addlinespace
+lag\_LR              &                     &                     &                     &   -1.63e+03         &                     \\
+                    &                     &                     &                     &  (2.31e+04)         &                     \\
+\addlinespace
+enviro\_lead\_1       &                     &                     &                     &                     &   8953.6592         \\
+                    &                     &                     &                     &                     & (6707.7705)         \\
+\addlinespace
+enviro\_lag\_1        &                     &                     &                     &                     &    1.67e+04\sym{*}  \\
+                    &                     &                     &                     &                     & (8867.7000)         \\
+\addlinespace
+enviro\_lag\_2        &                     &                     &                     &                     &   6522.1126         \\
+                    &                     &                     &                     &                     & (9893.6900)         \\
+\addlinespace
+enviro\_lag\_3        &                     &                     &                     &                     &   -6.14e+03         \\
+                    &                     &                     &                     &                     & (8495.4256)         \\
+\addlinespace
+enviro\_lag\_LR       &                     &                     &                     &                     &    2.89e+04         \\
+                    &                     &                     &                     &                     &  (2.56e+04)         \\
+\addlinespace
+Constant            &    1.43e+05\sym{***}&    1.46e+05\sym{***}&    1.43e+05\sym{***}&    1.31e+05\sym{***}&    1.28e+05\sym{***}\\
+                    & (1931.6179)         &  (801.5303)         & (1984.5893)         &  (2.17e+04)         &  (1.40e+04)         \\
+\midrule
+Observations        &       2,831         &       2,831         &       2,831         &       2,831         &       2,831         \\
+Adj. R-squared      &      0.8923         &      0.8923         &      0.8924         &      0.8926         &      0.8924         \\
+\bottomrule
+\multicolumn{6}{l}{\footnotesize Data: country\\_panel.dta from Abman, Lundberg \& Ruta (jvae023).  All models include country and year fixed effects.  Standard errors clustered at country level in parentheses.}\\
+\multicolumn{6}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<0.05\), \sym{***} \(p<0.01\)}\\
+\end{tabular}
+\end{table}

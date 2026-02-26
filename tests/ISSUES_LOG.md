@@ -236,6 +236,17 @@
 
 ---
 
+## Phase 4-5 Full Replication Issues (2026-02-26)
+
+| # | Script | 错误信息 | 类别 | 根本原因 | 修复方案 | Workflow 改进 |
+|---|--------|----------|------|----------|----------|---------------|
+| 26 | 04_table3_growth.do | **VERIFICATION FAILURE**: Hook reported `r(111)` but Claude claimed clean | PROCESS | Re-ran script (overwriting log), then grepped the new clean log instead of reading the original hook output | Created `stata-error-verification.md` rule: always read hook output first, never re-run before acknowledging errors | New rule: `.claude/rules/stata-error-verification.md` |
+| 27 | 04_table3_growth.do | `r(111)` "estimation result e4_add not found" | TEMPLATE-GAP | 8-lag model needs `vareffects8` program (not implemented) | Excluded 8-lag models from dynamic effects esttab | Document `vareffects8` as TODO in advanced-stata-patterns.md |
+| 28 | 05_table5_channels.do | `r(198)` "FE Inv/cap:dem invalid name" | SYNTAX | `/` in Stata local macro label caused parsing failure | Renamed label to `"InvPC"`, removed backtick locals from `di` | Avoid special characters (`/`, `\`, `'`) in Stata local macro values |
+| 29 | 07_figures.do | `r(111)` "AFR not found" | SYNTAX | `levelsof` returns numeric codes for value-labeled numeric vars; loop used them as string | Replaced per-region loop with `by(region, compact)` panel plot | Always check `describe varname` before assuming string/numeric type |
+
+---
+
 ## 推荐的 Skill 改进项 (更新)
 
 | 优先级 | Skill 文件 | 改进内容 | 来源 |

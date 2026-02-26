@@ -273,6 +273,22 @@ approval prompts for every Stata run.
 
 ---
 
+## Changelog
+
+| Date | Version | Description |
+|------|---------|-------------|
+| 2026-02-25 | v0.1 | Initial commit — 14 skills, 6 agents, CLAUDE.md template, directory conventions |
+| 2026-02-25 | v0.2 | Phase 1 — adversarial QA loop (`/adversarial-review`), quality scorer (`quality_scorer.py`), 6 new skills, README |
+| 2026-02-25 | v0.3 | Phase 2 — 3 lifecycle hooks (session loader, pre-compact save, Stata log check), path-scoped rules, exploration sandbox (`/explore` + `/promote`), session continuity (`/session-log`) |
+| 2026-02-25 | v0.4 | NBER Working Paper and SSRN preprint LaTeX style support |
+| 2026-02-25 | v0.5 | Phase 3 — Socratic research tools (`/interview-me`, `/devils-advocate`), self-extension (`/learn`), constitution governance |
+| 2026-02-25 | v0.6 | 4 new skills (`/run-bootstrap`, `/run-placebo`, `/run-logit-probit`, `/run-lasso`), replication package audit (jvae023, data_programs) |
+| 2026-02-26 | v0.7 | Phase 5 — real-data replication testing across 11 package × skill combinations, 15 issues found and fixed, all 9 `/run-*` skills hardened with defensive programming |
+| 2026-02-26 | v0.8 | Stata auto-approve wrapper (`run-stata.sh` + `permissions.allow`), orchestrator protocol update |
+| 2026-02-26 | v0.9 | Stata error verification rule — enforces reading hook output before re-running, prevents log-overwrite false positives (Issue #26) |
+
+---
+
 ## Credits
 
 - Template architecture inspired by [Pedro H.C. Sant'Anna's claude-code-my-workflow](https://github.com/pedrohcgs/claude-code-my-workflow)

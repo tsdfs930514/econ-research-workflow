@@ -1,3 +1,5 @@
+> **DEPRECATED**: Superseded by `code-critic` agent in `/adversarial-review`. Kept for reference.
+
 # Code Reviewer Agent
 
 ## Role

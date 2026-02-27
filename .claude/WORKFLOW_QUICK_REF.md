@@ -1,6 +1,6 @@
 # Econ Research Workflow - Quick Reference
 
-## Skills Reference (28 skills)
+## Skills Reference (30 skills)
 
 ### Core Analysis
 
@@ -54,6 +54,8 @@
 | `/interview-me` | Bilingual Socratic interview → structured research proposal | New research ideas |
 | `/devils-advocate` | Pre-analysis threat assessment for identification strategy | Before estimation |
 | `/learn` | Create new rules or skills from within a session | Codifying conventions |
+| `/run-pipeline` | Auto-detect methods, orchestrate full skill pipeline | End-to-end automation |
+| `/synthesis-report` | Collect outputs into structured synthesis report (MD + LaTeX) | After scoring |
 
 ### Reference Resources
 
@@ -69,14 +71,14 @@ This is a non-user-invocable reference file (no slash command). It is consulted 
 
 ### Legacy Reviewers
 
-| Agent | Role |
-|-------|------|
-| `econometrics-reviewer` | Checks identification strategy and estimation |
-| `code-reviewer` | Reviews Stata/Python code quality |
-| `paper-reviewer` | Simulates journal referee |
-| `tables-reviewer` | Checks table formatting and compliance |
-| `robustness-checker` | Suggests missing robustness tests |
-| `cross-checker` | Compares Stata vs Python results |
+| Agent | Role | Status |
+|-------|------|--------|
+| `econometrics-reviewer` | Checks identification strategy and estimation | **DEPRECATED** (use `econometrics-critic`) |
+| `code-reviewer` | Reviews Stata/Python code quality | **DEPRECATED** (use `code-critic`) |
+| `paper-reviewer` | Simulates journal referee | Active — wired into `/review-paper` |
+| `tables-reviewer` | Checks table formatting and compliance | **DEPRECATED** (use `tables-critic`) |
+| `robustness-checker` | Suggests missing robustness tests | Active — wired into `/robustness` |
+| `cross-checker` | Compares Stata vs Python results | Active — wired into `/cross-check` |
 
 ### Adversarial Critic-Fixer Pairs
 
@@ -101,7 +103,12 @@ Critics are read-only and cannot edit files. Fixers have full access but cannot 
 ```
 /init-project → /data-describe → /run-{method} → /cross-check → /robustness
   → /make-table → /write-section → /review-paper → /adversarial-review
-  → /score → /compile-latex → /commit
+  → /score → /synthesis-report → /compile-latex → /commit
+```
+
+### Automated Pipeline (single command)
+```
+/run-pipeline  →  auto-detects method  →  runs full sequence  →  /synthesis-report
 ```
 
 ### Quick Regression Check
@@ -139,7 +146,7 @@ Critics are read-only and cannot edit files. Fixers have full access but cannot 
 
 ### Orchestrator Protocol
 
-Non-trivial tasks follow: **Spec → Plan → Implement → Verify → Review → Fix → Score**
+Non-trivial tasks follow: **Spec → Plan → Implement → Verify → Review → Fix → Score → Report**
 
 Phase 0 (Spec) triggers when task affects >= 3 files, changes identification strategy, creates skills/rules/agents, or modifies the protocol. Written once per task — the review loop restarts at Plan.
 

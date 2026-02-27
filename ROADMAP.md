@@ -230,6 +230,65 @@ Added `stata-error-verification.md` as a new always-on rule (Issue #26). Enforce
 
 ---
 
+## Phase 6 — Workflow Completion: Pipeline Orchestration, Agent Rewiring, Synthesis Report (Implemented)
+
+**Status**: Implemented (2026-02-27)
+
+### Pipeline Orchestration
+
+- `/run-pipeline` skill — auto-detects econometric method(s) from research plan text, `research_proposal.md`, or paper PDF, generates an ordered skill execution plan, and runs it end-to-end
+  - Supports `--quick` (skip confirmation) and `--replication <paper.pdf>` (extract methods from published paper) flags
+  - Method detection: DID, IV, RDD, Panel, SDID, Bootstrap, Placebo, Logit-Probit, LASSO
+  - Multi-method support: primary analysis + robustness alternatives
+  - Error handling: pauses on Stata `r(xxx)` errors, offers fix/skip/abort
+  - Automatic `/synthesis-report` at the end
+
+### Synthesis Report
+
+- `/synthesis-report` skill — collects all analysis outputs (logs, tables, figures, scores, cross-validation) into a structured comprehensive report
+  - Outputs: `docs/ANALYSIS_SUMMARY.md` (Markdown) + `docs/ANALYSIS_SUMMARY.tex` (LaTeX)
+  - 10-section structure: Executive Summary, Data & Sample, Main Results, Identification Diagnostics, Robustness Summary, Cross-Validation, Quality Assessment, Remaining Issues, Replication Checklist, File Manifest
+  - Updates REPLICATION.md Output-to-Table Mapping
+
+### Legacy Agent Rewiring
+
+3 legacy agents wired into active skills:
+
+| Agent | Wired Into | Role |
+|-------|-----------|------|
+| `paper-reviewer` | `/review-paper` | Executes 3 reviewer personas via Task tool |
+| `robustness-checker` | `/robustness` | Identifies missing robustness checks before .do generation |
+| `cross-checker` | `/cross-check` | Independent diagnosis of Stata vs Python discrepancies |
+
+3 legacy agents deprecated (superseded by adversarial critic-fixer pairs):
+
+| Agent | Superseded By |
+|-------|--------------|
+| `code-reviewer` | `code-critic` |
+| `econometrics-reviewer` | `econometrics-critic` |
+| `tables-reviewer` | `tables-critic` |
+
+### Orchestrator Protocol Update
+
+- Added **Phase 7: Report** after Phase 6 (Score)
+- Workflow: Spec → Plan → Implement → Verify → Review → Fix → Score → Report
+- Exit criterion: `ANALYSIS_SUMMARY.md` exists and is complete
+
+### Score Persistence
+
+- `/score` now generates `docs/QUALITY_SCORE.md` with full dimension breakdown
+- Enables `/synthesis-report` to read scores directly without re-running the scorer
+
+### Files Changed
+
+- 2 new skills: `synthesis-report.md`, `run-pipeline.md`
+- 4 modified skills: `score.md`, `review-paper.md`, `robustness.md`, `cross-check.md`
+- 3 deprecated agents: `code-reviewer.md`, `econometrics-reviewer.md`, `tables-reviewer.md`
+- 1 modified rule: `orchestrator-protocol.md`
+- 4 updated docs: `README.md`, `CLAUDE.md`, `ROADMAP.md`, `WORKFLOW_QUICK_REF.md`
+
+---
+
 ## Timeline
 
 | Phase | Target | Depends On |
@@ -239,3 +298,4 @@ Added `stata-error-verification.md` as a new always-on rule (Issue #26). Enforce
 | Phase 3 | Done | Phase 2 hooks working reliably |
 | Phase 4 | Done | Phase 3 complete; replication packages available |
 | Phase 5 | Done | Phase 4 complete; real replication data available |
+| Phase 6 | Done | Phase 5 complete; workflow structure stable |

@@ -1,3 +1,5 @@
+> **DEPRECATED**: Superseded by `tables-critic` agent in `/adversarial-review`. Kept for reference.
+
 # Tables Reviewer Agent
 
 ## Role

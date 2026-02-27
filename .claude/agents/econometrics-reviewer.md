@@ -1,3 +1,5 @@
+> **DEPRECATED**: Superseded by `econometrics-critic` agent in `/adversarial-review`. Kept for reference.
+
 # Econometrics Reviewer Agent
 
 ## Role

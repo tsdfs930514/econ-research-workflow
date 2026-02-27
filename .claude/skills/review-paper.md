@@ -20,6 +20,8 @@ Before starting, ask the user for:
 
 ### Standard Mode: Three Independent Reviewers
 
+Use the Task tool to invoke the `paper-reviewer` agent for each of the 3 reviewer roles below. Each invocation should specify the reviewer persona (Supportive, Balanced, or Critical), the paper content, and the target journal. The agent returns a structured referee report.
+
 Simulate **3 independent reviewers** with distinct evaluation styles:
 
 #### Reviewer 1 — The Supportive Reviewer

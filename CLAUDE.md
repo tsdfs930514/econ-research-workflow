@@ -155,6 +155,8 @@ All scripts use a numbered prefix to indicate execution order.
 | `/run-placebo` | Run placebo tests & randomization inference pipeline (timing, outcome, instrument, permutation) |
 | `/run-logit-probit` | Run logit/probit, propensity score, treatment effects (RA/IPW/AIPW), and conditional logit pipeline |
 | `/run-lasso` | Run LASSO, post-double-selection, and regularized regression pipeline for variable selection and causal inference |
+| `/run-pipeline` | Auto-detect methods from research plan and orchestrate full skill pipeline end-to-end |
+| `/synthesis-report` | Collect all analysis outputs and generate structured synthesis report (Markdown + LaTeX) |
 
 ---
 

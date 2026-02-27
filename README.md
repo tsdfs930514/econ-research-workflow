@@ -8,7 +8,7 @@ Inspired by [pedrohcgs/claude-code-my-workflow](https://github.com/pedrohcgs/cla
 
 ## Features
 
-- **28 skills** — slash-command workflows covering the full research lifecycle (data cleaning, DID/IV/RDD/Panel/SDID/Bootstrap/Placebo/Logit-Probit/LASSO estimation, cross-validation, tables, paper writing, review, exploration sandbox, session continuity, Socratic research tools, and self-extension)
+- **30 skills** — slash-command workflows covering the full research lifecycle (data cleaning, DID/IV/RDD/Panel/SDID/Bootstrap/Placebo/Logit-Probit/LASSO estimation, cross-validation, tables, paper writing, review, pipeline orchestration, synthesis reporting, exploration sandbox, session continuity, Socratic research tools, and self-extension)
 - **12 agents** — specialized reviewers plus 3 adversarial critic-fixer pairs (code, econometrics, tables) enforcing separation of concerns
 - **7 rules** — 4 path-scoped coding/econometrics conventions + 3 always-on (constitution, orchestrator protocol, Stata error verification)
 - **3 lifecycle hooks** — automatic session context loading, pre-compaction memory save, and post-Stata error detection
@@ -66,6 +66,8 @@ Inspired by [pedrohcgs/claude-code-my-workflow](https://github.com/pedrohcgs/cla
 | `/interview-me` | Research ideation | Bilingual Socratic interview to formalize research ideas into structured proposals |
 | `/devils-advocate` | Strategy challenge | Pre-analysis threat assessment for identification strategy (threats, alternatives, falsification) |
 | `/learn` | Self-extension | Create new rules or skills from within a session, with constitution guard |
+| `/run-pipeline` | Orchestrate pipeline | Auto-detect methods from research plan and run full skill sequence end-to-end |
+| `/synthesis-report` | Generate report | Collect all outputs into structured synthesis report (Markdown + LaTeX) |
 
 ---
 
@@ -73,9 +75,9 @@ Inspired by [pedrohcgs/claude-code-my-workflow](https://github.com/pedrohcgs/cla
 
 | Agent | Role | Tools |
 |-------|------|-------|
-| `code-reviewer` | Code quality evaluation (correctness, reproducibility, style) | Read-only |
-| `econometrics-reviewer` | Identification strategy and estimation review | Read-only |
-| `tables-reviewer` | Table formatting and content accuracy review | Read-only |
+| `code-reviewer` | ~~Code quality evaluation~~ **(DEPRECATED — use `code-critic`)** | Read-only |
+| `econometrics-reviewer` | ~~Identification strategy review~~ **(DEPRECATED — use `econometrics-critic`)** | Read-only |
+| `tables-reviewer` | ~~Table formatting review~~ **(DEPRECATED — use `tables-critic`)** | Read-only |
 | `robustness-checker` | Missing robustness checks and sensitivity analysis | Read-only |
 | `paper-reviewer` | Full paper review simulating peer referees | Read-only |
 | `cross-checker` | Stata vs Python cross-validation | Read + Bash |
@@ -95,7 +97,13 @@ Inspired by [pedrohcgs/claude-code-my-workflow](https://github.com/pedrohcgs/cla
 ```
 /init-project → /data-describe → /run-did → /cross-check → /robustness
     → /make-table → /write-section → /review-paper → /adversarial-review
-    → /score → /compile-latex → /commit
+    → /score → /synthesis-report → /compile-latex → /commit
+```
+
+### Automated Pipeline (single command)
+
+```
+/run-pipeline  →  auto-detects method  →  runs full sequence  →  /synthesis-report
 ```
 
 ### Quick Check (single regression)
@@ -130,7 +138,7 @@ econ-research-workflow/
 │   ├── scripts/          # Auto-approved wrapper scripts (run-stata.sh)
 │   ├── rules/            # Coding conventions, econometrics standards (4 path-scoped + 3 always-on incl. constitution)
 │   ├── settings.json     # Hook + permission configuration
-│   └── skills/           # 28 slash-command skills + 1 reference guide
+│   └── skills/           # 30 slash-command skills + 1 reference guide
 ├── scripts/
 │   └── quality_scorer.py # Executable 6-dimension quality scorer
 ├── tests/                # Test cases (DID, RDD, IV, Panel, Full Pipeline)
@@ -298,6 +306,7 @@ approval prompts for every Stata run.
 | 2026-02-26 | 07:51 | v0.8 | Stata auto-approve wrapper (`run-stata.sh` + `permissions.allow`), orchestrator protocol update |
 | 2026-02-26 | 15:24 | v0.9 | Stata error verification rule — enforces reading hook output before re-running, prevents log-overwrite false positives (Issue #26) |
 | 2026-02-26 | 15:55 | v0.10 | Consistency audit — fixed 31 issues across docs, regex, YAML frontmatter, cross-references, and feature descriptions |
+| 2026-02-27 | — | v0.11 | Phase 6 — Pipeline orchestration (`/run-pipeline`), synthesis report (`/synthesis-report`), legacy agent rewiring, orchestrator Phase 7 (Report), score persistence |
 
 ---
 

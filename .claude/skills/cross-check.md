@@ -181,7 +181,15 @@ rel_diff = |val_a - val_b| / max(|val_a|, |val_b|) * 100
 
 For values very close to zero (< 1e-6), use absolute difference instead.
 
-## Step 6: Diagnose Discrepancies
+## Step 6: Diagnose Discrepancies via Agent
+
+If any comparison FAILS, use the Task tool to invoke the `cross-checker` agent for independent diagnosis. Provide it with:
+- The Stata log file path and parsed statistics
+- The Python output file path and parsed statistics
+- The comparison table from Step 5 showing FAIL items
+- The SE type, FE specification, and clustering used in both platforms
+
+The agent will return a detailed diagnosis of each discrepancy with specific root causes and recommended fixes. Incorporate its findings into the diagnostic guidance below.
 
 If any comparison FAILS, provide diagnostic guidance:
 

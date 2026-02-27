@@ -1,6 +1,6 @@
 # Orchestrator Protocol: Contractor Mode
 
-All non-trivial tasks follow the **Spec - Plan - Implement - Verify - Review - Fix - Score** cycle, with a maximum of 5 rounds through the Plan–Score loop.
+All non-trivial tasks follow the **Spec - Plan - Implement - Verify - Review - Fix - Score - Report** cycle, with a maximum of 5 rounds through the Plan–Score loop.
 
 ## "Just Do It" Mode
 
@@ -142,6 +142,19 @@ Calculate the final quality score as the average of all reviewer scores.
 
 ---
 
+## Phase 7: Report
+
+After scoring (Phase 6), generate a synthesis report:
+
+1. Run `/synthesis-report` to collect all outputs into `docs/ANALYSIS_SUMMARY.md`
+2. Generate LaTeX version (`docs/ANALYSIS_SUMMARY.tex`) for compilation
+3. Update REPLICATION.md with actual data, scripts, and output mapping
+4. Log final score and status to MEMORY.md
+
+**Exit criterion**: `ANALYSIS_SUMMARY.md` exists and is complete.
+
+---
+
 ## Loop Control
 
 - **Maximum iterations**: 5 rounds through the cycle.
@@ -154,11 +167,11 @@ Calculate the final quality score as the average of all reviewer scores.
 ## Workflow Diagram
 
 ```
-Spec --> Plan --> Implement --> Verify --> Review --> Fix --> Score
-           ^                                                   |
-           |                                                   |
-           +---------------------------------------------------+
+Spec --> Plan --> Implement --> Verify --> Review --> Fix --> Score --> Report
+           ^                                                  |
+           |                                                  |
+           +--------------------------------------------------+
                          (if score < 95, loop)
 ```
 
-Spec is executed once per task. The loop restarts at Plan (not Spec). After 5 iterations or upon reaching score >= 95, the task is complete.
+Spec is executed once per task. The loop restarts at Plan (not Spec). After 5 iterations or upon reaching score >= 95, the cycle proceeds to Report (Phase 7) and the task is complete.

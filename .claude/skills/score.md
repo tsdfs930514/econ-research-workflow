@@ -70,7 +70,30 @@ Generate a prioritized fix list from the scorer output:
 - **Method Diagnostics = 0**: Suggest running the relevant `/run-*` skill to add diagnostics
 - **Documentation = 0**: Suggest creating REPLICATION.md and _VERSION_INFO.md
 
-## Step 5: Record Score
+## Step 5: Persist Score to docs/QUALITY_SCORE.md
+
+Generate (or overwrite) `docs/QUALITY_SCORE.md` with the full score breakdown so that `/synthesis-report` and other skills can read it directly:
+
+```markdown
+# Quality Score — vN/
+Generated: YYYY-MM-DD HH:MM
+
+| Dimension | Score | Max | Details |
+|-----------|-------|-----|---------|
+| Code Conventions | XX | 15 | [specific checks passed/failed] |
+| Log Cleanliness | XX | 15 | [specific checks passed/failed] |
+| Output Completeness | XX | 15 | [specific checks passed/failed] |
+| Cross-Validation | XX | 15 | [specific checks passed/failed] |
+| Documentation | XX | 15 | [specific checks passed/failed] |
+| Method Diagnostics | XX | 25 | [specific checks passed/failed] |
+| **TOTAL** | **XX** | **100** | |
+
+Status: [Publication Ready / Minor Revisions / Major Revisions / Redo]
+```
+
+Ensure the `docs/` directory exists before writing (create it if needed).
+
+## Step 6: Record Score to MEMORY.md
 
 If MEMORY.md exists, append a line:
 

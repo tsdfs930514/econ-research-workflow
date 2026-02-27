@@ -28,6 +28,15 @@ Ask the user for:
    - Panel: Entity and time variables, lag structure
 6. **Number of clusters** (important) - Needed to decide whether wild cluster bootstrap is required
 
+## Step 1b: Identify Missing Robustness Checks via Agent
+
+After gathering information (Step 1), use the Task tool to invoke the `robustness-checker` agent. Provide it with:
+- The baseline specification from Step 1
+- The method type (DID / IV / RDD / Panel / OLS)
+- Any robustness checks the user has already performed
+
+The agent will return a prioritized list of missing robustness checks (High / Medium / Low priority). Merge its suggestions into the test suite generated in Step 2 — add any High-priority checks the template does not already cover.
+
 ## Step 2: Generate Stata .do File — Universal Robustness Checks
 
 Create a comprehensive Stata .do file (e.g., `code/stata/XX_robustness.do`) with the following sections.

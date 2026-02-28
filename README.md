@@ -8,7 +8,7 @@ Inspired by [pedrohcgs/claude-code-my-workflow](https://github.com/pedrohcgs/cla
 
 ## Features
 
-- **30 skills** — slash-command workflows covering the full research lifecycle (data cleaning, DID/IV/RDD/Panel/SDID/Bootstrap/Placebo/Logit-Probit/LASSO estimation, cross-validation, tables, paper writing, review, pipeline orchestration, synthesis reporting, exploration sandbox, session continuity, Socratic research tools, and self-extension)
+- **34 skills** — slash-command workflows covering the full research lifecycle (data cleaning, DID/IV/RDD/Panel/SDID/Bootstrap/Placebo/Logit-Probit/LASSO estimation, cross-validation, tables, paper writing, translation, polishing, de-AI rewriting, logic checking, review, pipeline orchestration, synthesis reporting, exploration sandbox, session continuity, Socratic research tools, and self-extension)
 - **12 agents** — specialized reviewers plus 3 adversarial critic-fixer pairs (code, econometrics, tables) enforcing separation of concerns
 - **7 rules** — 4 path-scoped coding/econometrics conventions + 3 always-on (constitution, orchestrator protocol, Stata error verification)
 - **3 lifecycle hooks** — automatic session context loading, pre-compaction memory save, and post-Stata error detection
@@ -68,6 +68,10 @@ Inspired by [pedrohcgs/claude-code-my-workflow](https://github.com/pedrohcgs/cla
 | `/learn` | Self-extension | Create new rules or skills from within a session, with constitution guard |
 | `/run-pipeline` | Orchestrate pipeline | Auto-detect methods from research plan and run full skill sequence end-to-end |
 | `/synthesis-report` | Generate report | Collect all outputs into structured synthesis report (Markdown + LaTeX) |
+| `/translate` | Translate paper | Translate academic papers between Chinese and English with journal-specific conventions |
+| `/polish` | Polish paper | English/Chinese polish, refinement, condensing, and expanding (5 sub-modes) |
+| `/de-ai` | Remove AI patterns | Detect and remove AI-generated writing patterns for natural academic prose |
+| `/logic-check` | Logic check | Final-pass red-line check — catches only critical errors, not style preferences |
 
 ---
 
@@ -120,6 +124,14 @@ Supported methods: `did`, `iv`, `rdd`, `panel`, `sdid`, `bootstrap`, `placebo`, 
 /interview-me → /devils-advocate → /data-describe → /run-{method}
 ```
 
+### Paper Writing & Editing
+
+```
+/write-section → /polish → /de-ai → /logic-check → /compile-latex
+```
+
+For translation: `/translate` (CN→EN or EN→CN with journal-specific conventions)
+
 ### Revision Response
 
 ```
@@ -138,7 +150,7 @@ econ-research-workflow/
 │   ├── scripts/          # Auto-approved wrapper scripts (run-stata.sh)
 │   ├── rules/            # Coding conventions, econometrics standards (4 path-scoped + 3 always-on incl. constitution)
 │   ├── settings.json     # Hook + permission configuration
-│   └── skills/           # 30 slash-command skills + 1 reference guide
+│   └── skills/           # 34 slash-command skills + 1 reference guide
 ├── scripts/
 │   └── quality_scorer.py # Executable 6-dimension quality scorer
 ├── tests/                # Test cases (DID, RDD, IV, Panel, Full Pipeline)

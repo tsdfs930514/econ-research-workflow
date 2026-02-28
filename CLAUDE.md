@@ -157,6 +157,10 @@ All scripts use a numbered prefix to indicate execution order.
 | `/run-lasso` | Run LASSO, post-double-selection, and regularized regression pipeline for variable selection and causal inference |
 | `/run-pipeline` | Auto-detect methods from research plan and orchestrate full skill pipeline end-to-end |
 | `/synthesis-report` | Collect all analysis outputs and generate structured synthesis report (Markdown + LaTeX) |
+| `/translate` | Translate academic economics papers between Chinese and English with journal-specific conventions |
+| `/polish` | Polish academic papers — English/Chinese polish, refinement, condensing, and expanding (5 sub-modes) |
+| `/de-ai` | Detect and remove AI-generated writing patterns to produce natural, human-like academic prose |
+| `/logic-check` | Final-pass logic check for paper drafts — catches only critical errors, not style preferences |
 
 ---
 

@@ -95,6 +95,7 @@ Ask the following (one at a time):
 
 ```markdown
 ---
+description: "{one-line description}"
 user_invocable: true
 ---
 

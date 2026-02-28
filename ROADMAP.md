@@ -289,6 +289,52 @@ Added `stata-error-verification.md` as a new always-on rule (Issue #26). Enforce
 
 ---
 
+## Phase 7 — Writing Tools & Skill Audit (Implemented)
+
+**Status**: Implemented (2026-02-27 to 2026-02-28)
+
+### Writing Tools (v0.12)
+
+4 new writing skills added to complete the paper-writing pipeline:
+
+| Skill | Scope |
+|-------|-------|
+| `/translate` | Chinese↔English academic translation with terminology tables and journal style matching |
+| `/polish` | 5 sub-modes: English polish, Chinese polish, refine (structural rewrite), condense, expand |
+| `/de-ai` | AI writing pattern detection and elimination with lexical/structural/semantic analysis |
+| `/logic-check` | Final-pass red-line audit for critical logic errors only (not style preferences) |
+
+### Skill Audit (v0.13)
+
+All 34 skills audited against skill-creator best practices. 8 skills updated:
+
+**Part A — Writing skills (major changes):**
+
+| Skill | Changes |
+|-------|---------|
+| `/translate` | Removed 2 persona statements; reordered steps (terminology before modes); tightened self-review to checklist; added paper-convention note |
+| `/polish` | Removed 5 persona statements; added mode selection guide table; clarified `refine` scope; added purpose comments on translation sections |
+| `/de-ai` | Removed 1 persona statement; added false-positive guidance; added context-sensitivity caveat; added CN "clean" output template |
+| `/logic-check` | Added concrete examples to ambiguity section; clarified significance borderline cases; clarified sample size matching |
+
+**Part B — Existing skills (description improvements):**
+
+| Skill | Change |
+|-------|--------|
+| `/explore` | Description updated with trigger context (hypothesis testing, alternative specs) |
+| `/promote` | Description updated with sandbox-to-pipeline context |
+| `/learn` | Added missing `description:` field to generated skill template |
+| `/robustness` | Description updated with specific test types |
+
+26 skills audited and confirmed Grade A — no changes needed.
+
+### Files Changed
+
+- 8 skill files updated: `translate.md`, `polish.md`, `de-ai.md`, `logic-check.md`, `explore.md`, `promote.md`, `learn.md`, `robustness.md`
+- 4 documentation files updated: `README.md`, `CLAUDE.md`, `ROADMAP.md`, `MEMORY.md`
+
+---
+
 ## Timeline
 
 | Phase | Target | Depends On |
@@ -299,3 +345,4 @@ Added `stata-error-verification.md` as a new always-on rule (Issue #26). Enforce
 | Phase 4 | Done | Phase 3 complete; replication packages available |
 | Phase 5 | Done | Phase 4 complete; real replication data available |
 | Phase 6 | Done | Phase 5 complete; workflow structure stable |
+| Phase 7 | Done | Phase 6 complete; writing tools added and audited |

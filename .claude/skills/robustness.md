@@ -1,5 +1,5 @@
 ---
-description: "Run a comprehensive robustness test suite for regression results"
+description: "Run robustness test suite for baseline regression results — alternative specs, subsamples, clustering, Oster bounds, wild bootstrap"
 user_invocable: true
 ---
 

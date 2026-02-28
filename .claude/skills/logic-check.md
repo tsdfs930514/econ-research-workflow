@@ -54,6 +54,10 @@ Only flag language issues that cause genuine ambiguity or misunderstanding:
 - Double negatives that obscure the intended point
 - NOT: minor grammar issues, typos, or style preferences
 
+**Examples:**
+- `"The increase in treatment leads to higher outcomes through reduced costs"` — ambiguous: does treatment increase outcomes, or do reduced costs?
+- `"We find no evidence against the null hypothesis of no effect"` — double negative obscures meaning
+
 ### 3.4 Economics-Specific Checks
 
 **Variable name / table number consistency:**
@@ -65,6 +69,7 @@ Only flag language issues that cause genuine ambiguity or misunderstanding:
 - Text says "significant at the 1% level" but table shows ** (5%) → flag
 - Text says "insignificant" but table shows *** → flag
 - Sign of coefficients described in text matches tables
+- Ambiguous language like "marginally significant" or "suggestive evidence" is acceptable if the table shows p-values. Only flag when text explicitly states a significance level that contradicts the table.
 
 **Causal language appropriateness:**
 - Causal language ("X causes Y", "the effect of X on Y") when the method only supports correlation → flag
@@ -75,6 +80,7 @@ Only flag language issues that cause genuine ambiguity or misunderstanding:
 - N (observations) mentioned in text matches table headers
 - Sample period mentioned in text matches data description
 - Subgroup descriptions are consistent between text and tables
+- Variation in N across tables is expected (different subsamples). Only flag when N for the same specification is inconsistent between text and table.
 
 ## Step 4: Output
 

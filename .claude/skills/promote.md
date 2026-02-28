@@ -1,5 +1,5 @@
 ---
-description: "Graduate exploratory files to main pipeline with quality check"
+description: "Graduate exploratory files from explore/ sandbox to main vN/ pipeline with renumbering and quality check"
 user_invocable: true
 ---
 

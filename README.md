@@ -94,7 +94,7 @@ Place raw data in `v1/data/raw/`, then run your analysis:
 | `/run-rdd` | RDD analysis | Complete RDD pipeline with bandwidth sensitivity, density test, placebo cutoffs |
 | `/run-panel` | Panel analysis | Panel FE/RE/GMM pipeline with Hausman, serial correlation, CD tests |
 | `/cross-check` | Validate results | Cross-validate Stata vs Python/R regression results (target: < 0.1% coefficient diff) |
-| `/robustness` | Robustness tests | Comprehensive robustness test suite for regression results |
+| `/robustness` | Robustness tests | Robustness test suite for baseline regression results — alternative specs, subsamples, clustering, Oster bounds, wild bootstrap |
 | `/make-table` | Format tables | Generate publication-quality LaTeX regression tables (AER or 三线表 style) |
 | `/write-section` | Draft paper | Write a paper section in Chinese or English following journal conventions |
 | `/review-paper` | Simulate review | Three simulated peer reviewers with structured feedback; optional APE-style multi-round deep review |
@@ -109,8 +109,8 @@ Place raw data in `v1/data/raw/`, then run your analysis:
 | `/run-placebo` | Placebo tests | Timing, outcome, instrument, and permutation placebo test pipelines |
 | `/run-logit-probit` | Logit/Probit analysis | Logit/probit, propensity score, treatment effects (RA/IPW/AIPW), conditional logit |
 | `/run-lasso` | LASSO/regularization | LASSO, post-double-selection, rigorous LASSO, R `glmnet` matching pipeline |
-| `/explore` | Exploration sandbox | Set up `explore/` directory with relaxed quality thresholds (>= 60) |
-| `/promote` | Promote results | Graduate exploratory files to main `vN/` pipeline with quality check |
+| `/explore` | Exploration sandbox | Set up `explore/` directory with relaxed quality thresholds (>= 60) for quick hypothesis testing and alternative specifications |
+| `/promote` | Promote results | Graduate exploratory files from `explore/` sandbox to main `vN/` pipeline with renumbering and quality check |
 | `/session-log` | Session continuity | Start/end sessions with MEMORY.md context loading and recording |
 | `/interview-me` | Research ideation | Bilingual Socratic interview to formalize research ideas into structured proposals |
 | `/devils-advocate` | Strategy challenge | Pre-analysis threat assessment for identification strategy (threats, alternatives, falsification) |
@@ -205,7 +205,7 @@ econ-research-workflow/
 ├── tests/                # Test cases (DID, RDD, IV, Panel, Full Pipeline)
 ├── CLAUDE.md             # Project configuration (fill in placeholders)
 ├── MEMORY.md             # Cross-session learning and decision log
-├── ROADMAP.md            # Phase 1-5 implementation history
+├── ROADMAP.md            # Phase 1-7 implementation history
 └── README.md             # This file
 ```
 
@@ -254,7 +254,7 @@ Non-trivial tasks follow a **spec-then-plan** protocol (Phase 0 in the orchestra
 
 ## Roadmap
 
-See [ROADMAP.md](ROADMAP.md) for the full Phase 1-5 implementation history.
+See [ROADMAP.md](ROADMAP.md) for the full Phase 1-7 implementation history.
 
 ### Hooks
 
@@ -299,6 +299,8 @@ approval prompts for every Stata run.
 | 2026-02-26 | 15:24 | v0.9 | Stata error verification rule — enforces reading hook output before re-running, prevents log-overwrite false positives (Issue #26) |
 | 2026-02-26 | 15:55 | v0.10 | Consistency audit — fixed 31 issues across docs, regex, YAML frontmatter, cross-references, and feature descriptions |
 | 2026-02-27 | — | v0.11 | Phase 6 — Pipeline orchestration (`/run-pipeline`), synthesis report (`/synthesis-report`), legacy agent rewiring, orchestrator Phase 7 (Report), score persistence |
+| 2026-02-27 | — | v0.12 | Writing tools — 4 new writing skills (`/translate`, `/polish`, `/de-ai`, `/logic-check`) |
+| 2026-02-28 | — | v0.13 | Skill audit — 8 skills updated per skill-creator best practices: removed persona statements, added mode guides, false-positive caveats, improved descriptions |
 
 ---
 

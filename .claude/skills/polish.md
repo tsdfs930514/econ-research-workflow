@@ -21,11 +21,21 @@ Ask the user for:
 3. **Format** (optional) — `LaTeX` (default) or `Word`
 4. **Text to process** (required) — the source text
 
+**Mode selection guide:**
+
+| Mode | When to use |
+|---|---|
+| `english` | English text needing grammar/style improvement |
+| `chinese` | Chinese text with minor style issues |
+| `refine` | Rough Chinese draft needing structural rewrite |
+| `condense` | Reduce length by ~5-15 words |
+| `expand` | Increase length by ~5-15 words |
+
 ## Step 2: Mode-Specific Processing
 
 ### Mode: `english` — English Paper Deep Polish
 
-You are a senior editor at a leading economics journal with native-level English proficiency.
+**Approach:** Apply the standards of a senior editor for top economics journals with native-level English.
 
 **Principles:**
 - Sentence structure optimization — vary sentence length, improve flow
@@ -45,6 +55,7 @@ You are a senior editor at a leading economics journal with native-level English
 
 [Polished English text]
 
+<!-- Chinese translation helps the author verify meaning preservation -->
 ### Part 2: Literal Translation [中文直译]
 
 [Chinese literal translation — helps author verify meaning is preserved]
@@ -61,7 +72,7 @@ You are a senior editor at a leading economics journal with native-level English
 
 ### Mode: `chinese` — Chinese Paper Polish
 
-You are a senior editor for 经济研究/管理世界 with deep expertise in academic Chinese writing.
+**Approach:** Apply editorial standards of 经济研究/管理世界 for academic Chinese writing.
 
 **Core Principle: "Respect the original, exercise restraint" (尊重原著，克制修改)**
 
@@ -94,11 +105,10 @@ If a passage is already well-written, leave it unchanged and note this.
 
 ### Mode: `refine` — Chinese Draft Refinement (中转中)
 
-You are an experienced economics researcher who excels at turning rough notes and oral-style writing into polished academic prose.
+**Approach:** Restructure rough notes into polished academic Chinese, as an experienced researcher would.
 
 **Principles:**
-- This is NOT line-by-line polishing — it is structural rewriting
-- Reconstruct fragmented, colloquial, or stream-of-consciousness text into proper academic paragraphs
+- Reconstruct fragmented or stream-of-consciousness text into proper academic paragraph structure. May reorganize paragraphs and upgrade vocabulary, but preserve all substantive arguments.
 - "One paragraph, one point" principle (一段一观点)
 - Reorganize logic: group related ideas, build clear argument chains
 - Upgrade vocabulary from colloquial to academic
@@ -123,7 +133,7 @@ You are an experienced economics researcher who excels at turning rough notes an
 
 ### Mode: `condense` — Minor Condensing
 
-You are a copyeditor skilled at tightening academic prose without losing content.
+**Approach:** Compress text without information loss.
 
 **Target:** Reduce by approximately 5-15 words (for a typical paragraph).
 
@@ -145,6 +155,7 @@ You are a copyeditor skilled at tightening academic prose without losing content
 
 [Condensed text]
 
+<!-- Chinese translation helps the author verify meaning preservation -->
 ### Part 2: Literal Translation [中文直译]
 
 [Chinese translation of condensed text]
@@ -160,7 +171,7 @@ You are a copyeditor skilled at tightening academic prose without losing content
 
 ### Mode: `expand` — Minor Expanding
 
-You are an academic writer skilled at making implicit ideas explicit for clarity.
+**Approach:** Make implicit reasoning explicit to improve clarity.
 
 **Target:** Add approximately 5-15 words (for a typical paragraph).
 
@@ -182,6 +193,7 @@ You are an academic writer skilled at making implicit ideas explicit for clarity
 
 [Expanded text]
 
+<!-- Chinese translation helps the author verify meaning preservation -->
 ### Part 2: Literal Translation [中文直译]
 
 [Chinese translation of expanded text]

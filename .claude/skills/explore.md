@@ -1,5 +1,5 @@
 ---
-description: "Set up exploration sandbox with relaxed quality thresholds"
+description: "Set up exploration sandbox with relaxed quality thresholds for quick hypothesis testing and alternative specifications"
 user_invocable: true
 ---
 

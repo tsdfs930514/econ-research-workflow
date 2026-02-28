@@ -17,7 +17,9 @@ Ask the user for:
 
 ## Step 2: AI Signature Detection
 
-You are a senior reviewer for AER/QJE/JPE who has read thousands of human-written and AI-generated papers. Your task is to detect and eliminate telltale AI writing patterns.
+**Approach:** Analyze text from the perspective of a skeptical journal reviewer experienced with both human-written and AI-generated manuscripts. The goal is to detect and eliminate telltale AI writing patterns.
+
+**Note:** These patterns are heuristic. A phrase appearing once in natural context is likely legitimate. Focus on repeated patterns or clusters of AI signatures.
 
 ### 2.1 Lexical Patterns (Word-Level)
 
@@ -53,6 +55,8 @@ Supplementary blacklist:
 - plays a crucial role, is of paramount importance
 - First and foremost, Last but not least
 - This serves as a reminder, This is a testament to
+
+**Context matters:** Some blacklisted words have legitimate uses in economics (e.g., "leverage" in "leverage a natural experiment", "robust" in "robust standard errors"). Flag only when used imprecisely, as filler, or in clusters. A single legitimate use in context is not an AI signal.
 
 ### 2.2 Structural Patterns
 
@@ -161,6 +165,17 @@ Detection passed — no significant AI patterns found. The text reads naturally.
 | # | 检测到的 AI 模式 | 原文 | 修改后 | 类别 |
 |---|---|---|---|---|
 | 1 | [模式名称] | [原文片段] | [修改后片段] | 词汇/结构/语气 |
+```
+
+If no significant AI patterns are found:
+```
+### Part 1: 原文保留
+
+[原文不变]
+
+### Part 2: 检测结果
+
+检测通过——未发现显著 AI 痕迹。文本读起来像人工撰写。
 ```
 
 **Chinese-specific AI patterns (for CN mode):**

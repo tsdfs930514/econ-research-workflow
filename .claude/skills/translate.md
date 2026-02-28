@@ -18,9 +18,69 @@ Ask the user for:
 3. **Format** (optional) — `LaTeX` (default) or `Word`
 4. **Text to translate** (required) — the source text
 
-## Step 2: CN→EN Mode (Chinese to English)
+## Step 2: Economics Terminology & Journal Style
 
-You are a top-tier research writing expert and senior reviewer for leading economics journals (AER, QJE, JPE, Econometrica, REStud).
+### Terminology Table
+
+Apply the following terminology consistently in all translations:
+
+| English | Chinese |
+|---|---|
+| Difference-in-Differences (DID) | 双重差分 |
+| Instrumental Variables (IV) | 工具变量 |
+| Regression Discontinuity Design (RDD) | 断点回归设计 |
+| Two-Stage Least Squares (2SLS) | 两阶段最小二乘法 |
+| Fixed Effects (FE) | 固定效应 |
+| Random Effects (RE) | 随机效应 |
+| Generalized Method of Moments (GMM) | 广义矩估计 |
+| Propensity Score Matching (PSM) | 倾向得分匹配 |
+| Synthetic Control Method (SCM) | 合成控制法 |
+| Synthetic DID (SDID) | 合成双重差分 |
+| LASSO | LASSO（最小绝对收缩和选择算子） |
+| Treatment effect | 处理效应 |
+| Average Treatment Effect (ATE) | 平均处理效应 |
+| Average Treatment Effect on the Treated (ATT) | 处理组平均处理效应 |
+| Local Average Treatment Effect (LATE) | 局部平均处理效应 |
+| Intention-to-Treat (ITT) | 意向处理效应 |
+| Parallel trends assumption | 平行趋势假设 |
+| Event study | 事件研究 |
+| Robustness check | 稳健性检验 |
+| Heterogeneity analysis | 异质性分析 |
+| Mechanism analysis | 机制分析 |
+| Endogeneity | 内生性 |
+| Exogenous variation | 外生变异 |
+| Identification strategy | 识别策略 |
+| Causal inference | 因果推断 |
+| Standard errors clustered at... | 在...层面聚类的标准误 |
+| First stage | 第一阶段 |
+| Reduced form | 简约式 |
+| Exclusion restriction | 排他性约束 |
+| Selection bias | 选择偏差 |
+| Omitted variable bias | 遗漏变量偏差 |
+| Placebo test | 安慰剂检验 |
+| Wild cluster bootstrap | 野蛮聚类自助法 |
+
+If the paper consistently uses an alternative term, follow the paper's convention.
+
+### Journal Style Matching
+
+Adjust tone and conventions based on the target journal:
+
+**English Journals:**
+- **AER**: Concise, direct prose; active voice; accessible to broad audience
+- **QJE**: Engaging prose; emphasize big-picture contribution early
+- **JPE**: Balanced formality; clear exposition
+- **Econometrica**: Formal, mathematical; precise notation
+- **REStud**: Technical but accessible; clear logical structure
+
+**Chinese Journals:**
+- **经济研究**: Formal academic Chinese; use "本文" throughout; rigorous methodology
+- **管理世界**: Policy-oriented; emphasize practical implications
+- **经济学季刊**: Methodology-focused; technical depth
+
+## Step 3: CN→EN Mode (Chinese to English)
+
+**Approach:** Apply the standards of a senior reviewer for leading economics journals.
 
 ### LaTeX Awareness
 
@@ -61,18 +121,17 @@ Select 5-10 key sentences (especially those containing technical claims, causal 
 
 ### Self-Review Protocol
 
-After completing the translation, adopt a reviewer perspective and check:
+After completing the translation, verify:
+- [ ] Natural, idiomatic English for economics journals
+- [ ] Technical terms correct and consistent with the terminology table
+- [ ] No ambiguities introduced by translation
+- [ ] Logical flow reads smoothly
 
-1. Is the English natural and idiomatic for economics journals?
-2. Are technical terms translated correctly and consistently?
-3. Are there ambiguities introduced by the translation?
-4. Does the logical flow read smoothly in English?
+If issues are found, revise and note changes in Part 2.
 
-If issues are found, revise the translation and note the changes in Part 2.
+## Step 4: EN→CN Mode (English to Chinese)
 
-## Step 3: EN→CN Mode (English to Chinese)
-
-You are a senior economics academic translator specializing in translating top journal publications into Chinese.
+**Approach:** Apply strict literal translation standards used by professional academic translators.
 
 ### LaTeX Cleaning
 
@@ -98,62 +157,6 @@ You are a senior economics academic translator specializing in translating top j
 
 [Translated Chinese text — pure text paragraphs, no LaTeX]
 ```
-
-## Step 4: Economics Terminology
-
-Apply the following terminology consistently in all translations:
-
-| English | Chinese |
-|---|---|
-| Difference-in-Differences (DID) | 双重差分 |
-| Instrumental Variables (IV) | 工具变量 |
-| Regression Discontinuity Design (RDD) | 断点回归设计 |
-| Two-Stage Least Squares (2SLS) | 两阶段最小二乘法 |
-| Fixed Effects (FE) | 固定效应 |
-| Random Effects (RE) | 随机效应 |
-| Generalized Method of Moments (GMM) | 广义矩估计 |
-| Propensity Score Matching (PSM) | 倾向得分匹配 |
-| Synthetic Control Method (SCM) | 合成控制法 |
-| Synthetic DID (SDID) | 合成双重差分 |
-| LASSO | LASSO（最小绝对收缩和选择算子） |
-| Treatment effect | 处理效应 |
-| Average Treatment Effect (ATE) | 平均处理效应 |
-| Average Treatment Effect on the Treated (ATT) | 处理组平均处理效应 |
-| Local Average Treatment Effect (LATE) | 局部平均处理效应 |
-| Intention-to-Treat (ITT) | 意向处理效应 |
-| Parallel trends assumption | 平行趋势假设 |
-| Event study | 事件研究 |
-| Robustness check | 稳健性检验 |
-| Heterogeneity analysis | 异质性分析 |
-| Mechanism analysis | 机制分析 |
-| Endogeneity | 内生性 |
-| Exogenous variation | 外生变异 |
-| Identification strategy | 识别策略 |
-| Causal inference | 因果推断 |
-| Standard errors clustered at... | 在...层面聚类的标准误 |
-| First stage | 第一阶段 |
-| Reduced form | 简约式 |
-| Exclusion restriction | 排他性约束 |
-| Selection bias | 选择偏差 |
-| Omitted variable bias | 遗漏变量偏差 |
-| Placebo test | 安慰剂检验 |
-| Wild cluster bootstrap | 野蛮聚类自助法 |
-
-## Step 5: Journal Style Matching
-
-Adjust tone and conventions based on the target journal:
-
-**English Journals:**
-- **AER**: Concise, direct prose; active voice; accessible to broad audience
-- **QJE**: Engaging prose; emphasize big-picture contribution early
-- **JPE**: Balanced formality; clear exposition
-- **Econometrica**: Formal, mathematical; precise notation
-- **REStud**: Technical but accessible; clear logical structure
-
-**Chinese Journals:**
-- **经济研究**: Formal academic Chinese; use "本文" throughout; rigorous methodology
-- **管理世界**: Policy-oriented; emphasize practical implications
-- **经济学季刊**: Methodology-focused; technical depth
 
 ---
 

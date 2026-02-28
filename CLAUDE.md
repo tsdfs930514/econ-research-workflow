@@ -135,7 +135,7 @@ All scripts use a numbered prefix to indicate execution order.
 | `/run-panel` | Run complete Panel FE/RE/GMM analysis pipeline |
 | `/run-sdid` | Run Synthetic DID analysis with unit/time weights and inference |
 | `/cross-check` | Cross-validate regression results between Stata, Python pyfixest, and R fixest |
-| `/robustness` | Run a comprehensive robustness test suite for regression results |
+| `/robustness` | Run robustness test suite for baseline regression results — alternative specs, subsamples, clustering, Oster bounds, wild bootstrap |
 | `/make-table` | Generate publication-quality LaTeX regression tables |
 | `/write-section` | Write a specific paper section in Chinese or English |
 | `/review-paper` | Simulate peer review with three reviewers giving structured feedback; optional APE-style multi-round deep review |
@@ -145,8 +145,8 @@ All scripts use a numbered prefix to indicate execution order.
 | `/commit` | Smart git commit with type prefix and data safety warnings |
 | `/compile-latex` | Compile LaTeX paper with pdflatex/bibtex and error checking |
 | `/context-status` | Display current version, recent decisions, quality scores, git state |
-| `/explore` | Set up exploration sandbox with relaxed quality thresholds (>= 60) |
-| `/promote` | Graduate exploratory files to main pipeline with renumbering and quality check |
+| `/explore` | Set up exploration sandbox with relaxed quality thresholds (>= 60) for quick hypothesis testing and alternative specifications |
+| `/promote` | Graduate exploratory files from explore/ sandbox to main vN/ pipeline with renumbering and quality check |
 | `/session-log` | Session start/end manager — load context, record decisions and learnings |
 | `/interview-me` | Bilingual Socratic research interview — formalizes ideas into structured proposals |
 | `/devils-advocate` | Pre-analysis identification strategy challenger — threat assessment, not code fixes |

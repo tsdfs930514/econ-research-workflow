@@ -22,15 +22,64 @@ Inspired by [pedrohcgs/claude-code-my-workflow](https://github.com/pedrohcgs/cla
 
 ---
 
+## How It Works
+
+This repository is a **project-level template**. The `.claude/` directory contains all skills, agents, and rules — Claude Code automatically loads them when you run `claude` inside the project directory. Nothing is installed globally.
+
+You can use it in two ways:
+
+- **As a full project template** — fork it to start a new research project with the complete workflow
+- **Cherry-pick individual skills** — copy specific `.claude/skills/*.md` files into your own project's `.claude/skills/` directory
+
 ## Quick Start
 
-1. **Fork** this repository
-2. **Configure** `CLAUDE.md` — fill in `[PLACEHOLDER]` fields (project name, institution, researcher, Stata path)
-3. **Run** `/init-project` in Claude Code to scaffold a new research project
-4. Place raw data in `v1/data/raw/`
-5. Use `/data-describe` → `/run-did` (or `/run-iv`, `/run-rdd`, `/run-panel`) → `/cross-check` → `/make-table`
-6. Run `/adversarial-review` for automated quality assurance
-7. Run `/score` to get a quantitative quality report
+### 1. Fork and clone
+
+```bash
+# Fork this repo on GitHub, then:
+git clone https://github.com/<your-username>/econ-research-workflow.git
+cd econ-research-workflow
+```
+
+### 2. Install prerequisites
+
+| Software | Version | Purpose |
+|----------|---------|---------|
+| **Stata** | 18 (MP recommended) | All econometric estimation |
+| **Python** | 3.10+ | Cross-validation (`pyfixest`, `pandas`, `numpy`) |
+| **Claude Code** | Latest | CLI tool — install from [claude.com/claude-code](https://claude.com/claude-code) |
+| **Git Bash** (Windows) | — | Shell environment for Stata execution |
+| **LaTeX** | Optional | `/compile-latex` paper compilation (pdflatex + bibtex) |
+
+```bash
+pip install pyfixest pandas numpy polars matplotlib stargazer
+```
+
+### 3. Configure
+
+Open `CLAUDE.md` and fill in the `[PLACEHOLDER]` fields:
+- `[PROJECT_NAME]` — your research project name
+- `[INSTITUTION_NAME]` — your institution
+- `[RESEARCHER_NAMES]` — researcher name(s)
+- `[DATE]` — creation date
+- Update the Stata executable path to match your local installation
+
+### 4. Launch Claude Code and start working
+
+```bash
+# Start Claude Code in the project directory
+claude
+
+# Initialize a new research project (creates v1/ directory structure)
+/init-project
+```
+
+Place raw data in `v1/data/raw/`, then run your analysis:
+
+```bash
+/data-describe → /run-did (or /run-iv, /run-rdd, /run-panel)
+    → /cross-check → /make-table → /adversarial-review → /score
+```
 
 ---
 
@@ -181,16 +230,6 @@ project-name/
 
 ---
 
-## Prerequisites
-
-- **Stata 18** (MP recommended) — all econometric estimation
-- **Python 3.10+** — cross-validation via `pyfixest`, `pandas`, `numpy`
-- **Claude Code** — CLI tool for running skills and agents
-- **Git Bash** (Windows) — shell environment for Stata execution
-- **LaTeX distribution** (optional) — for `/compile-latex` (pdflatex + bibtex)
-
----
-
 ## Test Suite
 
 5 end-to-end tests covering all major estimation methods:
@@ -204,65 +243,6 @@ project-name/
 | `test5-full-pipeline` | End-to-end multi-script pipeline | Pass |
 
 Issues discovered during testing are documented in `tests/ISSUES_LOG.md` and tracked in `MEMORY.md`.
-
----
-
-## 中文快速上手指南
-
-### 安装与配置
-
-1. Fork 本仓库到你的 GitHub 账户
-2. 安装 [Claude Code](https://claude.com/claude-code) CLI 工具
-3. 确保已安装 Stata 18 和 Python 3.10+
-4. 打开 `CLAUDE.md`，填写项目信息（项目名、机构、研究者姓名等）
-
-### 基本用法
-
-```bash
-# 在项目目录中启动 Claude Code
-claude
-
-# 初始化新研究项目
-/init-project
-
-# 运行 DID 分析（支持 TWFE、CS-DiD、BJS 等）
-/run-did
-
-# 交叉验证 Stata 与 Python 结果
-/cross-check
-
-# 生成发表质量的回归表格（支持三线表和 booktabs）
-/make-table
-
-# 对抗式质量审查（代码 + 计量 + 表格）
-/adversarial-review
-
-# 量化质量评分（6 维度，100 分制）
-/score
-```
-
-### 支持的计量方法
-
-| 方法 | 技能命令 | 主要工具 |
-|------|----------|----------|
-| 双重差分 (DID) | `/run-did` | reghdfe, csdid, did_multiplegt, bacondecomp |
-| 工具变量 (IV) | `/run-iv` | ivreghdfe, ivreg2, weakiv |
-| 断点回归 (RDD) | `/run-rdd` | rdrobust, rddensity, rdplot |
-| 面板数据 | `/run-panel` | reghdfe, xtabond2 |
-| 合成 DID | `/run-sdid` | sdid |
-| Bootstrap 推断 | `/run-bootstrap` | boottest, fwildclusterboot |
-| 安慰剂检验 | `/run-placebo` | permutation inference, timing placebo |
-| Logit/Probit | `/run-logit-probit` | logit, probit, teffects, clogit |
-| LASSO 正则化 | `/run-lasso` | lasso2, pdslasso, glmnet |
-
-### 质量评分标准
-
-| 分数 | 等级 | 操作 |
-|------|------|------|
-| >= 95 | 可发表 | 无需修改 |
-| >= 90 | 小修 | 处理小问题后提交 |
-| >= 80 | 大修 | 需要显著修改 |
-| < 80 | 重做 | 存在根本性问题 |
 
 ---
 

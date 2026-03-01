@@ -258,29 +258,41 @@ See [ROADMAP.md](ROADMAP.md) for the full Phase 1-7 implementation history.
 
 ### Hooks
 
-3 lifecycle hooks configured in `.claude/settings.json`:
+4 lifecycle hooks configured in `.claude/settings.json`:
 
 | Hook | Trigger | What It Does |
 |------|---------|-------------|
 | Session-start loader | `SessionStart` | Reads MEMORY.md, shows recent entries and last quality score |
 | Pre-compact save | `PreCompact` | Prompts session summary to MEMORY.md before context compaction |
 | Post-Stata log check | `PostToolUse` (Bash) | Auto-parses `.log` files for `r(xxx)` errors after Stata runs |
+| Raw data guard | `PostToolUse` (Bash) | Compares `data/raw/` file snapshots to detect unauthorized modifications |
 
 ### Always-On Rules
 
-3 always-on rules (no path scope, loaded in every session):
+4 always-on rules (no path scope, loaded in every session):
 
 | Rule | Purpose |
 |------|---------|
 | `constitution.md` | 5 immutable principles (raw data integrity, reproducibility, cross-validation, version preservation, score integrity) |
 | `orchestrator-protocol.md` | Spec-Plan-Implement-Verify-Review-Fix-Score cycle with "Just Do It" mode |
 | `stata-error-verification.md` | Enforces reading hook output before re-running Stata; prevents log-overwrite false positives |
+| `bash-conventions.md` | No chained commands (`&&`, `||`, `;`); use separate tool calls and absolute paths |
 
-### Auto-Approval
+### Permissions & Security
 
-Stata execution is wrapped in `.claude/scripts/run-stata.sh` and auto-approved via
-`permissions.allow` pattern `Bash(bash *run-stata.sh *)`. This eliminates manual
-approval prompts for every Stata run.
+The permission system uses an **allow-all + deny-list** model:
+
+- **Allow**: `Read`, `Edit`, `Write`, `Bash` — all tools auto-approved, zero prompts.
+- **Deny**: 35 rules across 3 categories — raw data protection (Constitution Principle 1), destructive operations (`rm -rf`, `git push --force`, `git reset --hard`), and credential/infrastructure protection (`.env`, `.credentials`, `.claude/hooks/**`, `.claude/scripts/**`, `.claude/settings.json`).
+
+Defence-in-depth:
+
+| Layer | Mechanism | Scope |
+|-------|-----------|-------|
+| 1 | `deny` rules in settings.json | Tool-level string matching (prevents common mistakes) |
+| 2 | `raw-data-guard.py` PostToolUse hook | Detects `data/raw/` changes after Bash (catches Python/R script bypass) |
+| 3 | OS-level `attrib +R` on `data/raw/` | Filesystem-enforced read-only (set manually per project) |
+| 4 | Constitution + behavioural rules | Claude follows constraints voluntarily |
 
 ---
 
@@ -301,6 +313,7 @@ approval prompts for every Stata run.
 | 2026-02-27 | — | v0.11 | Phase 6 — Pipeline orchestration (`/run-pipeline`), synthesis report (`/synthesis-report`), legacy agent rewiring, orchestrator Phase 7 (Report), score persistence |
 | 2026-02-27 | — | v0.12 | Writing tools — 4 new writing skills (`/translate`, `/polish`, `/de-ai`, `/logic-check`) |
 | 2026-02-28 | — | v0.13 | Skill audit — 8 skills updated per skill-creator best practices: removed persona statements, added mode guides, false-positive caveats, improved descriptions |
+| 2026-03-01 | — | v0.14 | Security hardening — allow-all + deny-list permissions, `raw-data-guard.py` PostToolUse hook, `bash-conventions.md` rule (no chained commands), 35 deny rules, 4-layer defence-in-depth, credential/infrastructure protection |
 
 ---
 

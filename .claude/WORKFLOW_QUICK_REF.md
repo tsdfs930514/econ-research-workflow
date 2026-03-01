@@ -152,6 +152,20 @@ Phase 0 (Spec) triggers when task affects >= 3 files, changes identification str
 
 "Just Do It" mode: trivial tasks (<=2 files, score >= 80, no Critical findings) skip the multi-round loop.
 
+### Permissions & Security
+
+**Model**: Allow-all + deny-list. `Read`/`Edit`/`Write`/`Bash` all auto-approved.
+
+**Deny rules** (35 total): `data/raw/**` (Edit/Write/Bash), destructive git, `rm -rf`, `*.env`, `*.credentials*`, `.claude/hooks/**`, `.claude/scripts/**`, `.claude/settings.json`.
+
+**Defence layers**:
+1. `deny` rules → tool-level string matching
+2. `raw-data-guard.py` → PostToolUse snapshot diff on `data/raw/`
+3. `attrib +R` → OS-level (manual setup)
+4. Constitution + `bash-conventions.md` → behavioural
+
+**Bash rule**: No `&&`/`||`/`;` chains. Separate tool calls. Absolute paths. No `2>/dev/null`.
+
 ---
 
 ## Quality Scoring

@@ -166,27 +166,53 @@ All scripts use a numbered prefix to indicate execution order.
 
 ## Hooks
 
-3 lifecycle hooks are configured in `.claude/settings.json`:
+4 lifecycle hooks are configured in `.claude/settings.json`:
 
 | Hook | Event | Action |
 |------|-------|--------|
 | Session-start loader | `SessionStart` | Reads MEMORY.md, displays recent entries, last session, and last quality score |
 | Pre-compact save | `PreCompact` | Prompts Claude to append a session summary to MEMORY.md before context compaction |
 | Post-Stata log check | `PostToolUse` (Bash) | Parses `.log` files for `r(xxx)` errors after Stata execution |
+| Raw data guard | `PostToolUse` (Bash) | Compares `data/raw/` file snapshots to detect unauthorized modifications (catches Python/R script bypass) |
 
 Hook scripts are located in `.claude/hooks/`:
 - `session-loader.py` — session start context loader
 - `stata-log-check.py` — automatic Stata error detection
+- `raw-data-guard.py` — data/raw integrity monitor (defence layer 2)
 
 ### Always-On Rules
 
-3 always-on rules (loaded in every session, no path scope):
+4 always-on rules (loaded in every session, no path scope):
 
 | Rule | Purpose |
 |------|---------|
 | `constitution.md` | 5 immutable principles governing all workflow components |
 | `orchestrator-protocol.md` | Spec-Plan-Implement-Verify-Review-Fix-Score task cycle |
 | `stata-error-verification.md` | Mandatory hook output reading before re-running Stata scripts |
+| `bash-conventions.md` | No chained commands (`&&`, `||`, `;`); use separate tool calls and absolute paths |
+
+### Permissions & Security
+
+The permission system uses a **allow-all + deny-list** model configured in `.claude/settings.json`:
+
+**Allow**: `Read`, `Edit`, `Write`, `Bash` — all tools auto-approved without prompts.
+
+**Deny** (3 categories):
+
+| Category | Rules | Purpose |
+|----------|-------|---------|
+| Raw data protection | `Edit/Write(data/raw/**)`, `Bash(*rm/mv/cd*data/raw*)` | Constitution Principle 1 |
+| Destructive operations | `Bash(*rm -rf /*)`, `Bash(*git push*--force*)`, `Bash(*git reset --hard*)` | Prevent irreversible damage |
+| Credential & infrastructure | `Read/Edit/Write(*.env)`, `Read/Edit/Write(*.credentials*)`, `Edit/Write(.claude/hooks/**)`, `Edit/Write(.claude/scripts/**)`, `Edit/Write(.claude/settings.json)` | Protect secrets and workflow infrastructure |
+
+**Defence-in-depth architecture**:
+
+| Layer | Mechanism | What It Catches |
+|-------|-----------|----------------|
+| 1 | `deny` rules | Claude tool-level misoperations (string matching) |
+| 2 | `raw-data-guard.py` hook | Python/R scripts that modify `data/raw/` via OS calls |
+| 3 | `attrib +R` (OS-level) | Everything — must be set manually per project |
+| 4 | Constitution + rules | Behavioural constraints (Claude should follow, not enforced) |
 
 ---
 

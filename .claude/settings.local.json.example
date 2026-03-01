@@ -1,0 +1,11 @@
+{
+  "_comment": "Copy this file to settings.local.json to skip permission prompts. This file is gitignored — your local settings are never shared.",
+  "permissions": {
+    "allow": [
+      "Read",
+      "Edit",
+      "Write",
+      "Bash"
+    ]
+  }
+}

@@ -195,9 +195,15 @@ Hook scripts are located in `.claude/hooks/`:
 
 The permission system uses a **allow-all + deny-list** model configured in `.claude/settings.json`:
 
-**Allow**: `Read`, `Edit`, `Write`, `Bash` — all tools auto-approved without prompts.
+**Allow** (in `settings.local.json`, gitignored, personal):
 
-**Deny** (3 categories):
+By default, forked repos prompt for every operation. To skip prompts, copy the template:
+```
+cp .claude/settings.local.json.example .claude/settings.local.json
+```
+This adds `Read`, `Edit`, `Write`, `Bash` to the allow list locally.
+
+**Deny** (in `settings.json`, shared, everyone gets these — 3 categories):
 
 | Category | Rules | Purpose |
 |----------|-------|---------|

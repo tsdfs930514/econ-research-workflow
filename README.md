@@ -282,8 +282,8 @@ See [ROADMAP.md](ROADMAP.md) for the full Phase 1-7 implementation history.
 
 The permission system uses an **allow-all + deny-list** model:
 
-- **Allow**: `Read`, `Edit`, `Write`, `Bash` — all tools auto-approved, zero prompts.
-- **Deny**: 35 rules across 3 categories — raw data protection (Constitution Principle 1), destructive operations (`rm -rf`, `git push --force`, `git reset --hard`), and credential/infrastructure protection (`.env`, `.credentials`, `.claude/hooks/**`, `.claude/scripts/**`, `.claude/settings.json`).
+- **Deny** (shared via `settings.json`): 35 rules across 3 categories — raw data protection (Constitution Principle 1), destructive operations (`rm -rf`, `git push --force`, `git reset --hard`), and credential/infrastructure protection (`.env`, `.credentials`, `.claude/hooks/**`, `.claude/scripts/**`, `.claude/settings.json`).
+- **Allow** (personal via `settings.local.json`, gitignored): By default, forked repos prompt for every operation. To skip prompts: `cp .claude/settings.local.json.example .claude/settings.local.json`.
 
 Defence-in-depth:
 

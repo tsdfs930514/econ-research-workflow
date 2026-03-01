@@ -154,7 +154,8 @@ Phase 0 (Spec) triggers when task affects >= 3 files, changes identification str
 
 ### Permissions & Security
 
-**Model**: Allow-all + deny-list. `Read`/`Edit`/`Write`/`Bash` all auto-approved.
+**Model**: Deny-list (shared) + optional allow-all (personal).
+To skip prompts: `cp .claude/settings.local.json.example .claude/settings.local.json`
 
 **Deny rules** (35 total): `data/raw/**` (Edit/Write/Bash), destructive git, `rm -rf`, `*.env`, `*.credentials*`, `.claude/hooks/**`, `.claude/scripts/**`, `.claude/settings.json`.
 

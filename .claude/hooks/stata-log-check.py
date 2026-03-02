@@ -32,11 +32,11 @@ def main():
     if "StataMP" not in command and ".do" not in command and "run-stata" not in command:
         return
 
-    # Find the most recent .log file in the current working directory
-    log_files = glob.glob("*.log")
+    # Find the most recent .log file — prefer output/logs/ (canonical location)
+    log_files = glob.glob("output/logs/*.log")
     if not log_files:
-        # Also check output/logs/
-        log_files = glob.glob("output/logs/*.log")
+        # Fallback: check project root (Stata -e mode artifact)
+        log_files = glob.glob("*.log")
 
     if not log_files:
         print("[Stata Log Check] No .log files found in CWD or output/logs/.")

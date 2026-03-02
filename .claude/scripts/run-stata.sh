@@ -22,11 +22,11 @@ cd "$PROJECT_DIR"
 
 # --- Inline log check (replaces PostToolUse hook for wrapper calls) ---
 DO_BASENAME=$(basename "$DO_FILE" .do)
-LOG_FILE="${DO_BASENAME}.log"
+LOG_FILE="output/logs/${DO_BASENAME}.log"
 
 if [ ! -f "$LOG_FILE" ]; then
-    # Check output/logs/ as fallback
-    LOG_FILE="output/logs/${DO_BASENAME}.log"
+    # Fallback: check project root (Stata -e mode artifact)
+    LOG_FILE="${DO_BASENAME}.log"
 fi
 
 if [ -f "$LOG_FILE" ]; then
@@ -41,3 +41,6 @@ if [ -f "$LOG_FILE" ]; then
 else
     echo "[Stata Log Check] Warning: no .log file found for $DO_FILE"
 fi
+
+# Clean up duplicate .log created by Stata -e mode in project root
+rm -f "${DO_BASENAME}.log"

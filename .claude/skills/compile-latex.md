@@ -16,7 +16,14 @@ When the user invokes `/compile-latex`, compile a .tex file through the full pdf
 
 ## Step 2: Compile
 
-Run the standard 4-pass compilation from the directory containing the .tex file:
+**Always run the full 4-pass compilation.** Skipping any pass produces broken output:
+
+| Pass | Purpose | What breaks if skipped |
+|------|---------|----------------------|
+| 1. `pdflatex` | Initial compilation, writes `.aux` with `\citation` and `\label` info | No PDF at all |
+| 2. `bibtex` | Reads `.aux`, resolves `\cite{}` from `.bib` files, writes `.bbl` | All `\cite{}` show "?" |
+| 3. `pdflatex` | Incorporates `.bbl` bibliography, updates cross-references | Citations still "?", some `\ref{}` still "??" |
+| 4. `pdflatex` | Resolves forward references and page numbers | Some `\ref{}` and page numbers wrong |
 
 ```bash
 cd /path/to/paper/directory
@@ -27,6 +34,8 @@ pdflatex -interaction=nonstopmode main.tex
 ```
 
 Use `-interaction=nonstopmode` so compilation continues past errors (allowing us to collect all issues).
+
+**Never run pdflatex only once.** Even if there are no citations, the second and third passes are needed to resolve `\ref{}`, `\pageref{}`, table/figure numbering, and table of contents entries. If bibtex reports "I found no \citation commands", the remaining pdflatex passes must still be run.
 
 ## Step 3: Check for Errors
 

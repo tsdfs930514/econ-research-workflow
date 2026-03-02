@@ -84,6 +84,7 @@ vN/
   - `polars` -- High-performance DataFrame library
   - `matplotlib` -- Plotting and visualization
   - `stargazer` -- Regression table formatting
+  - `csmarapi` -- CSMAR (国泰安) database API client
 
 - **Regression Cross-Validation**:
   Use `feols()` from `pyfixest` to cross-validate Stata regression results:
@@ -92,6 +93,16 @@ vN/
   result = pf.feols("y ~ x1 + x2 | fe1 + fe2", data=df)
   result.summary()
   ```
+
+- **CSMAR Data Access**:
+  Use `csmarapi` to fetch Chinese stock market and accounting data from CSMAR (国泰安):
+  ```python
+  from csmarapi import CsmarService
+  csmar = CsmarService()
+  csmar.login(account, password)
+  df = csmar.query(tableName="TRD_Dalyr", columns="Stkcd,Trddt,Dretwd", condition="Stkcd = '000001'")
+  ```
+  See `/fetch-csmar` for the full workflow with auto-pagination, provenance tracking, and standardized file naming.
 
 ---
 
@@ -160,6 +171,7 @@ All scripts use a numbered prefix to indicate execution order.
 | `/translate` | Translate academic economics papers between Chinese and English with journal-specific conventions |
 | `/polish` | Polish academic papers — English/Chinese polish, refinement, condensing, and expanding (5 sub-modes) |
 | `/de-ai` | Detect and remove AI-generated writing patterns to produce natural, human-like academic prose |
+| `/fetch-csmar` | Browse CSMAR databases and fetch Chinese stock market & accounting data via Python API |
 | `/logic-check` | Final-pass logic check for paper drafts — catches only critical errors, not style preferences |
 
 ---

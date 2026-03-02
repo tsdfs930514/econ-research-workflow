@@ -181,6 +181,94 @@ esttab m1 m2 m3 m4 m5 using "output/tables/tab_<name>.tex", ///
     substitute(\_ _)
 ```
 
+### esttab → LaTeX Compatibility Rules
+
+These rules **must** be followed when generating .tex from `esttab`/`estout`. They prevent common compilation failures and ensure tables work directly with `pdflatex` without manual post-editing (which violates the reproducibility principle).
+
+**Rule 1: Always include `\label{}` — use `fragment` mode with manual wrappers**
+
+`esttab`'s `title()` generates `\caption{}` but **not** `\label{}`, causing all `\ref{tab:xxx}` to show "??". Use `prehead`/`postfoot` with `fragment` to get full control:
+
+```stata
+esttab m1 m2 m3 m4 using "output/tables/tab_main.tex", ///
+    se(4) b(4) star(* 0.10 ** 0.05 *** 0.01) ///
+    label nomtitles booktabs replace fragment ///
+    keep(<key variable>) ///
+    mgroups("OLS" "2SLS", pattern(1 0 1 0) ///
+        prefix(\multicolumn{@span}{c}{) suffix(}) span ///
+        erepeat(\cmidrule(lr){@span})) ///
+    scalars("N_clust Clusters" "r2_a Adj.\ $R^{2}$") ///
+    prehead("\begin{table}[htbp]" "\centering" ///
+            "\caption{Effect of Treatment on Outcome}" ///
+            "\label{tab:main}" ///
+            "\begin{threeparttable}" ///
+            "\begin{tabular}{l*{4}{c}}" ///
+            "\toprule") ///
+    postfoot("\bottomrule" "\end{tabular}" ///
+             "\begin{tablenotes}[flushleft]" "\small" ///
+             "\item Standard errors clustered at firm level in parentheses." ///
+             "*** p$<$0.01, ** p$<$0.05, * p$<$0.10." ///
+             "\end{tablenotes}" ///
+             "\end{threeparttable}" "\end{table}") ///
+    substitute(\_ _)
+```
+
+The `fragment` option suppresses esttab's default `\begin{table}` wrapper — we supply it ourselves via `prehead`/`postfoot`, which also embeds `\label{}` and `threeparttable`.
+
+**Rule 2: Avoid duplicate column headers — never combine `label` with `mtitles()`**
+
+Both `label` and `mtitles()` generate header rows. Using them together produces two identical column-number rows. Use ONE of:
+- `nomtitles` + `mgroups(...)` — group headers with `\cmidrule` (recommended for multi-spec tables)
+- `mtitles("OLS" "2SLS" ...) nolabel` — explicit titles, no variable labels as headers
+- `label nomtitles` — variable labels as column headers, no model title row
+
+**Rule 3: Use math mode for R² in stat labels — never `\textsuperscript`**
+
+`\textsuperscript{2}` conflicts with tabular column alignment macros, producing `Missing number, treated as zero` errors. Always use math mode:
+- `R$^{2}$` or `Adj.\ $R^{2}$` or `Within $R^{2}$`
+- **Never**: `R\textsuperscript{2}`, `Adj. R\textsuperscript{2}`
+
+In `scalars()` labels:
+```stata
+scalars("r2_a Adj.\ $R^{2}$" "r2_within Within $R^{2}$" "r2 $R^{2}$")
+```
+
+**Rule 4: Escape underscores correctly — be careful with `addnotes()` and `substitute()`**
+
+`substitute(\_ _)` handles underscores in **variable names** but can double-escape in `addnotes()` text, producing `\\_` which LaTeX interprets as linebreak + underscore, causing cascading errors. Rules:
+- In `addnotes()`: write underscores as `\_` (single backslash), not via variable names
+- For math symbols in notes: use `$\sum$` not `sum\_`, use `$\bar{X}$` not `\overline{X}`
+- For variable references in notes: use `\texttt{varname}` (no underscores) or `\textit{var\_name}` (explicit single escape)
+- When using `fragment` mode with `postfoot` for notes (Rule 1 pattern), underscores in notes are not affected by `substitute()` — write them normally as `\_`
+- **Verification**: after generating .tex, check that no `\\_` (double backslash-underscore) appears in the output
+
+**Rule 5: Python-generated tables must wrap `tablenotes` in `threeparttable`**
+
+The `tablenotes` environment requires `threeparttable` as a parent. When generating LaTeX tables from Python (pandas `.to_latex()`, manual string construction, etc.), always include both:
+
+```python
+table_tex = r"""
+\begin{table}[htbp]
+\centering
+\caption{Summary Statistics}
+\label{tab:summary}
+\begin{threeparttable}
+\begin{tabular}{lcccc}
+\toprule
+...
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\small
+\item Notes: ...
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+"""
+```
+
+If using `pandas.to_latex()`, it generates only the `tabular` environment. You must manually wrap it with `table`, `caption`, `label`, and `threeparttable`.
+
 ## Step 4: Table Type-Specific Formatting
 
 ### Main Regression Table (`main`)

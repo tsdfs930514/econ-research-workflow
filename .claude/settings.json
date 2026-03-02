@@ -56,8 +56,9 @@
         "matcher": "",
         "hooks": [
           {
-            "type": "prompt",
-            "prompt": "Before context compaction, append a brief session summary to MEMORY.md under the Session Log section. Format: `| YYYY-MM-DD | summary |`. Include key decisions, issues found, and current quality score if known."
+            "type": "command",
+            "command": "echo \"[PreCompact] Save session summary to MEMORY.md before compaction. Format: | YYYY-MM-DD | summary |. Include key decisions, issues found, and current quality score.\"",
+            "timeout": 10
           }
         ]
       }

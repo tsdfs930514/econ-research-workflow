@@ -74,7 +74,7 @@ claude
 /init-project
 ```
 
-Place raw data in `v1/data/raw/`, then run your analysis:
+Place raw data in `data/raw/`, then run your analysis:
 
 ```bash
 /data-describe → /run-did (or /run-iv, /run-rdd, /run-panel)
@@ -213,10 +213,11 @@ Each research project created with `/init-project` follows:
 
 ```
 project-name/
+├── data/
+│   └── raw/              # Original data (READ-ONLY, shared across versions)
 └── v1/
     ├── code/stata/       # .do files (numbered: 01_, 02_, ...)
     ├── code/python/      # .py files for cross-validation
-    ├── data/raw/         # Original data (READ-ONLY)
     ├── data/clean/       # Processed datasets
     ├── data/temp/        # Intermediate files
     ├── output/tables/    # LaTeX tables (.tex)

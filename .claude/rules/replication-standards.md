@@ -50,6 +50,9 @@ Create a `data_dictionary.md` documenting:
 ### Directory Structure
 
 ```
+data/
+└── raw/                        # Original data (READ-ONLY, shared across versions)
+
 vN/
 ├── code/
 │   ├── stata/
@@ -62,8 +65,8 @@ vN/
 │   └── python/
 │       └── cross_validation.py  # Validates Stata results
 ├── data/
-│   ├── raw/                    # Original data (READ-ONLY)
-│   └── clean/                  # Processed data
+│   ├── clean/                  # Processed data
+│   └── temp/                   # Intermediate files
 ├── output/
 │   ├── tables/                 # LaTeX tables
 │   ├── figures/                # PDF figures
@@ -225,7 +228,7 @@ Approximately [X] minutes on [machine description]
 
 ## Instructions
 1. Install required Stata packages (see code/stata/master.do header)
-2. Place raw data files in data/raw/ (see REPLICATION.md for sources)
+2. Place raw data files in `data/raw/` at the project root (see REPLICATION.md for sources)
 3. Run code/stata/master.do
 4. Check output/logs/ for any errors
 

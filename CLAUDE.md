@@ -27,6 +27,13 @@ previous version and update this field.
 
 ## Directory Convention
 
+Raw data is stored at the project root level, shared across all versions:
+
+```
+data/
+  raw/                    # Original, unmodified data (READ-ONLY, shared across versions)
+```
+
 Each version follows the structure:
 
 ```
@@ -37,7 +44,6 @@ vN/
     python/               # .py files
     sas/                  # .sas files (if needed)
   data/
-    raw/                  # Original, unmodified data (READ-ONLY)
     clean/                # Cleaned and constructed datasets
     temp/                 # Intermediate/temporary data
   output/
@@ -278,8 +284,8 @@ Run via: `python scripts/quality_scorer.py v1/` or use the `/score` skill.
 
 ## Data Safety Rules
 
-1. **`data/raw/` is READ-ONLY.** Never modify, overwrite, or delete raw data files.
-2. All data transformations must read from `data/raw/` and write to `data/clean/` or `data/temp/`.
+1. **`data/raw/` is READ-ONLY.** Never modify, overwrite, or delete raw data files. Raw data lives at the project root level (`data/raw/`), shared across all versions.
+2. All data transformations must read from `data/raw/` and write to `data/clean/` or `data/temp/` within the version directory.
 3. Cleaning scripts must document every transformation applied.
 4. Keep a record of the original data source and download date in `docs/`.
 5. Before any destructive operation, confirm the target is NOT in `data/raw/`.

@@ -25,9 +25,10 @@ Under the current working directory (or a specified root), create the project fo
 
 ```
 <project-name>/
+  data/
+    raw/            # Original, untouched data files (READ-ONLY, shared across versions)
   v1/
     data/
-      raw/          # Original, untouched data files (READ-ONLY)
       clean/        # Cleaned and processed datasets
       temp/         # Intermediate temporary files
     code/
@@ -77,7 +78,7 @@ set seed 12345
 * --- Set paths ---
 global root     "."
 global data     "$root/data"
-global raw      "$data/raw"
+global raw      "../data/raw"
 global clean    "$data/clean"
 global temp     "$data/temp"
 global code     "$root/code/stata"
@@ -166,8 +167,9 @@ Create `<project-name>/CLAUDE.md` with project-specific instructions:
 - **Current Version**: v1
 
 ## Directory Conventions
-- All work happens inside `v1/` (increment version for major revisions)
-- Raw data is NEVER modified; all cleaning produces files in `data/clean/`
+- Raw data lives at the project root in `data/raw/` (shared across all versions, READ-ONLY)
+- All version-specific work happens inside `v1/` (increment version for major revisions)
+- Raw data is NEVER modified; all cleaning produces files in `v1/data/clean/`
 - Every Stata .do file must have a corresponding .log file in `output/logs/`
 - Tables go in `output/tables/` as .tex files
 - Figures go in `output/figures/` as .pdf or .png
@@ -238,6 +240,9 @@ results in "<Paper Title>" by <Author(s)>.
 ## File Structure
 
 ```
+data/
+└── raw/                        # Original data (READ-ONLY, shared across versions)
+
 v1/
 ├── code/
 │   ├── stata/
@@ -250,8 +255,8 @@ v1/
 │   └── python/
 │       └── cross_validation.py # Cross-validates Stata results
 ├── data/
-│   ├── raw/                    # Original data (READ-ONLY)
-│   └── clean/                  # Processed data
+│   ├── clean/                  # Processed data
+│   └── temp/                   # Intermediate files
 ├── output/
 │   ├── tables/                 # LaTeX tables
 │   ├── figures/                # PDF figures
@@ -328,10 +333,14 @@ Create `<project-name>/.gitignore`:
 *.xlsx
 *.sas7bdat
 *.rds
+
+# Raw data (project-level, shared across versions)
 data/raw/*
-data/temp/*
 !data/raw/.gitkeep
-!data/temp/.gitkeep
+
+# Version-specific temp
+*/data/temp/*
+!*/data/temp/.gitkeep
 
 # Stata logs and temporary files
 *.log
@@ -579,7 +588,7 @@ Create `<project-name>/v1/paper/main_ssrn.tex` (if format is `SSRN` or `all`):
 
 Also create empty placeholder files:
 - `<project-name>/v1/paper/bib/references.bib`
-- `<project-name>/v1/data/raw/.gitkeep`
+- `<project-name>/data/raw/.gitkeep`
 - `<project-name>/v1/data/temp/.gitkeep`
 
 ## Step 11: Print Summary
@@ -590,8 +599,9 @@ After creating everything, print a summary:
 Project "<project-name>" initialized successfully!
 
 Structure created:
+  data/raw/                           (project-level, shared across versions)
   v1/
-    data/raw/  data/clean/  data/temp/
+    data/clean/  data/temp/
     code/stata/  code/python/  code/r/
     output/tables/  output/figures/  output/logs/
     paper/sections/  paper/bib/
@@ -612,7 +622,7 @@ Files created:
   - .gitignore
 
 Next steps:
-  1. Place raw data files in v1/data/raw/
+  1. Place raw data files in data/raw/
   2. Update REPLICATION.md with data sources
   3. Start with /data-describe to explore your data
   4. Use /run-did, /run-iv, /run-rdd, or /run-panel for analysis

@@ -185,7 +185,7 @@ Scores from `/score` (automated, 6 dimensions) and `/adversarial-review` (critic
 ## Key Conventions
 
 ### File Paths
-- Raw data (READ-ONLY): `vN/data/raw/`
+- Raw data (READ-ONLY, project-level): `data/raw/`
 - Cleaned data: `vN/data/clean/`
 - Stata code: `vN/code/stata/`
 - Python code: `vN/code/python/`

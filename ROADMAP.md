@@ -335,6 +335,49 @@ All 34 skills audited against skill-creator best practices. 8 skills updated:
 
 ---
 
+## Post-Phase 7 Updates (v0.15–v0.18)
+
+**Status**: Implemented (2026-03-02 to 2026-03-06)
+
+### v0.15 — CSMAR Skill & Hook/Table Fixes (2026-03-02)
+
+- `/fetch-csmar` skill — CSMAR API integration with browse/query/download/count modes, auto-pagination, provenance tracking, utf-8-sig encoding
+- `csmarapi` added to Python core packages in CLAUDE.md with usage example
+- PreCompact hook fix: changed unsupported `"type": "prompt"` to `"type": "command"` with echo
+- `/make-table`: 5 esttab→LaTeX compatibility rules (fragment mode, `\label{}`, math-mode R², underscore escaping, threeparttable)
+- `/compile-latex`: strengthened 4-pass requirement with pass-by-pass table
+
+### v0.16 — Stata Log Deduplication (2026-03-02)
+
+- `run-stata.sh`: prefer `output/logs/` when checking logs; auto-delete root-level duplicate `.log` created by Stata `-e` mode
+- `stata-log-check.py`: prefer `output/logs/` (canonical location) over project root when scanning
+
+### v0.17 — Raw Data Directory Restructure (2026-03-04)
+
+- Moved `data/raw/` from inside `vN/` to project root level, shared across all versions
+- Raw data is immutable and version-independent — duplicating it inside each `vN/` was wasteful
+- Updated: `init-project.md` (directory structure, master.do `$raw` path), `CLAUDE.md` (directory convention, data safety rules), `README.md` (quick start, project structure), `replication-standards.md`, `WORKFLOW_QUICK_REF.md`, physical templates
+
+### v0.18 — Documentation Sync (2026-03-06)
+
+Fixed feature counts and missing entries in README.md that drifted from the actual codebase:
+
+| Item | Before | After | Root Cause |
+|------|--------|-------|-----------|
+| Skill count | 34 | 35 | `/fetch-csmar` added in v0.15 but not reflected in README |
+| Rule count | 7 (4 path-scoped + 3 always-on) | 8 (4 path-scoped + 4 always-on) | `bash-conventions.md` added in v0.14 but feature line not updated |
+| Hook count | 3 | 4 | `raw-data-guard.py` added in v0.14 but feature line not updated |
+| Skills table | Missing `/fetch-csmar` | Added | Skill file existed but README table was not updated |
+| Directory structure | "34 slash-command skills" | "35 slash-command skills" | Same as skill count |
+| Changelog | 3 commits missing | Added v0.15–v0.17 entries | Git history not reflected in README changelog |
+
+### Files Changed
+
+- `README.md` — feature counts, skills table, directory structure, changelog (v0.15–v0.18)
+- `ROADMAP.md` — this section added
+
+---
+
 ## Timeline
 
 | Phase | Target | Depends On |
@@ -346,3 +389,4 @@ All 34 skills audited against skill-creator best practices. 8 skills updated:
 | Phase 5 | Done | Phase 4 complete; real replication data available |
 | Phase 6 | Done | Phase 5 complete; workflow structure stable |
 | Phase 7 | Done | Phase 6 complete; writing tools added and audited |
+| Post-Phase 7 | Done | Phase 7 complete; CSMAR skill, log fixes, data restructure, doc sync |

@@ -8,10 +8,10 @@ Inspired by [pedrohcgs/claude-code-my-workflow](https://github.com/pedrohcgs/cla
 
 ## Features
 
-- **34 skills** — slash-command workflows covering the full research lifecycle (data cleaning, DID/IV/RDD/Panel/SDID/Bootstrap/Placebo/Logit-Probit/LASSO estimation, cross-validation, tables, paper writing, translation, polishing, de-AI rewriting, logic checking, review, pipeline orchestration, synthesis reporting, exploration sandbox, session continuity, Socratic research tools, and self-extension)
+- **35 skills** — slash-command workflows covering the full research lifecycle (data cleaning, DID/IV/RDD/Panel/SDID/Bootstrap/Placebo/Logit-Probit/LASSO estimation, cross-validation, tables, paper writing, translation, polishing, de-AI rewriting, logic checking, review, pipeline orchestration, synthesis reporting, CSMAR data fetching, exploration sandbox, session continuity, Socratic research tools, and self-extension)
 - **12 agents** — specialized reviewers plus 3 adversarial critic-fixer pairs (code, econometrics, tables) enforcing separation of concerns
-- **7 rules** — 4 path-scoped coding/econometrics conventions + 3 always-on (constitution, orchestrator protocol, Stata error verification)
-- **3 lifecycle hooks** — automatic session context loading, pre-compaction memory save, and post-Stata error detection
+- **8 rules** — 4 path-scoped coding/econometrics conventions + 4 always-on (constitution, orchestrator protocol, Stata error verification, bash conventions)
+- **4 lifecycle hooks** — automatic session context loading, pre-compaction memory save, post-Stata error detection, and raw data integrity guard
 - **Adversarial QA loop** — `/adversarial-review` runs critic → fixer → re-critic cycles (up to 5 rounds) until quality score >= 95
 - **Executable quality scorer** — `quality_scorer.py` scores projects on 6 dimensions (100 pts), including method-specific diagnostics auto-detected from .do files
 - **Exploration sandbox** — `/explore` for hypothesis testing with relaxed thresholds; `/promote` to graduate results to the main pipeline
@@ -120,6 +120,7 @@ Place raw data in `data/raw/`, then run your analysis:
 | `/translate` | Translate paper | Translate academic papers between Chinese and English with journal-specific conventions |
 | `/polish` | Polish paper | English/Chinese polish, refinement, condensing, and expanding (5 sub-modes) |
 | `/de-ai` | Remove AI patterns | Detect and remove AI-generated writing patterns for natural academic prose |
+| `/fetch-csmar` | CSMAR data | Browse CSMAR databases and fetch Chinese stock market & accounting data via Python API |
 | `/logic-check` | Logic check | Final-pass red-line check — catches only critical errors, not style preferences |
 
 ---
@@ -199,7 +200,7 @@ econ-research-workflow/
 │   ├── scripts/          # Auto-approved wrapper scripts (run-stata.sh)
 │   ├── rules/            # Coding conventions, econometrics standards (4 path-scoped + 3 always-on incl. constitution)
 │   ├── settings.json     # Hook + permission configuration
-│   └── skills/           # 34 slash-command skills + 1 reference guide
+│   └── skills/           # 35 slash-command skills + 1 reference guide
 ├── scripts/
 │   └── quality_scorer.py # Executable 6-dimension quality scorer
 ├── tests/                # Test cases (DID, RDD, IV, Panel, Full Pipeline)
@@ -315,6 +316,10 @@ Defence-in-depth:
 | 2026-02-27 | — | v0.12 | Writing tools — 4 new writing skills (`/translate`, `/polish`, `/de-ai`, `/logic-check`) |
 | 2026-02-28 | — | v0.13 | Skill audit — 8 skills updated per skill-creator best practices: removed persona statements, added mode guides, false-positive caveats, improved descriptions |
 | 2026-03-01 | — | v0.14 | Security hardening — allow-all + deny-list permissions, `raw-data-guard.py` PostToolUse hook, `bash-conventions.md` rule (no chained commands), 35 deny rules, 4-layer defence-in-depth, credential/infrastructure protection |
+| 2026-03-02 | — | v0.15 | `/fetch-csmar` skill (CSMAR API integration with browse/query/download/count modes), PreCompact hook fix (prompt→command), esttab→LaTeX compatibility rules in `/make-table`, `/compile-latex` 4-pass requirement |
+| 2026-03-02 | — | v0.16 | Fix duplicate `.log` files from Stata `-e` mode — `run-stata.sh` and `stata-log-check.py` prefer `output/logs/` and auto-delete root-level duplicates |
+| 2026-03-04 | — | v0.17 | Refactor `data/raw/` to project root level (shared across versions) — updated `init-project`, `CLAUDE.md`, `README.md`, `replication-standards.md`, project templates |
+| 2026-03-06 | — | v0.18 | Documentation sync — fixed feature counts (35 skills, 8 rules, 4 hooks), added `/fetch-csmar` to README skills table, aligned README/ROADMAP with CLAUDE.md and actual codebase |
 
 ---
 

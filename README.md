@@ -322,6 +322,8 @@ Defence-in-depth:
 | 2026-03-04 | — | v0.17 | Refactor `data/raw/` to project root level (shared across versions) — updated `init-project`, `CLAUDE.md`, `README.md`, `replication-standards.md`, project templates |
 | 2026-03-06 | — | v0.18 | Documentation sync — fixed feature counts (35 skills, 8 rules, 4 hooks), added `/fetch-csmar` to README skills table, aligned README/ROADMAP with CLAUDE.md and actual codebase |
 | 2026-03-12 | — | v0.19 | Refactoring — deleted 3 deprecated agents (code/econometrics/tables-reviewer), added `name:` frontmatter and optimized `description:` trigger keywords to all 36 skills, extracted oversized skills to `references/` (progressive disclosure), fixed PostToolUse hooks (absolute paths, SHA-256 hashing, early exit), standardized agent `## Tools` sections, updated orchestrator-protocol |
+| 2026-03-13 | — | v0.20 | `/expert-review` skill — three senior academic personas (distinguished professor, rising star, ruthless critic) with locally saved referee reports and synthesis |
+| 2026-03-13 | — | v0.21 | `/defend-paper` skill — narrative defense with four-layer framework (fact→mechanism→decision→consequence), strategic reviewer response, result discipline |
 
 ---
 

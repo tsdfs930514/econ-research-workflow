@@ -378,6 +378,106 @@ Fixed feature counts and missing entries in README.md that drifted from the actu
 
 ---
 
+## Phase 8 — Skill/Agent/Hook Overhaul & Progressive Disclosure (Implemented)
+
+**Status**: Implemented (2026-03-12, v0.19)
+
+### Agent Cleanup
+
+- Deleted 3 deprecated agents: `code-reviewer.md`, `econometrics-reviewer.md`, `tables-reviewer.md` (superseded by critic-fixer pairs in Phase 1)
+- Added `## Tools` sections to remaining standalone agents: `paper-reviewer`, `cross-checker`, `robustness-checker`
+- Updated `econometrics-fixer` to use `run-stata.sh` wrapper
+- Cleaned `orchestrator-protocol.md` — removed legacy reviewer table
+
+### Skill Frontmatter Standardization
+
+All 36 skills updated with:
+- `name:` field (kebab-case matching filename, max 64 chars)
+- Optimized `description:` with functional summary, trigger keywords, and "Use when:" clause (max 1024 chars, no angle brackets)
+- `user_invocable:` preserved as-is
+
+### Progressive Disclosure Extraction
+
+6 reference files created in `.claude/skills/references/`:
+
+| Reference File | Extracted From | Lines |
+|----------------|---------------|-------|
+| `latex-paper-templates.md` | `init-project.md` | 243 |
+| `gitignore-template.md` | `init-project.md` | 44 |
+| `replication-template.md` | `init-project.md` | 91 |
+| `lasso-templates.md` | `run-lasso.md` | 500 |
+| `logit-probit-stata-templates.md` | `run-logit-probit.md` | 402 |
+| `make-table-advanced-patterns.md` | `make-table.md` | 213 |
+
+Skills trimmed: `init-project` (629→290), `run-lasso` (601→95), `run-logit-probit` (520→85), `make-table` (487→298).
+
+### PostToolUse Hook Fixes
+
+- `stata-log-check.py`: rewritten with `CLAUDE_PROJECT_DIR` absolute paths, tightened regex `r"^r\(\d+\);?\s*$"` with `re.MULTILINE`
+- `raw-data-guard.py`: rewritten with SHA-256 content hashing (replaced mtime_ns), early exit on non-data commands, `sys.exit(0)` as detection layer, format version migration (v1→v2)
+- `settings.json`: raw-data-guard timeout increased from 10s to 15s
+
+### Chinese Documentation
+
+- `WORKFLOW_QUICK_REF_CN.md` — full Chinese translation of workflow quick reference
+- `README_CN.md` — full Chinese translation of README
+- `.gitignore` fix: `references/` → `/references/` to allow `.claude/skills/references/` to be tracked
+
+### Files Changed
+
+- 58 files total (+2,338 / -1,972 lines)
+- 3 agents deleted, 4 agents modified, 36 skills updated, 6 reference files created
+- 2 hooks rewritten, 1 rule updated, 1 settings file updated
+- 2 new documentation files, 3 existing docs updated
+
+---
+
+## Phase 9 — Expert Review & Narrative Defense (Implemented)
+
+**Status**: Implemented (2026-03-13, v0.20–v0.21)
+
+### Expert Review Panel (v0.20)
+
+`/expert-review` — simulates three senior academic personas reviewing a paper:
+
+| Reviewer | Profile | Focus |
+|----------|---------|-------|
+| A — Distinguished Professor | Chaired professor, 25+ years, top-5 editor | Big-picture, narrative arc, literature positioning, economic significance |
+| B — Rising Star | Recently tenured, 8-12 years post-PhD | Methods frontier, implementation details, robustness gaps, tool recommendations |
+| C — Ruthless Critic | Prolific, high standards, unsparing | Fatal flaws, identification challenges, contribution skepticism, external validity |
+
+Reports saved locally as 4 files: one per reviewer + synthesis with scoring table and priority checklist.
+
+Differentiates from `/review-paper` (generic referees, inline output) by simulating senior academics with distinct career-stage perspectives and saving structured reports to disk.
+
+### Narrative Defense (v0.21)
+
+`/defend-paper` — strategic counterweight to reviewer panels. Protects the paper's core economic logic from being diluted by outcome accumulation and technique-over-substance drift.
+
+**Four-layer framework** for organizing results:
+
+| Layer | Purpose | Rule |
+|-------|---------|------|
+| 1. Fact | Cleanest baseline relationship | Keep exactly one |
+| 2. Mechanism | What cognition/incentive/constraint does X change? | Name the channel precisely |
+| 3. Decision | Which decision margin gets moved? | Identify the specific boundary |
+| 4. Consequence | Real allocation/contracting/welfare outcome | Keep exactly one |
+
+**Two narrative routes:**
+- **Route A (Constraint Transmission)**: X changes constraints → transmits to real decisions in high-friction settings. For papers with at least one strong real-margin outcome.
+- **Route B (Surface vs Real Adjustment)**: X triggers visible responses but not real decisions. For papers where perception/disclosure proxies are strong but real outcomes are weak — frames the disconnect as a finding.
+
+**Non-trivial consequence test**: only outcomes that change contract terms, resource allocation, risk-bearing, or welfare distribution belong in the main text. Media/attention/disclosure/perception proxies should be demoted to mechanism evidence.
+
+Outputs a structured defense brief with: one-sentence core claim, four-layer result map, narrative route recommendation, keep/demote/cut lists, reviewer response strategy, and heterogeneity discipline assessment.
+
+### Files Changed
+
+- 2 new skills: `expert-review.md` (178 lines), `defend-paper.md` (209 lines)
+- 6 documentation files updated: `CLAUDE.md`, `README.md`, `README_CN.md`, `WORKFLOW_QUICK_REF.md`, `WORKFLOW_QUICK_REF_CN.md`, `ROADMAP.md`
+
+---
+
 ## Timeline
 
 | Phase | Target | Depends On |
@@ -390,3 +490,5 @@ Fixed feature counts and missing entries in README.md that drifted from the actu
 | Phase 6 | Done | Phase 5 complete; workflow structure stable |
 | Phase 7 | Done | Phase 6 complete; writing tools added and audited |
 | Post-Phase 7 | Done | Phase 7 complete; CSMAR skill, log fixes, data restructure, doc sync |
+| Phase 8 | Done | Post-Phase 7 complete; skill/agent/hook overhaul, progressive disclosure |
+| Phase 9 | Done | Phase 8 complete; expert review panel and narrative defense skills |

@@ -1,5 +1,6 @@
 ---
-description: "Reference document for advanced Stata patterns from published replication packages"
+name: advanced-stata-patterns
+description: "Reference document for advanced Stata patterns from published replication packages -- impulse response functions, Helmert transformation, HHK estimator, k-class estimators, spatial lag models, bootstrap panel, auxiliary p-value files. Auto-consulted by run-panel and run-iv skills when advanced patterns are needed."
 user_invocable: false
 ---
 

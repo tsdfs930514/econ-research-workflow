@@ -1,5 +1,6 @@
 ---
-description: "Run complete RDD analysis pipeline with all diagnostics"
+name: run-rdd
+description: "Run RDD analysis -- regression discontinuity, sharp/fuzzy RD, rdrobust, optimal bandwidth, McCrary density test, covariate balance at cutoff, placebo cutoffs, polynomial sensitivity, donut RD, cross-validation. Use when: 'run RDD', 'regression discontinuity', 'cutoff', 'threshold', 'running variable', 'bandwidth', 'rdrobust'."
 user_invocable: true
 ---
 

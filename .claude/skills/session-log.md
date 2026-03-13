@@ -1,5 +1,6 @@
 ---
-description: "Session start/end manager with MEMORY.md context loading and recording"
+name: session-log
+description: "Session start/end manager -- load context from MEMORY.md, display recent entries and last quality score, record key decisions and learnings at session end. Use when: 'session log', 'start session', 'end session', 'save session', 'load context', 'session start', 'session end', 'log session'."
 user_invocable: true
 ---
 

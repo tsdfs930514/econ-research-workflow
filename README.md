@@ -1,5 +1,7 @@
 # Econ Research Workflow
 
+[中文版](README_CN.md)
+
 A Claude Code-powered template for reproducible economics research, featuring automated Stata/Python pipelines, adversarial quality assurance, and cross-validation infrastructure.
 
 Inspired by [pedrohcgs/claude-code-my-workflow](https://github.com/pedrohcgs/claude-code-my-workflow).
@@ -8,8 +10,8 @@ Inspired by [pedrohcgs/claude-code-my-workflow](https://github.com/pedrohcgs/cla
 
 ## Features
 
-- **35 skills** — slash-command workflows covering the full research lifecycle (data cleaning, DID/IV/RDD/Panel/SDID/Bootstrap/Placebo/Logit-Probit/LASSO estimation, cross-validation, tables, paper writing, translation, polishing, de-AI rewriting, logic checking, review, pipeline orchestration, synthesis reporting, CSMAR data fetching, exploration sandbox, session continuity, Socratic research tools, and self-extension)
-- **12 agents** — specialized reviewers plus 3 adversarial critic-fixer pairs (code, econometrics, tables) enforcing separation of concerns
+- **36 skills** — slash-command workflows covering the full research lifecycle (data cleaning, DID/IV/RDD/Panel/SDID/Bootstrap/Placebo/Logit-Probit/LASSO estimation, cross-validation, tables, paper writing, translation, polishing, de-AI rewriting, logic checking, review, pipeline orchestration, synthesis reporting, CSMAR data fetching, exploration sandbox, session continuity, Socratic research tools, and self-extension)
+- **9 agents** — 3 standalone agents (paper-reviewer, robustness-checker, cross-checker) plus 3 adversarial critic-fixer pairs (code, econometrics, tables) enforcing separation of concerns
 - **8 rules** — 4 path-scoped coding/econometrics conventions + 4 always-on (constitution, orchestrator protocol, Stata error verification, bash conventions)
 - **4 lifecycle hooks** — automatic session context loading, pre-compaction memory save, post-Stata error detection, and raw data integrity guard
 - **Adversarial QA loop** — `/adversarial-review` runs critic → fixer → re-critic cycles (up to 5 rounds) until quality score >= 95
@@ -129,12 +131,9 @@ Place raw data in `data/raw/`, then run your analysis:
 
 | Agent | Role | Tools |
 |-------|------|-------|
-| `code-reviewer` | ~~Code quality evaluation~~ **(DEPRECATED — use `code-critic`)** | Read-only |
-| `econometrics-reviewer` | ~~Identification strategy review~~ **(DEPRECATED — use `econometrics-critic`)** | Read-only |
-| `tables-reviewer` | ~~Table formatting review~~ **(DEPRECATED — use `tables-critic`)** | Read-only |
-| `robustness-checker` | Missing robustness checks and sensitivity analysis | Read-only |
-| `paper-reviewer` | Full paper review simulating peer referees | Read-only |
-| `cross-checker` | Stata vs Python cross-validation | Read + Bash |
+| `paper-reviewer` | Full paper review simulating peer referees | Read, Grep, Glob |
+| `robustness-checker` | Missing robustness checks and sensitivity analysis | Read, Grep, Glob |
+| `cross-checker` | Stata vs Python cross-validation | Read, Grep, Glob, Bash |
 | `code-critic` | Adversarial code review (conventions, safety, defensive programming) | Read-only |
 | `code-fixer` | Implements fixes from code-critic findings | Full access |
 | `econometrics-critic` | Adversarial econometrics review (diagnostics, identification, robustness) | Read-only |
@@ -195,12 +194,12 @@ For translation: `/translate` (CN→EN or EN→CN with journal-specific conventi
 ```
 econ-research-workflow/
 ├── .claude/
-│   ├── agents/           # 12 specialized agents
+│   ├── agents/           # 9 specialized agents
 │   ├── hooks/            # Lifecycle hook scripts (session loader, Stata log check)
 │   ├── scripts/          # Auto-approved wrapper scripts (run-stata.sh)
 │   ├── rules/            # Coding conventions, econometrics standards (4 path-scoped + 3 always-on incl. constitution)
 │   ├── settings.json     # Hook + permission configuration
-│   └── skills/           # 35 slash-command skills + 1 reference guide
+│   └── skills/           # 36 slash-command skills + references/
 ├── scripts/
 │   └── quality_scorer.py # Executable 6-dimension quality scorer
 ├── tests/                # Test cases (DID, RDD, IV, Panel, Full Pipeline)
@@ -320,6 +319,7 @@ Defence-in-depth:
 | 2026-03-02 | — | v0.16 | Fix duplicate `.log` files from Stata `-e` mode — `run-stata.sh` and `stata-log-check.py` prefer `output/logs/` and auto-delete root-level duplicates |
 | 2026-03-04 | — | v0.17 | Refactor `data/raw/` to project root level (shared across versions) — updated `init-project`, `CLAUDE.md`, `README.md`, `replication-standards.md`, project templates |
 | 2026-03-06 | — | v0.18 | Documentation sync — fixed feature counts (35 skills, 8 rules, 4 hooks), added `/fetch-csmar` to README skills table, aligned README/ROADMAP with CLAUDE.md and actual codebase |
+| 2026-03-12 | — | v0.19 | Refactoring — deleted 3 deprecated agents (code/econometrics/tables-reviewer), added `name:` frontmatter and optimized `description:` trigger keywords to all 36 skills, extracted oversized skills to `references/` (progressive disclosure), fixed PostToolUse hooks (absolute paths, SHA-256 hashing, early exit), standardized agent `## Tools` sections, updated orchestrator-protocol |
 
 ---
 

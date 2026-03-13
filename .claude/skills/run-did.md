@@ -1,5 +1,6 @@
 ---
-description: "Run complete DID/TWFE/Callaway-Sant'Anna analysis pipeline"
+name: run-did
+description: "Run DID analysis -- difference-in-differences, TWFE, event study, Callaway-Sant'Anna, staggered treatment, parallel trends, Bacon decomposition, HonestDiD, wild cluster bootstrap, cross-validation. Use when: 'run DID', 'event study', 'parallel trends', 'staggered adoption', 'difference in differences', 'treatment effects over time', 'pre-trends test'."
 user_invocable: true
 ---
 

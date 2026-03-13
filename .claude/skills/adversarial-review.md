@@ -1,5 +1,6 @@
 ---
-description: "Run adversarial critic-fixer quality assurance loop across code, econometrics, and tables domains"
+name: adversarial-review
+description: "Run adversarial critic-fixer QA loop -- multi-round code/econometrics/tables review with enforced separation (critics identify issues, fixers apply corrections, critics re-score). Up to 5 rounds targeting score >= 95. Use when: 'adversarial review', 'quality assurance', 'critic-fixer', 'review code and tables', 'QA loop', 'review my work', 'check quality'."
 user_invocable: true
 ---
 

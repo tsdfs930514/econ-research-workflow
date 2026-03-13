@@ -1,5 +1,6 @@
 ---
-description: "Pre-analysis identification strategy challenger with threat assessment"
+name: devils-advocate
+description: "Pre-analysis identification strategy challenger -- systematic threat assessment for your causal design. Identifies violations, competing explanations, data limitations. Threat report only, no code fixes. Use when: 'devil advocate', 'challenge my design', 'identification threats', 'what could go wrong', 'stress test design', 'pre-analysis critique', 'play devil'."
 user_invocable: true
 ---
 

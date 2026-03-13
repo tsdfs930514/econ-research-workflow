@@ -1,5 +1,6 @@
 ---
-description: "Generate structured literature review with BibTeX entries"
+name: lit-review
+description: "Generate structured literature review with BibTeX entries -- search for relevant papers, organize by themes, identify gaps, create annotated bibliography, format citations for target journal. Use when: 'lit review', 'literature review', 'find papers', 'related work', 'bibliography', 'BibTeX', 'what papers should I cite', 'literature search'."
 user_invocable: true
 ---
 

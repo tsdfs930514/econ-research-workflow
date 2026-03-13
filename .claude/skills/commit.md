@@ -1,5 +1,6 @@
 ---
-description: "Smart git commit with type prefix, data safety warnings, and auto-generated message"
+name: commit
+description: "Smart git commit -- type prefix (feat/fix/refactor/docs/data), auto-generated message from staged changes, data safety warnings if data/raw touched, constitutional compliance check. Use when: 'commit', 'git commit', 'save changes', 'commit my work', 'stage and commit'."
 user_invocable: true
 ---
 

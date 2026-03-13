@@ -1,5 +1,6 @@
 ---
-description: "Translate academic economics papers between Chinese and English with journal-specific conventions"
+name: translate
+description: "Translate academic economics papers between Chinese and English -- journal-specific terminology, econometric vocabulary, formal academic register, preserves LaTeX formatting and equation references. Use when: 'translate', 'Chinese to English', 'English to Chinese', '翻译', 'translate paper', 'translate abstract', 'academic translation'."
 user_invocable: true
 ---
 

@@ -1,5 +1,6 @@
 ---
-description: "Run placebo tests & randomization inference pipeline (timing, outcome, instrument, permutation)"
+name: run-placebo
+description: "Run placebo tests and randomization inference -- placebo timing, placebo outcome, placebo instrument, permutation test, randomization inference, ritest, falsification. Use when: 'placebo test', 'falsification', 'randomization inference', 'permutation test', 'fake treatment', 'ritest', 'placebo timing', 'placebo outcome'."
 user_invocable: true
 ---
 

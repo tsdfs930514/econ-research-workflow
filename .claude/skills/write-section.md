@@ -1,5 +1,6 @@
 ---
-description: "Write a specific section of an economics research paper in Chinese or English"
+name: write-section
+description: "Write a specific section of an economics research paper -- introduction, literature review, data, empirical strategy, results, robustness, conclusion. Supports Chinese (经济研究/管理世界) and English (AER/QJE) journal conventions. Use when: 'write section', 'write introduction', 'write conclusion', 'draft paper', 'write methodology', 'paper section', 'write results section'."
 user_invocable: true
 ---
 

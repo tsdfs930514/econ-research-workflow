@@ -1,5 +1,6 @@
 ---
-description: "Run the executable quality scorer on the current version directory"
+name: score
+description: "Run quality scorer -- 6-dimension automated scoring (code conventions, log cleanliness, output completeness, cross-validation, documentation, method diagnostics) on 100-point scale. Use when: 'score', 'quality check', 'rate my work', 'quality score', 'how good is this', 'evaluate project', 'run scorer'."
 user_invocable: true
 ---
 

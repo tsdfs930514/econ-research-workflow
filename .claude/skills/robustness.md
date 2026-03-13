@@ -1,5 +1,6 @@
 ---
-description: "Run robustness test suite for baseline regression results — alternative specs, subsamples, clustering, Oster bounds, wild bootstrap"
+name: robustness
+description: "Run robustness test suite for baseline regression -- alternative specifications, subsample analysis, different clustering, Oster bounds, wild bootstrap, sensitivity analysis, coefficient stability. Method-specific checks auto-detected (DID pre-trends, IV weak instruments, RDD bandwidth). Use when: 'robustness', 'robustness checks', 'sensitivity analysis', 'alternative specifications', 'Oster bounds', 'coefficient stability', 'robustness test'."
 user_invocable: true
 ---
 

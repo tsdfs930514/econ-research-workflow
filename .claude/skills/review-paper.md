@@ -1,5 +1,6 @@
 ---
-description: "Simulate peer review with three reviewers giving structured feedback, with optional APE-style multi-round deep review"
+name: review-paper
+description: "Simulate peer review with three journal referees giving structured feedback -- major/minor comments, recommendation (accept/revise/reject), dimension scores, optional APE-style multi-round deep review. Use when: 'review paper', 'peer review', 'referee report', 'simulate reviewer', 'what would reviewers say', 'paper feedback', 'journal review'."
 user_invocable: true
 ---
 

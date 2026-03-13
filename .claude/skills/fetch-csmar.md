@@ -1,5 +1,6 @@
 ---
-description: "Browse CSMAR databases and fetch Chinese stock market & accounting data via Python API"
+name: fetch-csmar
+description: "Browse CSMAR (国泰安) databases and fetch Chinese stock market and accounting data via Python csmarapi -- auto-pagination, provenance tracking, standardized file naming, data dictionary lookup. Use when: 'fetch CSMAR', 'CSMAR data', '国泰安', 'Chinese stock data', 'download CSMAR', 'csmarapi', 'Chinese financial data'."
 user_invocable: true
 ---
 

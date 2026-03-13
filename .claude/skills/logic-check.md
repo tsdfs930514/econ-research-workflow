@@ -1,5 +1,6 @@
 ---
-description: "Final-pass logic check for paper drafts — catches only critical errors, not style preferences"
+name: logic-check
+description: "Final-pass logic check for paper drafts -- catches critical errors only (contradictions, wrong numbers, broken references, mismatched tables, logical gaps). Not a style review. Use when: 'logic check', 'final check', 'consistency check', 'proofread for errors', 'verify numbers', 'check references', 'sanity check paper'."
 user_invocable: true
 ---
 

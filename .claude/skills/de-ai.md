@@ -1,5 +1,6 @@
 ---
-description: "Detect and remove AI-generated writing patterns to produce natural, human-like academic prose"
+name: de-ai
+description: "Remove AI writing patterns from academic text -- detect ChatGPT/LLM signatures (furthermore, it is worth noting, delve, landscape, leveraging), replace formulaic language, humanize prose, restore natural academic voice. Use when: 'de-AI', 'remove AI traces', 'humanize', 'sounds like AI', 'AI writing', 'ChatGPT traces', 'too formulaic', 'robotic writing'."
 user_invocable: true
 ---
 

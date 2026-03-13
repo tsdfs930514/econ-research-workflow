@@ -1,5 +1,6 @@
 ---
-description: "Create new rules or skills from within a session (constitution-guarded)"
+name: learn
+description: "Create new rules or skills from within a session -- codify conventions, extract workflow patterns, constitution-guarded (cannot create rules that violate the 5 immutable principles). Use when: 'learn', 'create rule', 'create skill', 'remember this pattern', 'codify convention', 'save as skill', 'new rule'."
 user_invocable: true
 ---
 

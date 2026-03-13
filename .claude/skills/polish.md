@@ -1,5 +1,6 @@
 ---
-description: "Polish academic economics papers — English/Chinese polish, refinement, condensing, and expanding"
+name: polish
+description: "Polish academic papers -- five sub-modes: English polish, Chinese polish, refinement, condensing, and expanding. Improves clarity, flow, and precision without changing substance. Use when: 'polish', 'improve writing', 'refine paper', 'condense', 'expand section', 'writing quality', 'tighten prose', 'academic writing'."
 user_invocable: true
 ---
 

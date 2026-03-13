@@ -1,5 +1,6 @@
 ---
-description: "Auto-detect methods from a research plan and orchestrate the full skill pipeline end-to-end"
+name: run-pipeline
+description: "Auto-detect econometric methods from research plan and orchestrate the full skill pipeline end-to-end -- reads plan, identifies DID/IV/RDD/Panel, runs appropriate /run-* skills, then cross-check, robustness, make-table, score, synthesis. Use when: 'run pipeline', 'full pipeline', 'run everything', 'end to end', 'automate analysis', 'orchestrate skills'."
 user_invocable: true
 ---
 

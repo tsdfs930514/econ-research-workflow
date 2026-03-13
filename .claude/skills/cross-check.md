@@ -1,5 +1,6 @@
 ---
-description: "Cross-validate regression results between Stata, Python pyfixest, and R fixest"
+name: cross-check
+description: "Cross-validate regression results between Stata and Python pyfixest -- coefficient comparison (threshold 0.1%), SE comparison, R-squared, N match, diagnose discrepancies (singleton dropping, clustering, missing values). Use when: 'cross-check', 'cross-validate', 'compare Stata Python', 'verify regression', 'do results match', 'pyfixest comparison', 'replication check'."
 user_invocable: true
 ---
 

@@ -1,5 +1,6 @@
 ---
-description: "Compile LaTeX paper with pdflatex/bibtex pipeline and error checking"
+name: compile-latex
+description: "Compile LaTeX paper with pdflatex and bibtex pipeline -- error checking, missing references, undefined citations, compilation log analysis, PDF generation. Use when: 'compile LaTeX', 'compile paper', 'pdflatex', 'bibtex', 'build PDF', 'LaTeX errors', 'compile tex'."
 user_invocable: true
 ---
 

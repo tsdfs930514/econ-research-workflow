@@ -1,5 +1,6 @@
 ---
-description: "Run complete Panel FE/RE/GMM analysis pipeline"
+name: run-panel
+description: "Run panel data analysis -- fixed effects, random effects, GMM, Hausman test, serial correlation, Driscoll-Kraay SE, correlated random effects, dynamic panel, within estimator, cross-validation. Use when: 'run panel', 'fixed effects', 'random effects', 'Hausman test', 'panel regression', 'entity FE', 'time FE', 'GMM', 'Arellano-Bond'."
 user_invocable: true
 ---
 

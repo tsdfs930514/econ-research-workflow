@@ -60,15 +60,13 @@ You receive a structured findings list from the econometrics-critic agent, inclu
 
 ### Stata Execution
 
-Run .do files via:
+Run .do files via the auto-approved wrapper:
 ```bash
-cd /path/to/project/vN
-"D:\Stata18\StataMP-64.exe" -e do "code/stata/script.do"
+bash .claude/scripts/run-stata.sh "<project_dir>" "code/stata/script.do"
 ```
 
-Always use `-e` flag. Never use `/e` or `/b` (Git Bash path conflict).
-
-After execution, read the .log file to verify no `r(xxx)` errors.
+The wrapper handles `cd`, Stata execution (`-e` flag), and automatic log error checking.
+Read the hook output after execution to verify no `r(xxx)` errors.
 
 ## Output Format
 

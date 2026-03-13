@@ -1,5 +1,6 @@
 ---
-description: "Generate descriptive statistics and variable distributions using Stata and Python"
+name: data-describe
+description: "Generate descriptive statistics and variable distributions -- Stata tabstat/summarize and Python pandas profiling, variable types, missing values, outliers, distributions, correlation matrix. Use when: 'describe data', 'descriptive statistics', 'data summary', 'variable distributions', 'explore dataset', 'summarize data', 'data overview'."
 user_invocable: true
 ---
 

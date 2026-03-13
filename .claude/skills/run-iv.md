@@ -1,5 +1,6 @@
 ---
-description: "Run complete IV/2SLS analysis pipeline with diagnostics"
+name: run-iv
+description: "Run IV/2SLS analysis -- instrumental variables, two-stage least squares, first-stage F-statistic, weak instruments, LIML, Anderson-Rubin, reduced form, overidentification, Conley bounds, cross-validation. Use when: 'run IV', '2SLS', 'instrumental variable', 'endogeneity', 'first stage', 'weak instrument', 'exclusion restriction'."
 user_invocable: true
 ---
 

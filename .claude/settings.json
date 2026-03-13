@@ -75,7 +75,7 @@
           {
             "type": "command",
             "command": "python \"$CLAUDE_PROJECT_DIR/.claude/hooks/raw-data-guard.py\"",
-            "timeout": 10
+            "timeout": 15
           }
         ]
       }

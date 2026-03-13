@@ -1,5 +1,6 @@
 ---
-description: "Run Synthetic Difference-in-Differences (SDID) analysis pipeline"
+name: run-sdid
+description: "Run Synthetic DID analysis -- synthetic difference-in-differences, unit weights, time weights, placebo inference, jackknife SE, sdid command, cross-validation. Use when: 'run SDID', 'synthetic DID', 'synthetic difference', 'sdid', 'synthetic control with DID', 'unit weights'."
 user_invocable: true
 ---
 

@@ -1,5 +1,6 @@
 ---
-description: "Set up exploration sandbox with relaxed quality thresholds for quick hypothesis testing and alternative specifications"
+name: explore
+description: "Set up exploration sandbox -- relaxed quality thresholds (>= 60 instead of 95), no mandatory cross-validation, work in explore/ directory for quick hypothesis testing and alternative specifications. Use when: 'explore', 'sandbox', 'try something', 'quick test', 'hypothesis testing', 'exploratory analysis', 'experiment with'."
 user_invocable: true
 ---
 

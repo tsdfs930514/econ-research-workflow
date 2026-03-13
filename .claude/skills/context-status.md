@@ -1,5 +1,6 @@
 ---
-description: "Display current project context: version, recent decisions, quality scores, git state"
+name: context-status
+description: "Display current project context -- active version, recent decisions, quality scores, git state, file counts, last modified files, pending issues. Use when: 'context status', 'where am I', 'project status', 'what version', 'show context', 'current state', 'project overview'."
 user_invocable: true
 ---
 

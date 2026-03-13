@@ -1,5 +1,6 @@
 ---
-description: "Graduate exploratory files from explore/ sandbox to main vN/ pipeline with renumbering and quality check"
+name: promote
+description: "Graduate exploratory files from explore/ sandbox to main vN/ pipeline -- renumber scripts, quality gate check, move outputs, update master.do references. Use when: 'promote', 'graduate', 'move from explore', 'promote to main', 'finalize exploration', 'move sandbox to production'."
 user_invocable: true
 ---
 

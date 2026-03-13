@@ -30,8 +30,8 @@ desktop.ini
 .claude/tasks/
 .claude/teams/
 
-# Reference materials (not part of core skills/instructions)
-references/
+# Reference materials (APE papers, etc. — not part of core workflow)
+/references/
 
 # Personal preferences (machine-specific, not shared)
 personal-memory.md

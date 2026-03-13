@@ -1,5 +1,6 @@
 ---
-description: "Bilingual Socratic research interview to formalize ideas into structured proposals"
+name: interview-me
+description: "Bilingual Socratic research interview -- guides you from vague idea to structured research proposal through targeted questions about mechanism, identification, data, and contribution. Outputs formal proposal document. Use when: 'interview me', 'research idea', 'help me formalize', 'Socratic interview', 'brainstorm research', 'new paper idea', 'formalize my idea'."
 user_invocable: true
 ---
 

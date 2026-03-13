@@ -1,5 +1,6 @@
 ---
-description: "Run bootstrap & resampling inference pipeline (pairs, wild cluster, residual, teffects)"
+name: run-bootstrap
+description: "Run bootstrap and resampling inference -- pairs bootstrap, wild cluster bootstrap, residual bootstrap, teffects bootstrap, permutation p-values, boottest, subcluster bootstrap. Use when: 'bootstrap', 'wild cluster bootstrap', 'resampling', 'boottest', 'few clusters', 'bootstrap inference', 'pairs bootstrap'."
 user_invocable: true
 ---
 

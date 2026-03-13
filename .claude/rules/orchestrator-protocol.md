@@ -96,16 +96,9 @@ For non-trivial tasks, invoke `/adversarial-review` which enforces critic/fixer 
 | econometrics-critic      | Identification, diagnostics, robustness    |
 | tables-critic            | Table formatting, reporting, compliance    |
 
-Legacy reviewer agents remain available for lighter-weight reviews:
+The `robustness-checker` agent remains available for standalone robustness evaluation outside the adversarial loop.
 
-| Reviewer               | Scope                                      |
-|------------------------|--------------------------------------------|
-| econometrics-reviewer  | Methods, identification, robustness        |
-| code-reviewer          | Code quality, conventions, reproducibility |
-| tables-reviewer        | Table formatting, labeling, completeness   |
-| robustness-checker     | Missing robustness checks, sensitivity     |
-
-Each critic/reviewer assigns a score from 0 to 100 and provides specific findings.
+Each critic assigns a score from 0 to 100 and provides specific findings.
 
 **Exit criterion**: All relevant reviews completed; scores and findings collected.
 

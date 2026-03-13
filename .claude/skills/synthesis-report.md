@@ -1,5 +1,6 @@
 ---
-description: "Collect all analysis outputs and generate a structured synthesis report (Markdown + LaTeX)"
+name: synthesis-report
+description: "Collect all analysis outputs and generate structured synthesis report -- combines tables, figures, diagnostics, cross-validation results, and scores into Markdown and LaTeX summary documents. Use when: 'synthesis report', 'summarize results', 'collect outputs', 'analysis summary', 'generate report', 'wrap up analysis'."
 user_invocable: true
 ---
 

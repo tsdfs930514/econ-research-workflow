@@ -1,6 +1,6 @@
 # Econ Research Workflow - Quick Reference
 
-## Skills Reference (30 skills)
+## Skills Reference (36 skills)
 
 ### Core Analysis
 
@@ -27,6 +27,10 @@
 | `/make-table` | Publication-quality LaTeX tables (AER or 三线表) | Before paper writing |
 | `/write-section` | Write paper section (CN or EN journal conventions) | Paper drafting |
 | `/compile-latex` | Run pdflatex/bibtex pipeline with error checking | After paper edits |
+| `/translate` | Translate academic papers between Chinese and English | Bilingual projects |
+| `/polish` | Polish academic papers (5 sub-modes: EN/CN polish, refine, condense, expand) | Before submission |
+| `/de-ai` | Detect and remove AI writing patterns for natural prose | Before submission |
+| `/logic-check` | Final-pass logic check for critical errors only | Before submission |
 
 ### Review & Quality
 
@@ -54,6 +58,7 @@
 | `/interview-me` | Bilingual Socratic interview → structured research proposal | New research ideas |
 | `/devils-advocate` | Pre-analysis threat assessment for identification strategy | Before estimation |
 | `/learn` | Create new rules or skills from within a session | Codifying conventions |
+| `/fetch-csmar` | Browse CSMAR databases and fetch Chinese stock market data via API | Data collection |
 | `/run-pipeline` | Auto-detect methods, orchestrate full skill pipeline | End-to-end automation |
 | `/synthesis-report` | Collect outputs into structured synthesis report (MD + LaTeX) | After scoring |
 
@@ -67,18 +72,15 @@ This is a non-user-invocable reference file (no slash command). It is consulted 
 
 ---
 
-## Agents Reference (12 agents)
+## Agents Reference (9 agents)
 
-### Legacy Reviewers
+### Standalone Agents
 
-| Agent | Role | Status |
-|-------|------|--------|
-| `econometrics-reviewer` | Checks identification strategy and estimation | **DEPRECATED** (use `econometrics-critic`) |
-| `code-reviewer` | Reviews Stata/Python code quality | **DEPRECATED** (use `code-critic`) |
-| `paper-reviewer` | Simulates journal referee | Active — wired into `/review-paper` |
-| `tables-reviewer` | Checks table formatting and compliance | **DEPRECATED** (use `tables-critic`) |
-| `robustness-checker` | Suggests missing robustness tests | Active — wired into `/robustness` |
-| `cross-checker` | Compares Stata vs Python results | Active — wired into `/cross-check` |
+| Agent | Role |
+|-------|------|
+| `paper-reviewer` | Simulates journal referee — wired into `/review-paper` |
+| `robustness-checker` | Suggests missing robustness tests — wired into `/robustness` |
+| `cross-checker` | Compares Stata vs Python results — wired into `/cross-check` |
 
 ### Adversarial Critic-Fixer Pairs
 
@@ -196,10 +198,11 @@ Scores from `/score` (automated, 6 dimensions) and `/adversarial-review` (critic
 
 ### Stata Execution (Git Bash)
 ```bash
-"D:\Stata18\StataMP-64.exe" -e do "code/stata/script.do"
+bash .claude/scripts/run-stata.sh "<project_dir>" "code/stata/script.do"
 ```
-- **必须用 `-e`**（自动退出），**禁止用 `-b`**（需手动确认）或 **`/e`**（Git Bash 路径冲突）
-- Always check the `.log` file after every Stata run
+- The wrapper uses `-e` (auto-exit) and includes automatic log checking
+- Fallback: `"D:\Stata18\StataMP-64.exe" -e do "code/stata/script.do"`
+- **禁止用 `-b`**（需手动确认）或 **`/e`**（Git Bash 路径冲突）
 - Non-zero exit or `r(xxx)` in log = failure
 
 ### Versioning

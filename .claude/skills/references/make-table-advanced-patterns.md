@@ -58,14 +58,14 @@ Both `label` and `mtitles()` generate header rows. Using them together produces 
 
 ### Rule 3: Use math mode for R-squared in stat labels — never `\textsuperscript`
 
-`\textsuperscript{2}` conflicts with tabular column alignment macros, producing `Missing number, treated as zero` errors. Always use math mode:
-- `R$^{2}$` or `Adj.\ $R^{2}$` or `Within $R^{2}$`
-- **Never**: `R\textsuperscript{2}`, `Adj. R\textsuperscript{2}`
+`\textsuperscript{2}` conflicts with tabular column alignment macros, producing `Missing number, treated as zero` errors. Always use math mode in `scalars()` labels:
 
-In `scalars()` labels:
 ```stata
 scalars("r2_a Adj.\ $R^{2}$" "r2_within Within $R^{2}$" "r2 $R^{2}$")
 ```
+
+- **Never**: `R\textsuperscript{2}`, `Adj. R\textsuperscript{2}`
+- This rule applies only when **writing new `esttab`/`estout` commands** — specifically the `scalars()` label strings. If an already-generated `.tex` file contains `Adj. $R^{2}$` (without `\` after the period) and compiles fine, leave it alone. Both `Adj. $R^{2}$` and `Adj.\ $R^{2}$` produce identical output inside `tabular`; the `\` only matters in running text outside tables.
 
 ### Rule 4: Escape underscores correctly
 

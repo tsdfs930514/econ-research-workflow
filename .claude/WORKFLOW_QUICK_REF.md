@@ -1,6 +1,6 @@
 # Econ Research Workflow - Quick Reference
 
-## Skills Reference (37 skills)
+## Skills Reference (38 skills)
 
 ### Core Analysis
 
@@ -40,6 +40,7 @@
 | `/lit-review` | Structured literature review with BibTeX | Early stage / revision |
 | `/adversarial-review` | Critic-fixer loop (code, econometrics, tables) up to 5 rounds | Quality assurance |
 | `/expert-review` | Three-persona expert panel (professor, rising star, critic) with local reports | Before submission |
+| `/defend-paper` | Narrative defense — refocus core story, cut outcome bloat, four-layer framework | After reviewer feedback |
 | `/score` | Executable quality scorer (6 dimensions, 100 pts) | After any deliverable |
 
 ### Session & Project Management

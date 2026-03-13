@@ -180,6 +180,7 @@ All scripts use a numbered prefix to indicate execution order.
 | `/fetch-csmar` | Browse CSMAR databases and fetch Chinese stock market & accounting data via Python API |
 | `/logic-check` | Final-pass logic check for paper drafts — catches only critical errors, not style preferences |
 | `/expert-review` | Expert academic panel review — three senior personas (distinguished professor, rising star, ruthless critic) with locally saved reports |
+| `/defend-paper` | Narrative defense — refocus paper on core economic logic using four-layer framework (fact→mechanism→decision→consequence), cut outcome bloat, strategic reviewer response |
 
 ---
 

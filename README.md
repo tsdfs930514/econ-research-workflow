@@ -10,7 +10,7 @@ Inspired by [pedrohcgs/claude-code-my-workflow](https://github.com/pedrohcgs/cla
 
 ## Features
 
-- **36 skills** — slash-command workflows covering the full research lifecycle (data cleaning, DID/IV/RDD/Panel/SDID/Bootstrap/Placebo/Logit-Probit/LASSO estimation, cross-validation, tables, paper writing, translation, polishing, de-AI rewriting, logic checking, review, pipeline orchestration, synthesis reporting, CSMAR data fetching, exploration sandbox, session continuity, Socratic research tools, and self-extension)
+- **37 skills** — slash-command workflows covering the full research lifecycle (data cleaning, DID/IV/RDD/Panel/SDID/Bootstrap/Placebo/Logit-Probit/LASSO estimation, cross-validation, tables, paper writing, translation, polishing, de-AI rewriting, logic checking, review, pipeline orchestration, synthesis reporting, CSMAR data fetching, exploration sandbox, session continuity, Socratic research tools, and self-extension)
 - **9 agents** — 3 standalone agents (paper-reviewer, robustness-checker, cross-checker) plus 3 adversarial critic-fixer pairs (code, econometrics, tables) enforcing separation of concerns
 - **8 rules** — 4 path-scoped coding/econometrics conventions + 4 always-on (constitution, orchestrator protocol, Stata error verification, bash conventions)
 - **4 lifecycle hooks** — automatic session context loading, pre-compaction memory save, post-Stata error detection, and raw data integrity guard
@@ -124,6 +124,7 @@ Place raw data in `data/raw/`, then run your analysis:
 | `/de-ai` | Remove AI patterns | Detect and remove AI-generated writing patterns for natural academic prose |
 | `/fetch-csmar` | CSMAR data | Browse CSMAR databases and fetch Chinese stock market & accounting data via Python API |
 | `/logic-check` | Logic check | Final-pass red-line check — catches only critical errors, not style preferences |
+| `/expert-review` | Expert panel | Three senior academic personas (distinguished professor, rising star, ruthless critic) with saved reports |
 
 ---
 
@@ -199,7 +200,7 @@ econ-research-workflow/
 │   ├── scripts/          # Auto-approved wrapper scripts (run-stata.sh)
 │   ├── rules/            # Coding conventions, econometrics standards (4 path-scoped + 3 always-on incl. constitution)
 │   ├── settings.json     # Hook + permission configuration
-│   └── skills/           # 36 slash-command skills + references/
+│   └── skills/           # 37 slash-command skills + references/
 ├── scripts/
 │   └── quality_scorer.py # Executable 6-dimension quality scorer
 ├── tests/                # Test cases (DID, RDD, IV, Panel, Full Pipeline)

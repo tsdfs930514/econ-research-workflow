@@ -1,6 +1,6 @@
 # Econ Research Workflow - Quick Reference
 
-## Skills Reference (36 skills)
+## Skills Reference (37 skills)
 
 ### Core Analysis
 
@@ -39,6 +39,7 @@
 | `/review-paper` | Three simulated peer reviewers | Before submission |
 | `/lit-review` | Structured literature review with BibTeX | Early stage / revision |
 | `/adversarial-review` | Critic-fixer loop (code, econometrics, tables) up to 5 rounds | Quality assurance |
+| `/expert-review` | Three-persona expert panel (professor, rising star, critic) with local reports | Before submission |
 | `/score` | Executable quality scorer (6 dimensions, 100 pts) | After any deliverable |
 
 ### Session & Project Management

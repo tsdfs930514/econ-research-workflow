@@ -179,6 +179,7 @@ All scripts use a numbered prefix to indicate execution order.
 | `/de-ai` | Detect and remove AI-generated writing patterns to produce natural, human-like academic prose |
 | `/fetch-csmar` | Browse CSMAR databases and fetch Chinese stock market & accounting data via Python API |
 | `/logic-check` | Final-pass logic check for paper drafts — catches only critical errors, not style preferences |
+| `/expert-review` | Expert academic panel review — three senior personas (distinguished professor, rising star, ruthless critic) with locally saved reports |
 
 ---
 
